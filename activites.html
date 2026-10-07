@@ -86,7 +86,6 @@ a{text-decoration:none;color:inherit;}button,input,select,textarea{font:inherit;
 <body>
 <div class="background-glow"><div class="glow one"></div><div class="glow two"></div><div class="glow three"></div></div>
 <div class="particles" id="particles"></div>
-
 <aside class="sidebar" id="sidebar">
   <div class="brand"><div class="brand-logo">JI</div><div class="brand-text"><h2>JASON INVEST</h2><span>Plateforme financière</span></div></div>
   <div class="menu-title">Menu principal</div>
@@ -104,74 +103,53 @@ a{text-decoration:none;color:inherit;}button,input,select,textarea{font:inherit;
     <li><a href="support.html"><span class="nav-icon">💬</span><span>Support</span></a></li>
   </ul>
 </aside>
-
 <main class="main">
   <header class="topbar">
     <div class="top-left"><button class="mobile-menu" id="mobileMenu">☰</button><button class="back-button" id="backButton">←</button><div class="page-title-small">Activités</div></div>
     <div class="top-user"><div id="topUserName">Utilisateur</div><div class="user-avatar" id="topAvatar">J</div></div>
   </header>
-
   <section class="content">
-    <div class="page-header"><h1>Activités</h1><p>Découvrez les actualités, événements et informations publiés par JASON INVEST. <span id="apiStatus" style="color:var(--gold-light)">[Public API]</span></p></div>
-    <div class="activities-hero"><div class="hero-icon">📢</div><h2>Actualités & activités</h2><p>Retrouvez ici les informations importantes. Les contenus viennent maintenant de <b>api/index.js</b> et <b>backend/firebase.js</b> pour ton travail en ligne.</p></div>
+    <div class="page-header"><h1>Activités</h1><p>Découvrez les actualités et événements JASON INVEST. <span id="apiStatus" style="color:var(--gold-light)">Chargement Firebase...</span></p></div>
+    <div class="activities-hero"><div class="hero-icon">📢</div><h2>Actualités & activités GLOBALES</h2><p>Maintenant cette page lit depuis Firebase en direct. Quand tu publies dans admin, tout le monde voit instantanément en FC.</p></div>
     <div class="filter-bar"><button class="filter-button active" data-filter="all">Toutes</button><button class="filter-button" data-filter="actualite">Actualités</button><button class="filter-button" data-filter="evenement">Événements</button><button class="filter-button" data-filter="annonce">Annonces</button></div>
     <div class="activities-grid" id="activitiesGrid"></div>
     <div class="empty-state" id="emptyState"><div class="empty-icon">📭</div><h3>Aucune activité</h3><p>Aucune activité ne correspond à cette catégorie.</p></div>
-    <div class="info-section"><h2>Informations</h2><p>Cette page lit maintenant depuis API publique, Firebase, puis localStorage en fallback.</p><div class="info-list"><div class="info-item"><div class="info-item-icon">📢</div><div><strong>Public API</strong><span>/api/index.js</span></div></div><div class="info-item"><div class="info-item-icon">🔥</div><div><strong>Backend</strong><span>backend/firebase.js</span></div></div><div class="info-item"><div class="info-item-icon">🔔</div><div><strong>Mode</strong><span>Travail en ligne</span></div></div><div class="info-item"><div class="info-item-icon">🔄</div><div><strong>Fallback</strong><span>localStorage si offline</span></div></div></div></div>
-    <footer class="footer"><div>JASON INVEST - Public</div><div>Activités — api/index.js + backend/firebase.js</div></footer>
+    <footer class="footer"><div>JASON INVEST - GLOBAL Firebase</div><div>Activités synchronisées pour tous les téléphones</div></footer>
   </section>
 </main>
 
 <script type="module">
-// MODIFIÉ POUR TRAVAIL EN LIGNE - Apparence gardée
+// ✅ JASON INVEST - VERSION GLOBALE FIREBASE
+import { db } from "./backend/firebase.js";
+import { collection, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
 const particles=document.getElementById("particles");
 for(let i=0;i<24;i++){const p=document.createElement("span");p.className="particle";p.style.left=Math.random()*100+"%";p.style.animationDuration=(6+Math.random()*8)+"s";p.style.animationDelay=Math.random()*8+"s";p.style.width=(2+Math.random()*3)+"px";p.style.height=p.style.width;particles.appendChild(p);}
 document.getElementById("backButton").addEventListener("click",()=>location.href="dashboard.html");
 document.getElementById("mobileMenu").addEventListener("click",()=>document.getElementById("sidebar").classList.toggle("open"));
 function escapeHTML(v){return String(v).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;");}
-
 function loadUser(){
   try{const u=JSON.parse(localStorage.getItem('jason_current')||'null'); if(!u){location.href="index.html";return;} document.getElementById("topUserName").textContent=u.name||"Utilisateur"; document.getElementById("topAvatar").textContent=(u.name||"J").trim().charAt(0).toUpperCase();}catch{}
 }
-
-// NOUVEAU: Charge depuis api/index.js + backend/firebase.js
-async function loadActivities(){
+function connectFilters(){
+  const buttons=document.querySelectorAll(".filter-button");
+  const emptyState=document.getElementById("emptyState");
+  buttons.forEach(btn=>{
+    btn.onclick=()=>{
+      buttons.forEach(b=>b.classList.remove("active")); btn.classList.add("active");
+      const filter=btn.dataset.filter;
+      const cards=document.querySelectorAll(".activity-card");
+      let count=0;
+      cards.forEach(card=>{
+        if(filter==="all" || card.dataset.category===filter){card.style.display="block"; count++;} else card.style.display="none";
+      });
+      emptyState.style.display=count===0?"block":"none";
+    };
+  });
+}
+function afficherActivites(activities){
   const grid=document.getElementById("activitiesGrid");
   const emptyState=document.getElementById("emptyState");
-  const statusEl=document.getElementById("apiStatus");
-  let activities = [];
-
-  // 1. API publique
-  try{
-    const r = await fetch("/api/index.js?action=activities");
-    if(r.ok){
-      const j = await r.json();
-      if(j.activities && j.activities.length){ activities = j.activities; statusEl.textContent = "✅ Connecté à api/index.js (PUBLIC)"; }
-    }
-  }catch{}
-
-  // 2. Firebase backend
-  if(!activities.length){
-    try{
-      const { db } = await import("./backend/firebase.js");
-      const { collection, getDocs } = await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js");
-      const snap = await getDocs(collection(db, "activities"));
-      if(!snap.empty){ activities = snap.docs.map(d=>d.data()); statusEl.textContent = "✅ Connecté à backend/firebase.js"; }
-    }catch{}
-  }
-
-  // 3. Fallback localStorage + defaults (TON ANCIEN CODE)
-  if(!activities.length){
-    const stored=JSON.parse(localStorage.getItem('jason_activities')||'[]');
-    const defaults=[
-      {title:"Bienvenue sur JASON INVEST",description:"Retrouvez ici les informations et nouveautés concernant l'évolution de la plateforme.",category:"actualite",date:"Aujourd'hui"},
-      {title:"Prochain événement",description:"Les détails de cet événement seront publiés prochainement par l'administration.",category:"evenement",date:"Bientôt"},
-      {title:"Nouvelle annonce",description:"Les prochaines annonces importantes apparaîtront ici.",category:"annonce",date:"Aujourd'hui"}
-    ];
-    activities = stored.length? stored : defaults;
-    statusEl.textContent = "⚠️ Mode local (fallback)";
-  }
-
   if(!activities.length){grid.innerHTML=""; emptyState.style.display="block"; return;}
   emptyState.style.display="none";
   grid.innerHTML=activities.map((a,i)=>`
@@ -190,24 +168,30 @@ async function loadActivities(){
   `).join("");
   connectFilters();
 }
-
-function connectFilters(){
-  const buttons=document.querySelectorAll(".filter-button");
-  const emptyState=document.getElementById("emptyState");
-  buttons.forEach(btn=>{
-    btn.onclick=()=>{
-      buttons.forEach(b=>b.classList.remove("active")); btn.classList.add("active");
-      const filter=btn.dataset.filter;
-      const cards=document.querySelectorAll(".activity-card");
-      let count=0;
-      cards.forEach(card=>{
-        if(filter==="all" || card.dataset.category===filter){card.style.display="block"; count++;} else card.style.display="none";
-      });
-      emptyState.style.display=count===0?"block":"none";
-    };
-  });
+async function loadActivities(){
+  const statusEl=document.getElementById("apiStatus");
+  try{
+    // ÉCOUTE FIREBASE EN DIRECT - GLOBAL POUR TOUS LES TELEPHONES
+    onSnapshot(collection(db, "activities"), (snapshot) => {
+      if(snapshot.empty){
+        const defaults=[
+          {title:"Bienvenue sur JASON INVEST",description:"Retrouvez ici les informations et nouveautés de la plateforme en FC.",category:"actualite",date:"Aujourd'hui"},
+          {title:"Prochain événement",description:"Les détails seront publiés bientôt.",category:"evenement",date:"Bientôt"},
+          {title:"Nouvelle annonce",description:"Annonces importantes ici.",category:"annonce",date:"Aujourd'hui"}
+        ];
+        statusEl.textContent = "⚠️ Firebase vide - affichage par défaut (crée activities dans Firestore)";
+        afficherActivites(defaults);
+        return;
+      }
+      const activities = snapshot.docs.map(d=>d.data());
+      statusEl.textContent = `✅ ${activities.length} activités - Synchronisé GLOBAL FC`;
+      afficherActivites(activities);
+    });
+  }catch(e){
+    console.error(e);
+    statusEl.textContent = "❌ Erreur Firebase - vérifie backend/firebase.js";
+  }
 }
-
 document.addEventListener("DOMContentLoaded",()=>{loadUser(); loadActivities();});
 </script>
 </body>
