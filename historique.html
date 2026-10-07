@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Historique — JASON INVEST</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<style>
+/* TON APPARENCE GARDÉE 100% IDENTIQUE */
+*{box-sizing:border-box;}html{scroll-behavior:smooth;}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#030711;color:#fff;overflow-x:hidden;}
+body::before{content:"";position:fixed;inset:-50%;background:radial-gradient(circle at 20% 20%,rgba(216,180,90,.13),transparent 25%),radial-gradient(circle at 80% 30%,rgba(36,103,180,.16),transparent 28%),radial-gradient(circle at 50% 90%,rgba(216,180,90,.08),transparent 30%);animation:backgroundMove 14s ease-in-out infinite alternate;pointer-events:none;z-index:-3;}
+@keyframes backgroundMove{0%{transform:translate3d(-2%,-2%,0) scale(1);}50%{transform:translate3d(3%,2%,0) scale(1.05);}100%{transform:translate3d(-1%,4%,0) scale(1.08);}}
+.particle{position:fixed;width:3px;height:3px;border-radius:50%;background:#d8b45a;opacity:.35;pointer-events:none;z-index:-1;animation:particleFloat linear infinite;}
+.p1{left:8%;top:80%;animation-duration:11s;}.p2{left:18%;top:70%;animation-duration:14s;}.p3{left:30%;top:90%;animation-duration:10s;}.p4{left:48%;top:75%;animation-duration:16s;}.p5{left:63%;top:88%;animation-duration:12s;}.p6{left:78%;top:72%;animation-duration:15s;}.p7{left:90%;top:85%;animation-duration:13s;}.p8{left:55%;top:60%;animation-duration:18s;}
+@keyframes particleFloat{0%{transform:translateY(40px);opacity:0;}20%{opacity:.4;}80%{opacity:.25;}100%{transform:translateY(-220px);opacity:0;}}
+.page{min-height:100vh;padding:18px;}.container{width:100%;max-width:1100px;margin:auto;}
+.public-header{position:relative;overflow:hidden;display:flex;align-items:center;justify-content:space-between;gap:15px;padding:18px 20px;background:linear-gradient(135deg,rgba(15,28,48,.96),rgba(6,14,27,.96));border:1px solid rgba(216,180,90,.18);border-radius:22px;box-shadow:0 20px 60px rgba(0,0,0,.35),inset 0 1px rgba(255,255,255,.04);animation:fadeDown .7s ease both;}
+.public-header::after{content:"";position:absolute;top:0;left:-120%;width:70%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.07),transparent);transform:skewX(-20deg);animation:headerShine 6s infinite;}
+@keyframes headerShine{0%,65%{left:-120%;}100%{left:150%;}}
+@keyframes fadeDown{from{opacity:0;transform:translateY(-20px);}to{opacity:1;transform:translateY(0);}}
+.brand-area{display:flex;align-items:center;gap:13px;}.brand-logo{width:48px;height:48px;display:flex;align-items:center;justify-content:center;border-radius:15px;color:#07101c;background:#d8b45a;box-shadow:0 0 25px rgba(216,180,90,.22);animation:logoPulse 3s ease-in-out infinite;}
+@keyframes logoPulse{0%,100%{box-shadow:0 0 20px rgba(216,180,90,.18);}50%{box-shadow:0 0 35px rgba(216,180,90,.38);}}
+.brand-text strong{display:block;font-size:17px;}.brand-text span{display:block;margin-top:3px;color:#7f8da2;font-size:11px;}
+.back-button{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border:1px solid rgba(216,180,90,.25);border-radius:12px;color:#d8b45a;text-decoration:none;font-size:13px;transition:.25s;}
+.back-button:hover{background:#d8b45a;color:#07101c;transform:translateY(-2px);}
+.hero{position:relative;overflow:hidden;margin-top:20px;padding:32px 25px;border-radius:24px;background:linear-gradient(135deg,rgba(13,29,49,.96),rgba(5,12,24,.96));border:1px solid rgba(216,180,90,.15);animation:fadeUp .8s .1s both;box-shadow:0 25px 70px rgba(0,0,0,.25);}
+.hero::before{content:"";position:absolute;width:180px;height:180px;right:-50px;top:-70px;border-radius:50%;background:rgba(216,180,90,.08);filter:blur(5px);animation:heroOrb 6s ease-in-out infinite alternate;}
+@keyframes heroOrb{from{transform:translate(0,0);}to{transform:translate(-35px,35px);}}
+.hero-label{color:#d8b45a;font-size:11px;font-weight:800;letter-spacing:2px;}.hero h1{margin:10px 0 8px;font-size:31px;}.hero p{max-width:650px;margin:0;color:#8997aa;font-size:14px;line-height:1.7;}
+.filters{display:flex;flex-wrap:wrap;gap:9px;margin:20px 0;animation:fadeUp .8s .2s both;}
+.filter-btn{border:1px solid rgba(255,255,255,.08);background:#0b1525;color:#8795a9;padding:10px 14px;border-radius:12px;cursor:pointer;font-size:12px;transition:.25s;}
+.filter-btn i{margin-right:6px;}.filter-btn:hover{color:#fff;border-color:rgba(216,180,90,.4);transform:translateY(-2px);}.filter-btn.active{color:#07101c;background:#d8b45a;border-color:#d8b45a;font-weight:800;box-shadow:0 8px 25px rgba(216,180,90,.15);}
+.summary{display:grid;grid-template-columns:repeat(3,1fr);gap:15px;margin-bottom:20px;}
+.summary-card{position:relative;overflow:hidden;padding:20px;border-radius:20px;background:linear-gradient(145deg,#0d192b,#07101d);border:1px solid rgba(255,255,255,.07);transition:.3s;animation:fadeUp .8s .3s both;}
+.summary-card:hover{transform:translateY(-5px);border-color:rgba(216,180,90,.25);}
+.summary-icon{width:43px;height:43px;display:flex;align-items:center;justify-content:center;margin-bottom:14px;border-radius:13px;background:rgba(216,180,90,.1);color:#d8b45a;}
+.summary-card span{display:block;color:#75849a;font-size:11px;text-transform:uppercase;}.summary-card strong{display:block;margin-top:5px;color:#fff;font-size:21px;}
+.history-card{overflow:hidden;background:linear-gradient(145deg,#0c1728,#07101d);border:1px solid rgba(255,255,255,.07);border-radius:22px;padding:20px;animation:fadeUp .8s .4s both;}
+.history-head{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-bottom:18px;}.history-head h2{margin:0 0 5px;font-size:18px;}.history-head h2 i{color:#d8b45a;margin-right:7px;}.history-head p{margin:0;color:#718096;font-size:12px;}
+.refresh-btn{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(216,180,90,.25);background:transparent;color:#d8b45a;padding:10px 14px;border-radius:11px;cursor:pointer;transition:.25s;}
+.refresh-btn:hover{background:#d8b45a;color:#07101c;}
+.table-scroll{overflow-x:auto;border-radius:14px;}.history-table{width:100%;min-width:700px;border-collapse:collapse;}
+.history-table th{padding:13px;text-align:left;color:#718096;font-size:11px;text-transform:uppercase;border-bottom:1px solid rgba(255,255,255,.07);}
+.history-table td{padding:15px 13px;color:#d9e1eb;font-size:13px;border-bottom:1px solid rgba(255,255,255,.045);}
+.history-table tbody tr:hover{background:rgba(216,180,90,.035);}
+.type{display:inline-flex;align-items:center;gap:6px;padding:6px 9px;border-radius:9px;font-size:11px;font-weight:700;}
+.type.deposit{background:rgba(46,204,113,.1);color:#6ee7a1;}.type.withdraw{background:rgba(231,76,60,.1);color:#ff8d82;}.type.investment{background:rgba(52,152,219,.1);color:#72bdf2;}.type.vip{background:rgba(216,180,90,.1);color:#d8b45a;}.type.task{background:rgba(155,89,182,.1);color:#d3a6ff;}
+.status{display:inline-flex;align-items:center;gap:5px;padding:6px 10px;border-radius:20px;font-size:11px;font-weight:700;}
+.status.pending{background:rgba(241,196,15,.1);color:#f4d35e;}.status.success{background:rgba(46,204,113,.1);color:#6ee7a1;}.status.failed{background:rgba(231,76,60,.1);color:#ff8d82;}
+.loading{display:none;text-align:center;padding:55px 20px;}.spinner{width:38px;height:38px;margin:0 auto 14px;border:3px solid rgba(216,180,90,.12);border-top-color:#d8b45a;border-radius:50%;animation:spin .8s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.empty{display:none;text-align:center;padding:60px 20px;}.empty-icon{width:70px;height:70px;margin:0 auto 17px;display:flex;align-items:center;justify-content:center;border-radius:50%;color:#d8b45a;background:rgba(216,180,90,.09);font-size:25px;animation:emptyPulse 2.5s infinite;}
+@keyframes emptyPulse{0%,100%{box-shadow:0 0 0 rgba(216,180,90,0);}50%{box-shadow:0 0 30px rgba(216,180,90,.12);}}
+.empty h3{margin:0 0 8px;font-size:18px;}.empty p{max-width:480px;margin:0 auto 20px;color:#718096;line-height:1.6;font-size:13px;}
+.primary-btn{display:inline-flex;align-items:center;gap:8px;padding:12px 17px;border-radius:11px;background:#d8b45a;color:#07101c;text-decoration:none;font-weight:800;font-size:13px;transition:.25s;}
+.primary-btn:hover{transform:translateY(-3px);}
+.message{display:none;margin-top:15px;padding:12px 14px;border-radius:11px;font-size:13px;}.message.show{display:block;}.message.info{background:rgba(52,152,219,.1);color:#72bdf2;}
+.info-card{display:flex;gap:15px;margin-top:20px;padding:20px;border-radius:20px;background:#0b1525;border:1px solid rgba(255,255,255,.06);animation:fadeUp .8s .5s both;}
+.info-icon{width:42px;height:42px;min-width:42px;display:flex;align-items:center;justify-content:center;border-radius:12px;background:rgba(216,180,90,.1);color:#d8b45a;}
+.info-card h3{margin:0 0 7px;font-size:15px;}.info-card p{margin:0 0 7px;color:#718096;font-size:12px;line-height:1.6;}
+.footer{padding:25px 10px 10px;text-align:center;color:#536176;font-size:11px;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(25px);}to{opacity:1;transform:translateY(0);}}
+@media(max-width:800px){.summary{grid-template-columns:1fr;}.history-head{flex-direction:column;align-items:flex-start;}.refresh-btn{width:100%;justify-content:center;}}
+@media(max-width:600px){.page{padding:10px;}.public-header{padding:14px;border-radius:18px;}.hero{padding:25px 18px;}.hero h1{font-size:25px;}.filters{display:grid;grid-template-columns:1fr 1fr;}}
+</style>
+</head>
+<body>
+<div class="particle p1"></div><div class="particle p2"></div><div class="particle p3"></div><div class="particle p4"></div><div class="particle p5"></div><div class="particle p6"></div><div class="particle p7"></div><div class="particle p8"></div>
+<div class="page"><div class="container">
+<header class="public-header"><div class="brand-area"><div class="brand-logo"><i class="fa-solid fa-chart-line"></i></div><div class="brand-text"><strong>JASON INVEST</strong><span>Espace client</span></div></div><a href="dashboard.html" class="back-button"><i class="fa-solid fa-arrow-left"></i> Tableau de bord</a></header>
+<section class="hero"><div class="hero-label">MON ACTIVITÉ</div><h1>Historique des opérations</h1><p>Retrouvez vos dépôts, retraits, investissements et tâches quotidiennes.</p></section>
+<div class="filters">
+<button class="filter-btn active" data-history-filter="all"><i class="fa-solid fa-layer-group"></i> Toutes</button>
+<button class="filter-btn" data-history-filter="deposit"><i class="fa-solid fa-arrow-down"></i> Dépôts</button>
+<button class="filter-btn" data-history-filter="withdraw"><i class="fa-solid fa-arrow-up"></i> Retraits</button>
+<button class="filter-btn" data-history-filter="investment"><i class="fa-solid fa-chart-pie"></i> Investissements</button>
+<button class="filter-btn" data-history-filter="task"><i class="fa-solid fa-list-check"></i> Tâches</button>
+<button class="filter-btn" data-history-filter="vip"><i class="fa-solid fa-crown"></i> VIP</button>
+</div>
+<section class="summary"><div class="summary-card"><div class="summary-icon"><i class="fa-solid fa-receipt"></i></div><span>Total opérations</span><strong id="totalTransactions">0</strong></div><div class="summary-card"><div class="summary-icon"><i class="fa-solid fa-arrow-down"></i></div><span>Total dépôts</span><strong id="totalDeposits">0 FC</strong></div><div class="summary-card"><div class="summary-icon"><i class="fa-solid fa-arrow-up"></i></div><span>Total retraits</span><strong id="totalWithdrawals">0 FC</strong></div></section>
+<section class="history-card"><div class="history-head"><div><h2><i class="fa-solid fa-clock-rotate-left"></i> Mes transactions</h2><p>Vos opérations enregistrées</p></div><button id="refreshHistory" class="refresh-btn"><i class="fa-solid fa-rotate"></i> Actualiser</button></div>
+<div id="historyLoading" class="loading"><div class="spinner"></div><p>Chargement...</p></div>
+<div id="historyTableWrapper" class="table-scroll"><table class="history-table"><thead><tr><th>Date</th><th>Type</th><th>Description</th><th>Montant</th><th>Statut</th></tr></thead><tbody id="historyContainer"></tbody></table></div>
+<div id="emptyHistory" class="empty"><div class="empty-icon"><i class="fa-solid fa-clock-rotate-left"></i></div><h3>Aucune opération</h3><p>Votre historique apparaîtra ici.</p><a href="investissement.html" class="primary-btn"><i class="fa-solid fa-chart-line"></i> Voir les investissements</a></div><div id="historyMessage" class="message"></div></section>
+<section class="info-card"><div class="info-icon"><i class="fa-solid fa-circle-info"></i></div><div><h3>Informations</h3><p>Cet espace présente les opérations enregistrées sur votre compte.</p><p>Les opérations peuvent apparaître comme <strong>En attente</strong>, <strong>Validée</strong> ou <strong>Refusée</strong>.</p></div></section>
+<footer class="footer">© <span id="historyYear"></span> <strong>JASON INVEST</strong> — Tous droits réservés.</footer>
+</div></div>
+<script type="module">
+document.getElementById("historyYear").textContent=new Date().getFullYear();
+let currentFilter="all"; let allOps=[];
+function money(v){return Number(v||0).toLocaleString('fr-FR')+" FC";}
+function dateFormat(v){try{return new Date(v).toLocaleString('fr-FR');}catch{return v;}}
+function getCurrent(){try{return JSON.parse(localStorage.getItem('jason_current')||'null');}catch{return null;}}
+async function loadHistory(){
+  const cur=getCurrent(); if(!cur){location.href="index.html";return;}
+  let deposits=[], withdrawals=[], investments=[], tasks=[];
+  // 1. API publique cachée
+  try{
+    const r=await fetch("/api/index.js?action=history");
+    if(r.ok){
+      const j=await r.json();
+      const all=j.history||j.data||j.transactions||[];
+      deposits = all.filter(x=>x.type==="deposit"||x.userId===cur.id && x.method).map(d=>({date:d.date,type:"deposit",desc:`Dépôt ${d.method} - Ref: ${d.reference||''}`,amount:d.amount,status:d.status}));
+      withdrawals = all.filter(x=>x.type==="withdraw").map(d=>({date:d.date,type:"withdraw",desc:`Retrait ${d.method} vers ${d.phone}`,amount:d.amount,status:d.status}));
+    }
+  }catch{}
+  // Fallback local si API vide
+  if(!deposits.length){
+    deposits=JSON.parse(localStorage.getItem('jason_deposits')||'[]').filter(d=>d.userId===cur.id).map(d=>({date:d.date,type:"deposit",desc:`Dépôt ${d.method} - Ref: ${d.reference||''}`,amount:d.amount,status:d.status}));
+    withdrawals=JSON.parse(localStorage.getItem('jason_withdrawals')||'[]').filter(d=>d.userId===cur.id).map(d=>({date:d.date,type:"withdraw",desc:`Retrait ${d.method} vers ${d.phone}`,amount:d.amount,status:d.status}));
+    investments=JSON.parse(localStorage.getItem('jason_investments')||'[]').filter(d=>d.userId===cur.id).map(d=>({date:d.date,type:"investment",desc:`Investissement ${d.plan||''}`,amount:d.amount,status:"success"}));
+    tasks=JSON.parse(localStorage.getItem('jason_tasks_done')||'[]').filter(d=>d.userId===cur.id).map(d=>({date:d.date,type:"task",desc:`Tâche: ${d.title}`,amount:d.reward||0,status:"success"}));
+  }
+  try{
+    const {db}=await import("./backend/firebase.js");
+    const {collection,getDocs}=await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js");
+    const snap=await getDocs(collection(db,"history"));
+    snap.forEach(doc=>{ const d=doc.data(); if(String(d.userId)===String(cur.id)) allOps.push(d); });
+  }catch{}
+  allOps=[...deposits,...withdrawals,...investments,...tasks].sort((a,b)=> new Date(b.date)-new Date(a.date));
+  renderHistory(currentFilter); updateSummary();
+}
+function updateSummary(){
+  document.getElementById("totalTransactions").textContent=allOps.length;
+  const depTotal=allOps.filter(o=>o.type==="deposit" && (o.status==="approved"||o.status==="success")).reduce((s,o)=>s+Number(o.amount||0),0);
+  const witTotal=allOps.filter(o=>o.type==="withdraw" && (o.status==="approved"||o.status==="success")).reduce((s,o)=>s+Number(o.amount||0),0);
+  document.getElementById("totalDeposits").textContent=money(depTotal);
+  document.getElementById("totalWithdrawals").textContent=money(witTotal);
+}
+function renderHistory(filter){
+  currentFilter=filter||"all";
+  const container=document.getElementById("historyContainer");
+  const empty=document.getElementById("emptyHistory");
+  const wrapper=document.getElementById("historyTableWrapper");
+  let filtered=allOps; if(currentFilter!=="all") filtered=allOps.filter(o=>o.type===currentFilter);
+  if(!filtered.length){wrapper.style.display="none"; empty.style.display="block"; container.innerHTML=""; return;}
+  wrapper.style.display="block"; empty.style.display="none";
+  container.innerHTML=filtered.map(op=>{
+    const typeClass=op.type; const typeLabel=op.type==="deposit"?"Dépôt":op.type==="withdraw"?"Retrait":op.type==="investment"?"Invest":op.type==="task"?"Tâche":"VIP";
+    const typeIcon=op.type==="deposit"?"↓":op.type==="withdraw"?"↑":op.type==="investment"?"📈":op.type==="task"?"📝":"👑";
+    let statusClass="pending"; let statusLabel="En attente";
+    if(op.status==="approved"||op.status==="success"){statusClass="success"; statusLabel="Validée";} else if(op.status==="rejected"||op.status==="failed"){statusClass="failed"; statusLabel="Refusée";}
+    return `<tr><td>${dateFormat(op.date)}</td><td><span class="type ${typeClass}">${typeIcon} ${typeLabel}</span></td><td>${op.desc}</td><td><strong>${op.type==="withdraw"?"-":"+"}${money(op.amount)}</strong></td><td><span class="status ${statusClass}">${statusLabel}</span></td></tr>`;
+  }).join("");
+}
+document.querySelectorAll("[data-history-filter]").forEach(btn=>{ btn.addEventListener("click",function(){ document.querySelectorAll("[data-history-filter]").forEach(b=>b.classList.remove("active")); this.classList.add("active"); renderHistory(this.dataset.historyFilter); }); });
+document.getElementById("refreshHistory").addEventListener("click",loadHistory);
+loadHistory();
+</script>
+</body>
+</html>

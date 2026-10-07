@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lecture IA — JASON INVEST</title>
+<style>
+:root{--bg:#050912;--surface:#0d1727;--gold:#d8b45a;--gold-light:#f1d98b;--text:#f4f7fb;--muted:#8997aa;--border:rgba(255,255,255,.09);--green:#37d67a;}
+*{box-sizing:border-box;margin:0;padding:0;}body{font-family:Georgia, serif;background:var(--bg);color:var(--text);min-height:100vh;}
+.sidebar{position:fixed;left:0;top:0;width:260px;height:100vh;background:#08111f;border-right:1px solid var(--border);padding:22px 16px;z-index:1000;transition:.25s;}
+.logo{text-align:center;padding:10px 5px 25px;border-bottom:1px solid var(--border);margin-bottom:18px;}
+.logo-icon{width:58px;height:58px;margin:auto;border-radius:14px;display:flex;align-items:center;justify-content:center;background:linear-gradient(145deg,#182b46,#0c1627);border:1px solid rgba(216,180,90,.35);color:var(--gold-light);font-size:26px;font-weight:900;}
+.nav{display:flex;flex-direction:column;gap:7px;}.nav a{display:flex;gap:11px;text-decoration:none;color:#c9d2df;padding:12px 13px;border-radius:12px;font-family:Arial,sans-serif;font-size:14px;}
+.nav a.active{background:rgba(216,180,90,.12);color:var(--gold-light);}
+.main{margin-left:260px;min-height:100vh;}.topbar{height:70px;display:flex;align-items:center;justify-content:space-between;padding:0 30px;border-bottom:1px solid var(--border);background:rgba(5,9,18,.85);position:sticky;top:0;z-index:500;font-family:Arial,sans-serif;}
+.balance-mini{background:var(--surface);border:1px solid var(--border);padding:9px 13px;border-radius:12px;font-size:13px;}.balance-mini strong{color:var(--gold-light);}
+.menu-btn{display:none;border:1px solid var(--border);background:var(--surface);color:white;width:42px;height:42px;border-radius:12px;}
+.content{padding:30px;max-width:900px;margin:auto;}
+.book-card{background:linear-gradient(145deg,rgba(216,180,90,.06),transparent 50%),var(--surface);border:1px solid rgba(216,180,90,.18);border-radius:24px;padding:32px;box-shadow:0 20px 50px rgba(0,0,0,.3);}
+.book-header{text-align:center;margin-bottom:25px;padding-bottom:20px;border-bottom:1px solid var(--border);}
+.book-title{font-size:24px;color:var(--gold-light);margin-bottom:6px;}.book-author{color:var(--muted);font-size:12px;font-family:Arial,sans-serif;}
+.book-content{line-height:1.9;font-size:15.5px;color:#e8edf3;max-height:500px;overflow-y:auto;padding:20px;background:#091321;border-radius:14px;border:1px solid var(--border);text-align:justify;white-space:pre-wrap;}
+.timer-box{text-align:center;margin:25px 0;}
+.timer{font-size:56px;font-weight:900;color:var(--gold-light);letter-spacing:3px;font-family:Arial,sans-serif;}
+.progress{width:100%;max-width:600px;height:10px;margin:12px auto 20px;background:#08111d;border-radius:20px;overflow:hidden;border:1px solid var(--border);}
+.progress-bar{width:0%;height:100%;background:linear-gradient(90deg,var(--gold),var(--gold-light));transition:width 1s linear;}
+.start-btn{width:100%;max-width:420px;border:0;border-radius:14px;padding:16px 20px;background:linear-gradient(135deg,#d8b45a,#f1d98b);color:#111;font-weight:900;font-size:16px;font-family:Arial,sans-serif;display:block;margin:0 auto;cursor:pointer;}
+.start-btn:disabled{opacity:.4;cursor:not-allowed;}
+.status{margin:18px auto 0;max-width:650px;padding:13px 15px;border-radius:12px;font-size:13px;font-family:Arial,sans-serif;display:none;text-align:center;}.status.show{display:block;}.status.success{background:rgba(55,214,122,.08);border:1px solid rgba(55,214,122,.2);color:#79eaa5;}.status.loading{background:rgba(216,180,90,.08);border:1px solid rgba(216,180,90,.2);color:var(--gold-light);}
+@media(max-width:900px){.sidebar{transform:translateX(-100%);}.sidebar.open{transform:translateX(0);}.main{margin-left:0;}.menu-btn{display:block;}.content{padding:20px 15px;}.book-content{max-height:350px;}.book-card{padding:20px;}}
+</style>
+</head>
+<body>
+<aside class="sidebar" id="sidebar">
+<div class="logo"><div class="logo-icon">📖</div><h1 style="font-family:Arial,sans-serif;font-size:19px;margin-top:12px;">JASON INVEST</h1><p style="font-family:Arial,sans-serif;color:#8997aa;font-size:11px;margin-top:5px;">Livre IA quotidien FC</p></div>
+<nav class="nav">
+<a href="dashboard.html">🏠 Dashboard</a>
+<a href="investissement.html">📈 Investir FC</a>
+<a href="tache.html" class="active">📖 Livre IA du jour</a>
+<a href="historique.html">🧾 Historique FC</a>
+<a href="support.html">💬 Support</a>
+</nav>
+</aside>
+<main class="main">
+<header class="topbar"><div style="display:flex;gap:12px;align-items:center;"><button class="menu-btn" id="menuBtn">☰</button><div style="font-weight:800;">📖 Livre écrit par IA aujourd'hui — FC</div></div><div class="balance-mini">Solde: <strong id="topBalance">0 FC</strong></div></header>
+<section class="content">
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px;font-family:Arial,sans-serif;">
+<div style="background:#0d1727;border:1px solid rgba(255,255,255,.09);padding:14px;border-radius:12px;"><span style="display:block;color:#8997aa;font-size:11px;margin-bottom:6px;">Solde FC</span><strong id="balance">0 FC</strong></div>
+<div style="background:#0d1727;border:1px solid rgba(255,255,255,.09);padding:14px;border-radius:12px;"><span style="display:block;color:#8997aa;font-size:11px;margin-bottom:6px;">Gain IA aujourd'hui</span><strong id="todayGain" style="color:#f1d98b;">0 FC</strong></div>
+<div style="background:#0d1727;border:1px solid rgba(255,255,255,.09);padding:14px;border-radius:12px;"><span style="display:block;color:#8997aa;font-size:11px;margin-bottom:6px;">Jour</span><strong id="progress">0/30</strong></div>
+</div>
+
+<div class="book-card">
+<div class="book-header">
+<div class="book-title" id="bookTitle">🤖 L'IA écrit le livre du jour...</div>
+<div class="book-author">Écrit automatiquement par JASON IA chaque jour à 23h00 en Franc Congolais FC</div>
+</div>
+<div class="book-content" id="bookContent">Chargement du livre écrit par l'IA aujourd'hui...</div>
+<div class="timer-box">
+<div class="timer" id="timer">05:00</div>
+<div class="progress"><div class="progress-bar" id="progressBar"></div></div>
+<button class="start-btn" id="startBtn">📖 Commencer lecture IA (5 min) - Gain FC</button>
+<div class="status" id="status"></div>
+<div style="margin-top:12px;font-family:Arial,sans-serif;color:#8997aa;font-size:11px;">Livre généré par IA à 23h00 chaque jour. Lis 5 min sans quitter pour être crédité en FC.</div>
+</div>
+</div>
+
+<div style="margin-top:20px;background:#0d1727;border:1px solid rgba(255,255,255,.09);border-radius:20px;padding:20px;font-family:Arial,sans-serif;">
+<h3>📅 Mes lectures IA en FC</h3><div id="taskHistory" style="margin-top:15px;"></div>
+</div>
+</section>
+</main>
+<script type="module">
+const TASK_TIME=5*60;
+function money(v){return Number(v||0).toLocaleString('fr-FR')+" FC";}
+function getCurrent(){try{return JSON.parse(localStorage.getItem('jason_current')||'null');}catch{return null;}}
+function getUsers(){return JSON.parse(localStorage.getItem('jason_users')||'[]');}
+function saveUsers(u){localStorage.setItem('jason_users',JSON.stringify(u));}
+function todayKey(){return new Date().toISOString().slice(0,10);}
+function showStatus(m,t){const s=document.getElementById("status"); s.textContent=m; s.className="status show "+t;}
+
+let timerInterval=null, remaining=TASK_TIME, running=false;
+let currentBook=null;
+
+async function loadBookIA(){
+  const cur=getCurrent(); if(!cur){location.href="index.html";return;}
+  document.getElementById("balance").textContent=money(cur.solde||0);
+  document.getElementById("topBalance").textContent=money(cur.solde||0);
+
+  const invs=JSON.parse(localStorage.getItem('jason_investments')||'[]').filter(i=>i.userId===cur.id && i.status==="active");
+  const lastInv=invs.length? invs[invs.length-1] : null;
+
+  if(!lastInv){
+    document.getElementById("bookTitle").textContent="Investis en FC pour débloquer livre IA";
+    document.getElementById("bookContent").textContent="Investis minimum 20 000 FC pour que l'IA écrive ton livre quotidien et tu gagnes en FC.";
+    document.getElementById("startBtn").disabled=true;
+    document.getElementById("todayGain").textContent="0 FC";
+    renderHistory([]); return;
+  }
+
+  const daily=Number(lastInv.dailyGain||0);
+  document.getElementById("todayGain").textContent=money(daily);
+
+  // 1. Essaie récupérer livre IA du jour depuis Firebase
+  showStatus("🤖 L'IA prépare ton livre du jour en FC...", "loading");
+  let bookData=null;
+  try{
+    const {db}=await import("./backend/firebase.js");
+    const {collection,query,where,getDocs}=await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js");
+    const q=query(collection(db,"jason_livres_ia"), where("dateKey","==",todayKey()));
+    const snap=await getDocs(q);
+    if(!snap.empty){ bookData=snap.docs[0].data(); }
+  }catch{}
+
+  // 2. Si pas de livre aujourd'hui, l'IA l'écrit maintenant en direct
+  if(!bookData){
+    try{
+      const r=await fetch("/api/generate-daily-book");
+      const d=await r.json();
+      if(d.success){ bookData={titre:d.titre, contenu:d.contenu}; }
+    }catch{}
+    // Fallback si API offline, appelle IA direct
+    if(!bookData){
+      try{
+        const aiRes=await fetch("https://davbot-outils.vercel.app/api/intelligence-artificielle/ask",{
+          method:"POST", headers:{"Content-Type":"application/json"},
+          body: JSON.stringify({
+            message: `Écris leçon jour ${new Date().getDate()} JASON INVEST RDC en Franc Congolais FC (jamais CFA), 300 mots, titre + contenu, exemple 20 000 FC = 1 500 FC/j`,
+            knowledge: "Tu es Jason Aloma, tu écris en FC jamais CFA. Plans FC: 20k=1500/j, 50k=4000/j, 100k=8000/j, etc. 30 jours.",
+            rules: "Toujours FC jamais CFA. 300 mots. Titre puis contenu. Motivant RDC.",
+            history: []
+          })
+        });
+        const aiData=await aiRes.json();
+        let txt=(aiData.answer||"").replace(/FCFA/gi,"FC").replace(/CFA/gi,"FC");
+        const lines=txt.split("\n");
+        bookData={titre: lines[0]||`Jour ${new Date().getDate()} - Leçon FC`, contenu: txt};
+      }catch{
+        bookData={titre:`Jour ${new Date().getDate()} - Patience en FC`, contenu:`La patience est la clé en FC. 20 000 FC devient 45 000 FC en 30 jours si tu lis 5 min chaque jour. Investis petit, gagne chaque jour en Franc Congolais.`};
+      }
+    }
+  }
+
+  currentBook=bookData;
+  document.getElementById("bookTitle").textContent=bookData.titre + ` - ${lastInv.plan} - ${money(daily)}/j FC`;
+  document.getElementById("bookContent").textContent=bookData.contenu;
+
+  const doneList=JSON.parse(localStorage.getItem('jason_tasks_done')||'[]').filter(t=>t.userId===cur.id && t.investmentId===lastInv.id);
+  document.getElementById("progress").textContent=`${doneList.length}/${lastInv.duration||30}`;
+
+  const todayDone=doneList.find(t=>t.dateKey===todayKey());
+  if(todayDone){
+    document.getElementById("startBtn").disabled=true;
+    document.getElementById("startBtn").textContent=`✅ Lu aujourd'hui IA +${money(todayDone.reward)} FC`;
+    document.getElementById("timer").textContent="00:00";
+    document.getElementById("progressBar").style.width="100%";
+    showStatus(`Lecture IA du jour déjà faite en FC. Reviens demain.`, "success");
+  }else{
+    document.getElementById("startBtn").disabled=false;
+    document.getElementById("startBtn").textContent=`📖 Lire livre IA 5 min et gagner ${money(daily)} FC`;
+    document.getElementById("startBtn").onclick=startReading;
+    document.getElementById("timer").textContent="05:00";
+    document.getElementById("progressBar").style.width="0%";
+    showStatus(`📖 Livre IA prêt - ${bookData.titre}. Lis 5 min pour gagner ${money(daily)} FC`, "success");
+  }
+  renderHistory(doneList);
+}
+
+function startReading(){
+  if(running) return; running=true; remaining=TASK_TIME;
+  const btn=document.getElementById("startBtn"); btn.disabled=true;
+  showStatus("📖 Lecture IA en cours en FC... Ne quitte pas 5 min.", "success");
+  function update(){const m=String(Math.floor(remaining/60)).padStart(2,"0"); const s=String(remaining%60).padStart(2,"0"); document.getElementById("timer").textContent=`${m}:${s}`; document.getElementById("progressBar").style.width=((TASK_TIME-remaining)/TASK_TIME*100)+"%"; btn.textContent=`⏳ Lecture IA FC... ${m}:${s}`;}
+  update(); timerInterval=setInterval(()=>{remaining--; update(); if(remaining<=0){clearInterval(timerInterval); finishReading();}},1000);
+}
+function finishReading(){
+  const cur=getCurrent();
+  const lastInv=JSON.parse(localStorage.getItem('jason_investments')||'[]').filter(i=>i.userId===cur.id && i.status==="active").pop();
+  const daily=Number(lastInv.dailyGain||0);
+  let users=getUsers(); const u=users.find(x=>x.id===cur.id); u.solde+=daily; saveUsers(users); cur.solde=u.solde; localStorage.setItem('jason_current',JSON.stringify(cur));
+  const done=JSON.parse(localStorage.getItem('jason_tasks_done')||'[]');
+  done.push({userId:cur.id, investmentId:lastInv.id, plan:lastInv.plan, reward:daily, book:currentBook?.titre||"Livre IA", date:new Date().toISOString(), dateKey:todayKey()});
+  localStorage.setItem('jason_tasks_done',JSON.stringify(done));
+  document.getElementById("balance").textContent=money(cur.solde||0);
+  document.getElementById("topBalance").textContent=money(cur.solde||0);
+  showStatus(`✅ Bravo! Livre IA lu +${money(daily)} FC crédité`, "success");
+  document.getElementById("startBtn").textContent=`✅ +${money(daily)} FC gagné`;
+  loadBookIA();
+}
+function renderHistory(list){
+  const div=document.getElementById("taskHistory");
+  if(!list.length){div.innerHTML='<div style="padding:15px;text-align:center;color:#8997aa;">Aucune lecture IA encore en FC</div>'; return;}
+  div.innerHTML=list.slice().reverse().map(h=>`<div style="display:flex;justify-content:space-between;background:#091321;border:1px solid rgba(255,255,255,.09);padding:14px;border-radius:13px;margin-bottom:10px;"><div><strong>${h.book||h.plan}</strong><div style="font-size:11px;color:#8997aa;">${new Date(h.date).toLocaleString('fr-FR')}</div></div><div><strong style="color:#37d67a;">+${money(h.reward)} FC</strong></div></div>`).join("");
+}
+document.getElementById("menuBtn").addEventListener("click",()=>document.getElementById("sidebar").classList.toggle("open"));
+loadBookIA();
+</script>
+</body>
+</html>

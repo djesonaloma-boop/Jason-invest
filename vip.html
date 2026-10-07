@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JASON INVEST — VIP AUTO FC</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+<style>
+:root{--bg:#040914;--surface:#0a1424;--gold:#d8b45a;--gold-light:#f4df9a;--text:#f5f7fb;--muted:#8d9aae;--border:rgba(255,255,255,.08);--success:#32d583;--red:#ff6b7a;}
+*{box-sizing:border-box;margin:0;padding:0;}body{background:var(--bg);color:var(--text);font-family:Arial,sans-serif;}
+.sidebar{position:fixed;left:0;top:0;bottom:0;width:255px;background:rgba(5,12,24,.96);border-right:1px solid var(--border);z-index:1000;overflow-y:auto;}
+.logo{display:flex;gap:10px;padding:23px 20px;border-bottom:1px solid var(--border);color:var(--gold-light);font-weight:800;}
+.user-mini{padding:17px 20px;border-bottom:1px solid var(--border);display:flex;gap:12px;align-items:center;}
+.mini-avatar{width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,var(--gold-light),var(--gold));display:flex;align-items:center;justify-content:center;color:#111;font-weight:800;}
+.nav{padding:14px 12px;}.nav button{width:100%;display:flex;gap:11px;padding:12px;border-radius:9px;background:none;border:0;color:#b8c2d2;text-align:left;cursor:pointer;}
+.nav button.active{color:var(--gold-light);background:linear-gradient(90deg,rgba(216,180,90,.16),rgba(216,180,90,.03));border-left:3px solid var(--gold);}
+.logout{padding:12px;} .logout button{width:100%;padding:12px;border-radius:9px;border:1px solid rgba(255,102,120,.2);background:rgba(255,102,120,.06);color:#ff8997;cursor:pointer;}
+.main{margin-left:255px;min-height:100vh;} .topbar{height:70px;padding:0 28px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:rgba(5,11,22,.85);border-bottom:1px solid var(--border);z-index:500;}
+.content{max-width:1150px;margin:auto;padding:30px;}
+.page-header small{color:var(--gold-light);font-size:11px;letter-spacing:1px;} .page-header h2{font-size:26px;margin:6px 0;} .page-header p{color:var(--muted);font-size:12px;}
+.current-vip{display:flex;justify-content:space-between;align-items:center;padding:22px;border-radius:18px;background:linear-gradient(135deg,rgba(216,180,90,.14),rgba(10,22,40,.95));border:1px solid rgba(216,180,90,.18);margin:18px 0;}
+.vip-badge{padding:10px 16px;border-radius:30px;background:rgba(216,180,90,.12);border:1px solid rgba(216,180,90,.2);color:var(--gold-light);font-weight:800;font-size:12px;}
+.vip-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;}
+.vip-card{padding:22px;border-radius:18px;background:rgba(10,20,36,.86);border:1px solid var(--border);transition:.3s;position:relative;}
+.vip-card:hover{transform:translateY(-4px);border-color:rgba(216,180,90,.3);}
+.vip-card.mega{border:1px solid rgba(255,215,0,.35);background:linear-gradient(135deg,rgba(255,215,0,.12),rgba(10,20,36,.9));box-shadow:0 0 30px rgba(255,215,0,.12);}
+.vip-icon{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:12px;}
+.vip-price{font-size:22px;font-weight:900;color:var(--gold-light);margin:10px 0;} .vip-price span{font-size:11px;color:var(--muted);font-weight:400;}
+.benefit{display:flex;gap:10px;margin-bottom:7px;font-size:12px;} .check{width:20px;height:20px;border-radius:50%;background:rgba(50,213,131,.12);color:var(--success);display:flex;align-items:center;justify-content:center;font-size:10px;}
+.buy-button{width:100%;padding:13px;border-radius:10px;border:0;background:linear-gradient(135deg,var(--gold-light),var(--gold));color:#111;font-weight:800;cursor:pointer;margin-top:12px;}
+.buy-button.mega-btn{background:linear-gradient(135deg,#ffd700,#ffae00);box-shadow:0 8px 20px rgba(255,215,0,.25);}
+.buy-button:disabled{opacity:.4;background:#2a3446;color:#8d9aae;cursor:not-allowed;}
+.message{text-align:center;padding:12px;border-radius:10px;margin:12px 0;display:none;font-size:13px;} .message.show{display:block;} .success{background:rgba(50,213,131,.1);border:1px solid rgba(50,213,131,.2);color:#7ce9ae;} .error{background:rgba(255,107,122,.1);border:1px solid rgba(255,107,122,.2);color:#ff9aa5;}
+.points-badge{display:inline-flex;gap:6px;padding:6px 10px;border-radius:20px;background:rgba(101,178,255,.12);border:1px solid rgba(101,178,255,.2);color:#8ec6ff;font-size:11px;font-weight:700;}
+@media(max-width:900px){.sidebar{transform:translateX(-100%);position:fixed;transition:.3s;}.sidebar.open{transform:translateX(0);}.main{margin-left:0;width:100%;}.vip-grid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+
+<aside class="sidebar" id="sidebar">
+<div class="logo"><i class="fa-solid fa-chart-line"></i> JASON INVEST FC</div>
+<div class="user-mini"><div class="mini-avatar" id="sideAvatar">U</div><div><div id="sideName" style="font-weight:700;font-size:13px;">Utilisateur</div><div id="sideEmail" style="font-size:10px;color:var(--muted);">—</div><div id="sidePoints" style="font-size:10px;color:#8ec6ff;margin-top:2px;">0 points</div></div></div>
+<nav class="nav">
+<button onclick="location.href='dashboard.html'"><i class="fa-solid fa-chart-line"></i> Dashboard</button>
+<button onclick="location.href='investissement.html'"><i class="fa-solid fa-chart-pie"></i> Investissement FC</button>
+<button onclick="location.href='tache.html'"><i class="fa-solid fa-book-open"></i> Livre AUTO FC</button>
+<button onclick="location.href='parrainage.html'"><i class="fa-solid fa-users"></i> Parrainage AUTO</button>
+<button class="active"><i class="fa-solid fa-crown"></i> VIP AUTO FC</button>
+<button onclick="location.href='profil.html'"><i class="fa-solid fa-user"></i> Profil</button>
+</nav>
+<div class="logout"><button id="logoutBtn">Déconnexion</button></div>
+</aside>
+
+<main class="main">
+<header class="topbar">
+<div style="display:flex;gap:12px;align-items:center;"><button id="menuBtn" style="width:42px;height:42px;border-radius:10px;background:rgba(10,20,36,.88);border:1px solid var(--border);color:#fff;display:none;"><i class="fa-solid fa-bars"></i></button><div><h1 style="font-size:18px;">VIP AUTO FC</h1><p style="font-size:10px;color:var(--muted);">L'argent descend quand tu actives - en FC</p></div></div>
+<div style="text-align:right;"><div id="topBalance" style="font-weight:900;color:var(--gold-light);">0 FC</div><div id="topPoints" style="font-size:10px;color:#8ec6ff;">0 points</div></div>
+</header>
+
+<div class="content">
+<div class="page-header"><small>VIP JASON INVEST FC</small><h2>Active ton VIP — Argent descend auto en FC</h2><p>Quand tu cliques acheter, ton solde FC descend immédiatement. VIP MEGA 300 000 FC = 5 000 points bonus direct en FC.</p></div>
+
+<section class="current-vip">
+<div style="display:flex;gap:14px;align-items:center;"><div style="width:54px;height:54px;border-radius:14px;background:linear-gradient(135deg,var(--gold-light),var(--gold));display:flex;align-items:center;justify-content:center;color:#111;font-size:22px;"><i class="fa-solid fa-crown"></i></div><div><div style="font-size:11px;color:var(--muted);">NIVEAU ACTUEL FC</div><div id="currentVip" style="font-size:22px;font-weight:900;color:var(--gold-light);">Standard</div><div id="currentVipInfo" style="font-size:12px;color:var(--muted);">Investis min 20 000 FC</div></div></div>
+<div class="vip-badge" id="currentVipBadge">STANDARD FC</div>
+</section>
+
+<div id="vipMessage" class="message"></div>
+
+<section class="vip-grid">
+<article class="vip-card"><div class="vip-icon" style="background:rgba(205,127,50,.15);color:#cd7f32;"><i class="fa-solid fa-medal"></i></div><h3>VIP Bronze</h3><p style="font-size:12px;color:var(--muted);">Entrée - 20k FC investi = auto</p><div class="vip-price">5 000 FC <span>/ solde descend FC</span></div><div class="benefits"><div class="benefit"><span class="check"><i class="fa-solid fa-check"></i></span><span>Débloque livre AUTO 1 500 FC/jour</span></div><div class="benefit"><span class="check"><i class="fa-solid fa-check"></i></span><span>+ 100 points fidélité</span></div></div><button class="buy-button" data-vip="Bronze" data-price="5000" data-points="100">Acheter Bronze - 5 000 FC descend</button></article>
+
+<article class="vip-card"><div class="vip-icon" style="background:rgba(192,192,192,.15);color:#c0c0c0;"><i class="fa-solid fa-award"></i></div><h3>VIP Argent</h3><p style="font-size:12px;color:var(--muted);">50k FC investi = auto</p><div class="vip-price">10 000 FC <span>/ solde descend FC</span></div><div class="benefits"><div class="benefit"><span class="check"><i class="fa-solid fa-check"></i></span><span>Gain 4 000 FC/jour</span></div><div class="benefit"><span class="check"><i class="fa-solid fa-check"></i></span><span>+ 300 points</span></div></div><button class="buy-button" data-vip="Argent" data-price="10000" data-points="300">Acheter Argent - 10 000 FC descend</button></article>
+
+<article class="vip-card"><div class="vip-icon" style="background:rgba(216,180,90,.15);color:var(--gold-light);"><i class="fa-solid fa-crown"></i></div><h3>VIP Or</h3><p style="font-size:12px;color:var(--muted);">100k FC investi = auto</p><div class="vip-price">25 000 FC <span>/ solde descend FC</span></div><div class="benefits"><div class="benefit"><span class="check"><i class="fa-solid fa-check"></i></span><span>Gain 8 000-40 000 FC/jour</span></div><div class="benefit"><span class="check"><i class="fa-solid fa-check"></i></span><span>+ 800 points</span></div></div><button class="buy-button" data-vip="Or" data-price="25000" data-points="800">Acheter Or - 25 000 FC descend</button></article>
+
+<article class="vip-card"><div class="vip-icon" style="background:rgba(101,178,255,.15);color:#65b2ff;"><i class="fa-solid fa-gem"></i></div><h3>VIP Diamant</h3><p style="font-size:12px;color:var(--muted);">500k FC investi = auto</p><div class="vip-price">50 000 FC <span>/ solde descend FC</span></div><div class="benefits"><div class="benefit"><span class="check"><i class="fa-solid fa-check"></i></span><span>Gain 40k-400k FC/jour</span></div><div class="benefit"><span class="check"><i class="fa-solid fa-check"></i></span><span>+ 1 500 points</span></div></div><button class="buy-button" data-vip="Diamant" data-price="50000" data-points="1500">Acheter Diamant - 50k FC descend</button></article>
+
+<article class="vip-card mega"><div style="position:absolute;top:10px;right:10px;background:linear-gradient(135deg,#ffd700,#ffae00);color:#111;padding:4px 10px;border-radius:20px;font-size:10px;font-weight:900;">🔥 MEGA BONUS FC</div><div class="vip-icon" style="background:rgba(255,215,0,.18);color:#ffd700;"><i class="fa-solid fa-fire"></i></div><h3>VIP MEGA 300 000 FC</h3><p style="font-size:12px;color:var(--muted);">Élite absolue - Bonus énorme FC</p><div class="vip-price">300 000 FC <span>/ solde descend FC</span></div><div class="points-badge"><i class="fa-solid fa-star"></i> + 5 000 POINTS MEGA BONUS</div><div class="benefits" style="margin-top:12px;"><div class="benefit"><span class="check"><i class="fa-solid fa-check"></i></span><span>Gain 500 000 FC/jour pendant 30j</span></div><div class="benefit"><span class="check"><i class="fa-solid fa-check"></i></span><span>Parrainage 25% auto en FC</span></div><div class="benefit"><span class="check"><i class="fa-solid fa-check"></i></span><span>Accès direct Jason Aloma</span></div><div class="benefit"><span class="check"><i class="fa-solid fa-check"></i></span><span>Retrait prioritaire instantané FC</span></div></div><button class="buy-button mega-btn" data-vip="MEGA" data-price="300000" data-points="5000">🔥 ACTIVER MEGA - 300 000 FC + 5 000 POINTS</button></article>
+
+</section>
+
+<div style="margin-top:18px;padding:18px;border-radius:14px;background:rgba(10,20,36,.84);border:1px solid var(--border);"><h4 style="font-size:13px;margin-bottom:8px;color:var(--gold-light);">💡 Important FC: Argent descend vraiment</h4><p style="font-size:11px;color:var(--muted);line-height:1.7;">Quand tu cliques acheter, ton solde FC diminue immédiatement: Bronze -5 000 FC, Argent -10 000 FC, Or -25 000 FC, Diamant -50 000 FC, MEGA -300 000 FC. Les points sont crédités instantanément en FC. Le MEGA donne 5 000 points qui te font monter VIP instantanément.</p></div>
+</div>
+</main>
+
+<script>
+function money(v){return Number(v||0).toLocaleString('fr-FR')+" FC";}
+function getCurrent(){try{return JSON.parse(localStorage.getItem('jason_current')||'null');}catch{return null;}}
+function getUsers(){return JSON.parse(localStorage.getItem('jason_users')||'[]');}
+function saveUsers(u){localStorage.setItem('jason_users',JSON.stringify(u));}
+function showMsg(t,type){const m=document.getElementById('vipMessage'); m.textContent=t; m.className='message show '+type; setTimeout(()=>m.className='message',5000);}
+function loadVip(){
+  const cur=getCurrent(); if(!cur){location.href='index.html';return;}
+  const users=getUsers(); const u=users.find(x=>x.id===cur.id)||cur;
+  const points=Number(localStorage.getItem('jason_points_'+cur.id)||u.points||0);
+  document.getElementById('sideName').textContent=u.name||'User';
+  document.getElementById('sideEmail').textContent=(u.email||'').slice(0,20);
+  document.getElementById('sidePoints').textContent=points.toLocaleString()+' points';
+  document.getElementById('sideAvatar').textContent=(u.name||'U').charAt(0);
+  document.getElementById('topBalance').textContent=money(cur.solde||0);
+  document.getElementById('topPoints').textContent=points.toLocaleString()+' pts';
+  const invs=JSON.parse(localStorage.getItem('jason_investments')||'[]').filter(i=>i.userId===cur.id);
+  const total= invs.reduce((s,i)=>s+Number(i.amount||0),0);
+  const vipManual=localStorage.getItem('jason_vip_'+cur.id);
+  let current='Standard FC';
+  if(total>=500000 || vipManual==='MEGA' || vipManual==='Diamant') current='Diamant FC';
+  if(total>=300000 || vipManual==='MEGA') current='MEGA 300K FC';
+  if(vipManual) current=vipManual+' FC';
+  if(total>=20000 && !vipManual){
+    if(total>=300000) current='MEGA 300K FC';
+    else if(total>=500000) current='Diamant FC';
+    else if(total>=100000) current='Or FC';
+    else if(total>=50000) current='Argent FC';
+    else current='Bronze FC';
+  }
+  document.getElementById('currentVip').textContent=current;
+  document.getElementById('currentVipBadge').textContent=current;
+  document.getElementById('currentVipInfo').textContent= total>0 ? `Investi ${money(total)} • Solde ${money(cur.solde)} • ${points} pts` : 'Investis min 20 000 FC pour auto Bronze';
+  document.querySelectorAll('.buy-button').forEach(b=>{
+    if(vipManual===b.dataset.vip || (current.includes('MEGA') && b.dataset.vip==='MEGA')){ b.textContent='✓ Déjà activé FC'; b.disabled=true; }
+  });
+}
+document.addEventListener('DOMContentLoaded',()=>{
+  loadVip();
+  document.getElementById('logoutBtn').addEventListener('click',()=>{localStorage.removeItem('jason_current'); location.href='index.html';});
+  document.querySelectorAll('.buy-button').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const vip=btn.dataset.vip; const price=Number(btn.dataset.price); const pts=Number(btn.dataset.points);
+      const cur=getCurrent(); let users=getUsers(); let u=users.find(x=>x.id===cur.id);
+      if(Number(u.solde||0) < price){ showMsg('❌ Solde insuffisant FC. Il te faut '+money(price)+' tu as '+money(u.solde), 'error'); return; }
+      if(!confirm(`Activer VIP ${vip} en FC ?\n\nTon argent va descendre: -${money(price)}\nTu reçois: +${pts} points\n\nContinuer?`)) return;
+      u.solde = Number(u.solde||0) - price;
+      let curPoints = Number(localStorage.getItem('jason_points_'+cur.id)||u.points||0);
+      curPoints += pts;
+      localStorage.setItem('jason_points_'+cur.id, curPoints);
+      u.points = curPoints;
+      saveUsers(users);
+      cur.solde = u.solde;
+      localStorage.setItem('jason_current', JSON.stringify(cur));
+      localStorage.setItem('jason_vip_'+cur.id, vip);
+      const hist=JSON.parse(localStorage.getItem('jason_vip_history')||'[]');
+      hist.push({userId:cur.id, vip, price, points:pts, date:new Date().toISOString(), monnaie:"FC"});
+      localStorage.setItem('jason_vip_history', JSON.stringify(hist));
+      showMsg(`✅ VIP ${vip} activé! -${money(price)} descendu, +${pts} points FC! Nouveau solde: ${money(u.solde)}`, 'success');
+      loadVip();
+    });
+  });
+});
+</script>
+</body>
+</html>

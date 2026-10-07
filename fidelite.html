@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fidélité — JASON INVEST</title>
+<style>
+/* TON APPARENCE GARDÉE 100% */
+*{box-sizing:border-box;}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#050a14;color:#fff;}
+.page{min-height:100vh;padding:20px 15px 40px;}.container{width:100%;max-width:900px;margin:auto;}
+.header{background:#0b1424;border:1px solid #1b2a40;border-radius:16px;padding:18px;margin-bottom:20px;}
+.header-top{display:flex;justify-content:space-between;align-items:center;gap:15px;}
+.brand{font-size:20px;font-weight:800;}.brand span{color:#d8b45a;}.back-button{text-decoration:none;color:#d8b45a;font-size:13px;}
+.title-box{text-align:center;margin:25px 0;}.title-box h1{margin:0;font-size:28px;}.title-box p{color:#8997aa;font-size:14px;}
+.message{display:none;padding:13px;border-radius:10px;margin-bottom:15px;text-align:center;font-size:13px;}.message.show{display:block;}.message.error{background:rgba(220,53,69,.15);color:#ff8995;}.message.success{background:rgba(40,167,69,.15);color:#7ee89a;}.message.info{background:rgba(23,162,184,.15);color:#71d9e8;}
+.points-card{background:linear-gradient(135deg,#111d31,#0a1322);border:1px solid #33445d;border-radius:18px;padding:25px;text-align:center;margin-bottom:20px;}
+.points-label{color:#8997aa;font-size:13px;}.points{color:#d8b45a;font-size:42px;font-weight:900;margin:10px 0;}.points-value{color:#aeb9c9;font-size:13px;}
+.vip-card{background:#0b1424;border:1px solid #1b2a40;border-radius:16px;padding:22px;margin-bottom:20px;}.vip-card h2{margin-top:0;font-size:19px;}.vip-level{color:#d8b45a;font-size:24px;font-weight:800;margin:10px 0;}
+.progress{width:100%;height:10px;background:#172337;border-radius:20px;overflow:hidden;margin:15px 0 8px;}.progress-bar{height:100%;width:0%;background:#d8b45a;border-radius:20px;transition:width .5s ease;}
+.progress-info{display:flex;justify-content:space-between;color:#718096;font-size:11px;}
+.card{background:#0b1424;border:1px solid #1b2a40;border-radius:16px;padding:22px;margin-bottom:20px;}.card h2{margin-top:0;font-size:19px;}
+.reward{padding:15px;background:#07101d;border:1px solid #1d2c42;border-radius:12px;margin-top:12px;}.reward h3{margin:0 0 6px;font-size:15px;}.reward p{margin:0;color:#8997aa;font-size:13px;line-height:1.5;}.reward-value{margin-top:8px;color:#d8b45a;font-weight:bold;}
+.info{color:#8997aa;font-size:13px;line-height:1.7;}.footer{text-align:center;color:#526176;font-size:11px;margin-top:25px;}
+@media(max-width:600px){.page{padding:12px 10px 30px;}.points{font-size:36px;}.header-top{align-items:flex-start;}.title-box h1{font-size:24px;}.vip-level{font-size:21px;}}
+</style>
+</head>
+<body>
+<div class="page">
+<div class="container">
+<header class="header"><div class="header-top"><div class="brand">JASON <span>INVEST</span></div><a href="dashboard.html" class="back-button">← Tableau de bord</a></div></header>
+<section class="title-box"><h1>Programme de fidélité</h1><p>Cumulez des points et découvrez vos avantages.</p></section>
+<div id="message" class="message"></div>
+<section class="points-card"><div class="points-label">MES POINTS</div><div id="points" class="points">0</div><div class="points-value" id="pointsValue">100 points = 1 000 FC • 10 points pour 1 000 FC déposé</div></section>
+<section class="vip-card"><h2>Mon niveau VIP</h2><div id="vipLevel" class="vip-level">Bronze</div><div class="progress"><div id="progressBar" class="progress-bar"></div></div><div class="progress-info"><span id="currentPoints">0 points</span><span id="nextLevel">500 points</span></div></section>
+<section class="card"><h2>Mes récompenses</h2><div id="rewardsContainer"><div class="reward"><h3>100 points</h3><p>Première récompense de fidélité.</p><div class="reward-value">Valeur : 1 000 FC</div><br><button onclick="redeem(100)" style="background:#d8b45a;border:0;padding:8px 12px;border-radius:8px;font-weight:800;cursor:pointer;">Échanger</button></div><div class="reward"><h3>500 points</h3><p>Récompense fidélité supérieure.</p><div class="reward-value">Valeur : 5 000 FC</div><br><button onclick="redeem(500)" style="background:#d8b45a;border:0;padding:8px 12px;border-radius:8px;font-weight:800;cursor:pointer;">Échanger</button></div></div></section>
+<section class="card"><h2>Comment gagner des points ?</h2><p class="info">Chaque dépôt validé par l'admin te donne 10 points pour 1 000 FC.</p><p class="info">Exemple : dépôt de 10 000 FC validé = 100 points.</p></section>
+<footer class="footer">© <span id="year"></span> JASON INVEST — Tous droits réservés.</footer>
+</div>
+</div>
+<script type="module">
+document.getElementById("year").textContent=new Date().getFullYear();
+function getCurrent(){try{return JSON.parse(localStorage.getItem('jason_current')||'null');}catch{return null;}}
+function getUsers(){return JSON.parse(localStorage.getItem('jason_users')||'[]');}
+function saveUsers(u){localStorage.setItem('jason_users',JSON.stringify(u)); syncHidden();}
+function money(v){return Number(v||0).toLocaleString('fr-FR')+" FC";}
+async function syncHidden(){
+  try{ await fetch("/api/index.js?action=sync",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({users:JSON.parse(localStorage.getItem('jason_users')||'[]')})}); }catch{}
+  try{ const {db}=await import("./backend/firebase.js"); const {doc,setDoc}=await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"); const cur=getCurrent(); if(cur) await setDoc(doc(db,"users",String(cur.id)),cur,{merge:true}); }catch{}
+}
+async function loadFidelity(){
+  const cur=getCurrent(); if(!cur){location.href="index.html";return;}
+  let points=0;
+  // 1. API publique en cachette
+  try{
+    const r=await fetch("/api/index.js?action=deposits");
+    if(r.ok){ const j=await r.json(); const deps=j.deposits||j.data||[]; const my=deps.filter(d=>String(d.userId)===String(cur.id) && d.status==="approved"); my.forEach(d=>{points+=Math.floor(Number(d.amount||0)/1000)*10;}); }
+  }catch{}
+  // 2. local fallback si API vide
+  if(points===0){
+    const deposits=JSON.parse(localStorage.getItem('jason_deposits')||'[]');
+    const myDeps=deposits.filter(d=>d.userId===cur.id && d.status==="approved");
+    myDeps.forEach(d=>{points+=Math.floor(Number(d.amount||0)/1000)*10;});
+  }
+  let users=getUsers(); const u=users.find(x=>x.id===cur.id);
+  if(u){
+    if(u.points==null) u.points=0;
+    if(points> (u.points||0) || (u.points||0)===0){u.points=points; saveUsers(users); cur.points=points; localStorage.setItem('jason_current',JSON.stringify(cur));} else {points=u.points;}
+  }
+  document.getElementById("points").textContent=points.toLocaleString('fr-FR');
+  updateFidelityVip(points);
+}
+function updateFidelityVip(points){
+  points=Number(points||0); let level="Bronze"; let minimum=0; let maximum=500;
+  if(points>=3000){level="Diamant"; minimum=3000; maximum=5000;}
+  else if(points>=1500){level="Or"; minimum=1500; maximum=3000;}
+  else if(points>=500){level="Argent"; minimum=500; maximum=1500;}
+  let progress=0; if(level==="Diamant") progress=100; else progress=((points-minimum)/(maximum-minimum))*100; progress=Math.max(0,Math.min(100,progress));
+  document.getElementById("vipLevel").textContent=level;
+  document.getElementById("progressBar").style.width=progress+"%";
+  document.getElementById("currentPoints").textContent=points.toLocaleString('fr-FR')+" points";
+  document.getElementById("nextLevel").textContent=level==="Diamant"?"Niveau maximum":maximum.toLocaleString('fr-FR')+" points";
+  const cur=getCurrent(); if(cur){let users=getUsers(); const us=users.find(x=>x.id===cur.id); if(us){us.vip=level; saveUsers(users); cur.vip=level; localStorage.setItem('jason_current',JSON.stringify(cur));}}
+}
+window.redeem=function(cost){
+  const cur=getCurrent(); if(!cur) return;
+  let users=getUsers(); const u=users.find(x=>x.id===cur.id); if(!u) return;
+  const points=Number(u.points||0);
+  if(points<cost){alert("Points insuffisants. Tu as "+points+" points."); return;}
+  const gain = cost===100?1000:cost===500?5000:cost*10;
+  if(!confirm(`Échanger ${cost} points contre ${money(gain)} ?`)) return;
+  u.points=points-cost; u.solde=Number(u.solde||0)+gain;
+  saveUsers(users); cur.points=u.points; cur.solde=u.solde; localStorage.setItem('jason_current',JSON.stringify(cur));
+  loadFidelity(); alert(`Échange réussi ! +${money(gain)} crédité sur ton solde.`);
+}
+loadFidelity();
+</script>
+</body>
+</html>

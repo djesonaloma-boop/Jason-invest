@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Investissement — JASON INVEST</title>
+<style>
+:root{--bg:#050912;--surface:#0b1424;--gold:#d8b45a;--gold-light:#f1d98b;--text:#f5f7fb;--muted:#91a0b5;--border:rgba(216,180,90,.18);--success:#43d17a;}
+*{box-sizing:border-box;margin:0;padding:0;}body{font-family:Arial,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+a{color:inherit;text-decoration:none;}.sidebar{position:fixed;left:0;top:0;width:250px;height:100vh;background:#07101d;border-right:1px solid var(--border);padding:22px 14px;z-index:1000;overflow-y:auto;}
+.brand{text-align:center;margin-bottom:25px;}.brand-logo{width:58px;height:58px;margin:auto;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#101d31;border:1px solid var(--gold);color:var(--gold-light);font-size:22px;font-weight:bold;}
+.brand h2{margin-top:10px;color:var(--gold-light);font-size:18px;}.brand span{display:block;color:var(--muted);font-size:11px;margin-top:4px;}
+.nav-title{color:#66758b;font-size:11px;text-transform:uppercase;margin:20px 10px 8px;}.nav-link{display:flex;gap:12px;padding:12px 13px;margin:4px 0;border-radius:10px;color:#b8c2d1;font-size:14px;}.nav-link.active{background:rgba(216,180,90,.12);color:var(--gold-light);border:1px solid rgba(216,180,90,.16);}
+.main{margin-left:250px;min-height:100vh;}.topbar{height:70px;padding:0 25px;display:flex;align-items:center;justify-content:space-between;background:rgba(5,9,18,.92);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:500;}
+.content{padding:28px;max-width:1300px;margin:auto;}.page-header{margin-bottom:25px;}.page-header h1 span{color:var(--gold-light);}.page-header p{color:var(--muted);line-height:1.6;}
+.balance-box{background:linear-gradient(135deg,#0d1a2d,#0a1322);border:1px solid var(--border);border-radius:16px;padding:22px;margin-bottom:28px;display:flex;justify-content:space-between;align-items:center;gap:20px;}
+.balance-label{color:var(--muted);font-size:13px;margin-bottom:7px;}.balance-value{color:var(--gold-light);font-size:27px;font-weight:bold;}
+.deposit-btn{border:0;border-radius:10px;padding:12px 18px;background:var(--gold);color:#111;font-weight:bold;cursor:pointer;}
+.plans-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}.plan-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:20px;position:relative;transition:.25s;}
+.plan-card:hover{transform:translateY(-4px);border-color:rgba(216,180,90,.3);}
+.plan-card.featured{border-color:var(--gold);}.featured-label{position:absolute;right:15px;top:15px;font-size:10px;padding:5px 8px;border-radius:20px;background:rgba(216,180,90,.13);color:var(--gold-light);}
+.plan-name{color:var(--gold-light);font-weight:bold;margin-bottom:15px;font-size:17px;}.plan-amount{font-size:25px;font-weight:bold;margin-bottom:18px;}
+.plan-row{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:13px;}.plan-total{color:var(--success)!important;}
+.invest-btn{width:100%;margin-top:17px;border:1px solid rgba(216,180,90,.35);border-radius:10px;padding:12px;background:#101d31;color:var(--gold-light);font-weight:bold;cursor:pointer;transition:.2s;}
+.invest-btn:hover{background:var(--gold);color:#111;}
+.history-box{margin-top:28px;background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:22px;}
+.history-item{padding:14px;border-radius:10px;background:#08111f;border:1px solid rgba(255,255,255,.05);display:flex;justify-content:space-between;gap:15px;margin-bottom:10px;}
+.badge{padding:4px 8px;border-radius:20px;font-size:10px;font-weight:800;}.badge-active{background:rgba(67,209,122,.15);color:#43d17a;}.badge-expired{background:rgba(255,100,124,.15);color:#ff647c;}
+.empty{padding:25px;text-align:center;color:var(--muted);border:1px dashed rgba(255,255,255,.08);border-radius:10px;font-size:13px;}
+@media(max-width:900px){.sidebar{transform:translateX(-100%);}.main{margin-left:0;}.plans-grid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<aside class="sidebar"><div class="brand"><div class="brand-logo">JI</div><h2>JASON INVEST</h2><span>20 000 → 5 000 000 FC</span></div><div class="nav-title">Principal</div><a href="dashboard.html" class="nav-link">⌂ Dashboard</a><a href="investissement.html" class="nav-link active">◈ Investissement</a><a href="tache.html" class="nav-link">⏱️ Tâche quotidienne</a><a href="historique.html" class="nav-link">↻ Historique</a></aside>
+<main class="main">
+<header class="topbar"><div style="font-weight:800;">Investissement (Min 20 000 / Max 5 000 000)</div><div style="color:var(--muted);">Solde: <strong id="balance" style="color:var(--gold-light)">0 FC</strong></div></header>
+<section class="content">
+<div class="balance-box"><div><div class="balance-label">Solde disponible</div><div class="balance-value" id="balance2">0 FC</div></div><button class="deposit-btn" onclick="location.href='translation.html'">+ Dépôt</button></div>
+<div class="plans-grid" id="plansGrid"></div>
+<div style="margin-top:28px;background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:22px;">
+<h2>Montant personnalisé (20 000 à 5 000 000)</h2><p style="color:var(--muted);font-size:13px;margin:7px 0 18px;">Le gain journalier sera calculé automatiquement à 7.5%</p>
+<div style="display:grid;grid-template-columns:1fr auto;gap:12px;"><input type="number" id="customAmount" min="20000" max="5000000" placeholder="Ex: 75000" style="padding:13px;border-radius:10px;border:1px solid var(--border);background:#07101d;color:#fff;"><button onclick="customInvestment()" style="padding:0 20px;border:0;border-radius:10px;background:var(--gold);color:#111;font-weight:bold;cursor:pointer;">Investir</button></div>
+<div id="customPreview" style="margin-top:12px;color:var(--muted);font-size:13px;"></div>
+</div>
+<div class="history-box"><h2>Mes investissements (avec tâche automatique)</h2><div id="investmentHistory" style="margin-top:15px;"></div></div>
+</section>
+</main>
+<script type="module">
+function formatFC(a){return Number(a||0).toLocaleString('fr-FR')+" FC";}
+function getCurrent(){try{return JSON.parse(localStorage.getItem('jason_current')||'null');}catch{return null;}}
+function getUsers(){return JSON.parse(localStorage.getItem('jason_users')||'[]');}
+function saveUsers(u){localStorage.setItem('jason_users',JSON.stringify(u)); syncHidden();}
+async function syncHidden(){
+  try{ await fetch("/api/index.js?action=sync",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({users:getUsers(), investments:JSON.parse(localStorage.getItem('jason_investments')||'[]')})}); }catch{}
+  try{
+    const {db}=await import("./backend/firebase.js");
+    const {doc,setDoc}=await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js");
+    const cur=getCurrent(); if(cur) await setDoc(doc(db,"users",String(cur.id)),{solde:cur.solde, investment:cur.investment||0},{merge:true});
+  }catch{}
+}
+function calcDaily(amount){
+  if(amount===20000) return 1500; if(amount===50000) return 4000; if(amount===100000) return 8000;
+  if(amount===300000) return 24000; if(amount===500000) return 40000; if(amount===1000000) return 80000;
+  if(amount===2000000) return 160000; if(amount===3000000) return 240000; if(amount===5000000) return 400000;
+  return Math.floor(amount*0.075);
+}
+const plans=[
+  {name:"Starter", amount:20000, duration:30},{name:"Plus", amount:50000, duration:30},
+  {name:"Pro", amount:100000, duration:30, featured:true, label:"Populaire"},
+  {name:"Business", amount:300000, duration:30},{name:"Premium", amount:500000, duration:30},
+  {name:"Elite", amount:1000000, duration:30},{name:"Prestige", amount:2000000, duration:30},
+  {name:"Royal", amount:3000000, duration:30},{name:"Diamond", amount:5000000, duration:30, featured:true, label:"Max"}
+];
+async function load(){
+  const cur=getCurrent(); if(!cur){location.href="index.html";return;}
+  // Essaie solde PUBLIC
+  try{
+    const r=await fetch("/api/index.js?action=me");
+    if(r.ok){ const j=await r.json(); if(j.user && j.user.solde!=null){ cur.solde=j.user.solde; localStorage.setItem('jason_current',JSON.stringify(cur)); } }
+  }catch{}
+  document.getElementById("balance").textContent=formatFC(cur.solde||0);
+  document.getElementById("balance2").textContent=formatFC(cur.solde||0);
+  const grid=document.getElementById("plansGrid");
+  grid.innerHTML=plans.map(p=>{
+    const daily=calcDaily(p.amount);
+    return `<div class="plan-card ${p.featured?'featured':''}">${p.featured?`<div class="featured-label">${p.label||'Populaire'}</div>`:''}<div class="plan-name">${p.name}</div><div class="plan-amount">${formatFC(p.amount)}</div><div class="plan-row"><span>Gain tâche / jour</span><span>${formatFC(daily)}</span></div><div class="plan-row"><span>Durée</span><span>${p.duration} jours</span></div><div class="plan-row"><span>Total gains</span><span class="plan-total">${formatFC(daily*p.duration)}</span></div><div class="plan-row"><span>Bénéfice net</span><span class="plan-total">+${formatFC(daily*p.duration - p.amount)}</span></div><button class="invest-btn" onclick="invest(${p.amount},'${p.name}',${daily},${p.duration})">Investir ${formatFC(p.amount)}</button></div>`;
+  }).join("");
+  loadHistory();
+}
+window.invest=async function(amount,name,daily,duration){
+  const cur=getCurrent();
+  if((cur.solde||0)<amount){alert(`Solde insuffisant: ${formatFC(cur.solde)} / ${formatFC(amount)}`); location.href="translation.html"; return;}
+  if(!confirm(`Confirmer ?\n${name} - ${formatFC(amount)}\n${formatFC(daily)}/jour pendant ${duration} jours`)) return;
+  let users=getUsers(); const u=users.find(x=>x.id===cur.id);
+  u.solde-=amount; u.investment=(Number(u.investment||0)+amount); saveUsers(users);
+  cur.solde=u.solde; cur.investment=u.investment; localStorage.setItem('jason_current',JSON.stringify(cur));
+  const invs=JSON.parse(localStorage.getItem('jason_investments')||'[]');
+  const newInv={id:Date.now(), userId:cur.id, plan:name, amount, dailyGain:daily, daily:daily, duration, date:new Date().toISOString(), status:"active"};
+  invs.push(newInv); localStorage.setItem('jason_investments',JSON.stringify(invs));
+  try{
+    const {db}=await import("./backend/firebase.js");
+    const {collection,addDoc}=await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js");
+    await addDoc(collection(db,"investments"), newInv);
+  }catch{}
+  syncHidden(); load(); alert(`Investi ! Tâche ${formatFC(daily)} disponible.`);
+}
+window.customInvestment=function(){
+  const val=Number(document.getElementById("customAmount").value);
+  if(!val||val<20000){alert("Minimum 20 000 FC");return;}
+  if(val>5000000){alert("Maximum 5 000 000 FC");return;}
+  invest(val, `Perso ${formatFC(val)}`, calcDaily(val), 30);
+}
+document.getElementById("customAmount")?.addEventListener("input", (e)=>{
+  const v=Number(e.target.value);
+  if(v>=20000 && v<=5000000){
+    const d=calcDaily(v);
+    document.getElementById("customPreview").innerHTML=`Aperçu: <strong style="color:var(--gold-light)">${formatFC(d)}/jour</strong> x 30 = <strong style="color:#43d17a">${formatFC(d*30)}</strong> | Bénéfice ${formatFC(d*30 - v)}`;
+  }else document.getElementById("customPreview").innerHTML="";
+});
+function loadHistory(){
+  const cur=getCurrent();
+  const invs=JSON.parse(localStorage.getItem('jason_investments')||'[]').filter(i=>i.userId===cur.id).reverse();
+  const done=JSON.parse(localStorage.getItem('jason_tasks_done')||'[]');
+  const container=document.getElementById("investmentHistory");
+  if(!invs.length){container.innerHTML='<div class="empty">Aucun investissement - choisis un plan</div>'; return;}
+  container.innerHTML=invs.map(inv=>{
+    const doneCount=done.filter(d=>d.investmentId===inv.id).length;
+    const expired = doneCount >= inv.duration;
+    return `<div class="history-item"><div><strong>${inv.plan}</strong><div style="font-size:12px;color:#91a0b5;">${new Date(inv.date).toLocaleString('fr-FR')} • ${formatFC(inv.amount)} • ${formatFC(inv.dailyGain)}/jour</div><div style="margin-top:6px;">${expired?'<span class="badge badge-expired">Expiré - renouvelle</span>':`<span class="badge badge-active">${doneCount}/${inv.duration} jours</span>`}</div>${expired?`<button class="invest-btn" style="margin-top:8px;" onclick="invest(${inv.amount},'${inv.plan}',${inv.dailyGain},${inv.duration})">🔄 Renouveler</button>`:`<a href="tache.html" style="display:inline-block;margin-top:8px;padding:8px 12px;background:rgba(216,180,90,.12);border-radius:8px;color:var(--gold-light);font-size:12px;font-weight:bold;">▶️ Faire la tâche</a>`}</div><div style="text-align:right;"><strong style="color:var(--gold-light)">${formatFC(inv.dailyGain*doneCount)}</strong><div style="font-size:11px;color:#91a0b5;">sur ${formatFC(inv.dailyGain*inv.duration)}</div></div></div>`;
+  }).join("");
+}
+document.addEventListener("DOMContentLoaded", load);
+</script>
+</body>
+</html>

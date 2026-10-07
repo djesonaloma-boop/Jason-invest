@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Activités — JASON INVEST</title>
+<style>
+/* TON STYLE GARDÉ 100% IDENTIQUE */
+:root{--bg:#050912;--surface:#0b1322;--surface-2:#101b2d;--border:rgba(255,255,255,.08);--gold:#d8b45a;--gold-light:#f1d98b;--text:#f4f7fb;--muted:#91a0b5;--green:#42d392;--blue:#4d8dff;--red:#ff6b6b;}
+*{box-sizing:border-box;margin:0;padding:0;} html{scroll-behavior:smooth;}
+body{font-family:Arial,Helvetica,sans-serif;background:radial-gradient(circle at 10% 10%,rgba(216,180,90,.09),transparent 28%),radial-gradient(circle at 90% 20%,rgba(77,141,255,.08),transparent 28%),radial-gradient(circle at 50% 100%,rgba(216,180,90,.05),transparent 35%),var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;}
+a{text-decoration:none;color:inherit;}button,input,select,textarea{font:inherit;}
+.background-glow{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:-2;}
+.glow{position:absolute;width:280px;height:280px;border-radius:50%;filter:blur(80px);opacity:.14;animation:floatGlow 9s ease-in-out infinite alternate;}
+.glow.one{top:5%;left:5%;background:#d8b45a;}.glow.two{right:4%;top:30%;background:#357cff;animation-delay:2s;}.glow.three{left:35%;bottom:-100px;background:#d8b45a;animation-delay:4s;}
+@keyframes floatGlow{from{transform:translate(0,0) scale(1);}to{transform:translate(35px,-25px) scale(1.18);}}
+.particles{position:fixed;inset:0;pointer-events:none;z-index:-1;overflow:hidden;}
+.particle{position:absolute;width:4px;height:4px;border-radius:50%;background:var(--gold-light);opacity:0;box-shadow:0 0 12px rgba(216,180,90,.8);animation:particleMove linear infinite;}
+@keyframes particleMove{0%{transform:translateY(110vh) translateX(0);opacity:0;}10%{opacity:.65;}90%{opacity:.25;}100%{transform:translateY(-20vh) translateX(80px);opacity:0;}}
+.sidebar{position:fixed;left:0;top:0;width:250px;height:100vh;background:rgba(7,13,24,.96);backdrop-filter:blur(18px);border-right:1px solid var(--border);padding:22px 15px;z-index:1000;overflow-y:auto;transform:translateX(0);transition:.35s ease;}
+.brand{display:flex;align-items:center;gap:12px;padding:5px 10px 25px;border-bottom:1px solid var(--border);margin-bottom:18px;}
+.brand-logo{width:44px;height:44px;border-radius:13px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--gold),#9d7627);color:#07101d;font-size:20px;font-weight:900;box-shadow:0 0 25px rgba(216,180,90,.22);animation:logoPulse 3s ease-in-out infinite;}
+@keyframes logoPulse{0%,100%{transform:scale(1);box-shadow:0 0 20px rgba(216,180,90,.18);}50%{transform:scale(1.05);box-shadow:0 0 30px rgba(216,180,90,.35);}}
+.brand-text h2{font-size:16px;letter-spacing:.5px;}.brand-text span{display:block;margin-top:3px;color:var(--gold-light);font-size:11px;}
+.menu-title{color:#617087;font-size:10px;text-transform:uppercase;letter-spacing:1.5px;padding:10px 12px;}
+.nav-menu{list-style:none;}.nav-menu li{margin:4px 0;}
+.nav-menu a{display:flex;align-items:center;gap:12px;padding:12px 13px;border-radius:11px;color:#aeb9c9;font-size:14px;transition:.25s ease;}
+.nav-menu a:hover{background:rgba(216,180,90,.08);color:#fff;transform:translateX(4px);}
+.nav-menu a.active{background:linear-gradient(90deg,rgba(216,180,90,.16),rgba(216,180,90,.05));color:var(--gold-light);border-left:3px solid var(--gold);box-shadow:inset 0 0 20px rgba(216,180,90,.04);}
+.nav-icon{width:21px;text-align:center;font-size:17px;}
+.main{margin-left:250px;min-height:100vh;}
+.topbar{height:70px;display:flex;align-items:center;justify-content:space-between;padding:0 30px;border-bottom:1px solid var(--border);background:rgba(5,9,18,.78);backdrop-filter:blur(16px);position:sticky;top:0;z-index:900;}
+.top-left{display:flex;align-items:center;gap:14px;}
+.back-button,.mobile-menu{width:42px;height:42px;border:1px solid var(--border);border-radius:10px;background:var(--surface);color:white;cursor:pointer;transition:.25s;}
+.back-button{font-size:19px;}.mobile-menu{display:none;font-size:20px;}
+.back-button:hover,.mobile-menu:hover{border-color:var(--gold);color:var(--gold-light);transform:translateY(-2px);}
+.page-title-small{font-size:17px;font-weight:700;}
+.top-user{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:13px;}
+.user-avatar{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--gold),#8f6c25);display:flex;align-items:center;justify-content:center;color:#07101d;font-weight:900;box-shadow:0 0 20px rgba(216,180,90,.18);}
+.content{max-width:1200px;margin:auto;padding:35px 30px 60px;}
+.page-header{margin-bottom:28px;animation:fadeUp .8s ease both;}
+.page-header h1{font-size:30px;margin-bottom:8px;}
+.page-header h1::after{content:"";display:block;width:65px;height:3px;margin-top:10px;border-radius:5px;background:linear-gradient(90deg,var(--gold),transparent);}
+.page-header p{color:var(--muted);line-height:1.6;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(25px);}to{opacity:1;transform:translateY(0);}}
+.activities-hero{position:relative;overflow:hidden;background:linear-gradient(135deg,rgba(216,180,90,.13),rgba(16,27,45,.9));border:1px solid rgba(216,180,90,.22);border-radius:20px;padding:30px;margin-bottom:28px;box-shadow:0 18px 45px rgba(0,0,0,.25);animation:heroAppear 1s ease both;}
+@keyframes heroAppear{from{opacity:0;transform:translateY(30px) scale(.98);}to{opacity:1;transform:translateY(0) scale(1);}}
+.activities-hero::before{content:"";position:absolute;top:0;left:-100%;width:55%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.07),transparent);transform:skewX(-20deg);animation:shine 5s ease-in-out infinite;}
+@keyframes shine{0%,45%{left:-100%;}70%,100%{left:150%;}}
+.activities-hero::after{content:"";position:absolute;width:180px;height:180px;right:-60px;top:-70px;border-radius:50%;background:rgba(216,180,90,.08);animation:heroCircle 5s ease-in-out infinite alternate;}
+@keyframes heroCircle{from{transform:scale(1);}to{transform:scale(1.25);}}
+.hero-icon{width:58px;height:58px;display:flex;align-items:center;justify-content:center;border-radius:16px;background:rgba(216,180,90,.14);border:1px solid rgba(216,180,90,.25);color:var(--gold-light);font-size:27px;margin-bottom:17px;animation:iconFloat 3s ease-in-out infinite;}
+@keyframes iconFloat{0%,100%{transform:translateY(0) rotate(0);}50%{transform:translateY(-7px) rotate(2deg);}}
+.activities-hero h2{font-size:23px;margin-bottom:9px;}.activities-hero p{max-width:760px;color:var(--muted);line-height:1.7;}
+.filter-bar{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:23px;animation:fadeUp .9s ease both;}
+.filter-button{border:1px solid var(--border);background:rgba(11,19,34,.8);color:var(--muted);padding:10px 15px;border-radius:10px;cursor:pointer;transition:.25s;font-size:13px;}
+.filter-button:hover{border-color:rgba(216,180,90,.45);color:white;transform:translateY(-2px);}
+.filter-button.active{background:rgba(216,180,90,.13);border-color:rgba(216,180,90,.40);color:var(--gold-light);box-shadow:0 0 20px rgba(216,180,90,.08);}
+.activities-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;}
+.activity-card{background:rgba(11,19,34,.92);border:1px solid var(--border);border-radius:18px;overflow:hidden;box-shadow:0 18px 45px rgba(0,0,0,.20);transition:.35s ease;animation:cardAppear .7s ease forwards;}
+@keyframes cardAppear{from{opacity:0;transform:translateY(35px);}to{opacity:1;transform:translateY(0);}}
+.activity-card:hover{transform:translateY(-8px);border-color:rgba(216,180,90,.35);box-shadow:0 25px 60px rgba(0,0,0,.35),0 0 25px rgba(216,180,90,.06);}
+.activity-image{width:100%;height:180px;background:linear-gradient(135deg,#111d31,#080f1c);display:flex;align-items:center;justify-content:center;color:#536177;font-size:43px;overflow:hidden;position:relative;}
+.activity-image::after{content:"";position:absolute;inset:0;background:linear-gradient(135deg,transparent,rgba(216,180,90,.06),transparent);transform:translateX(-100%);transition:.6s;}
+.activity-card:hover .activity-image::after{transform:translateX(100%);}
+.image-placeholder{animation:imageFloat 3s ease-in-out infinite;}
+@keyframes imageFloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-6px);}}
+.activity-body{padding:19px;}.activity-category{display:inline-flex;padding:5px 9px;border-radius:7px;background:rgba(216,180,90,.10);color:var(--gold-light);font-size:10px;text-transform:uppercase;letter-spacing:.8px;margin-bottom:10px;}
+.activity-body h3{font-size:18px;margin-bottom:8px;}.activity-body p{color:var(--muted);font-size:13px;line-height:1.65;margin-bottom:14px;}
+.activity-info{border-top:1px solid var(--border);padding-top:13px;display:flex;flex-direction:column;gap:7px;color:#aab5c6;font-size:12px;}
+.activity-info span{display:flex;align-items:center;gap:7px;}.status{display:inline-flex;align-items:center;gap:6px;color:var(--green);}.status-dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 10px rgba(66,211,146,.6);animation:statusPulse 1.8s infinite;}
+@keyframes statusPulse{0%,100%{transform:scale(1);opacity:1;}50%{transform:scale(1.5);opacity:.55;}}
+.empty-state{display:none;text-align:center;padding:50px 20px;background:var(--surface);border:1px solid var(--border);border-radius:18px;}
+.empty-icon{font-size:40px;margin-bottom:12px;opacity:.7;}
+.info-section{margin-top:28px;background:rgba(11,19,34,.92);border:1px solid var(--border);border-radius:18px;padding:25px;animation:fadeUp 1.2s ease both;}
+.info-section h2{font-size:20px;margin-bottom:9px;}.info-section>p{color:var(--muted);line-height:1.6;font-size:14px;margin-bottom:18px;}
+.info-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;}
+.info-item{display:flex;gap:11px;padding:14px;border-radius:12px;background:rgba(255,255,255,.025);border:1px solid var(--border);transition:.25s;}
+.info-item:hover{transform:translateY(-3px);border-color:rgba(216,180,90,.22);background:rgba(216,180,90,.04);}
+.info-item-icon{color:var(--gold-light);font-size:18px;}.info-item strong{display:block;font-size:13px;margin-bottom:4px;}.info-item span{color:var(--muted);font-size:12px;line-height:1.5;}
+.footer{margin-top:45px;padding-top:22px;border-top:1px solid var(--border);color:#657389;text-align:center;font-size:12px;line-height:1.6;}
+@media(max-width:1050px){.activities-grid{grid-template-columns:repeat(2,minmax(0,1fr));}}
+@media(max-width:850px){.sidebar{transform:translateX(-100%);}.sidebar.open{transform:translateX(0);}.main{margin-left:0;}.mobile-menu{display:block;}.topbar{padding:0 15px;}.top-user{display:none;}.content{padding:25px 16px 45px;}.activities-grid{grid-template-columns:1fr;}.info-list{grid-template-columns:1fr;}.page-header h1{font-size:25px;}}
+</style>
+</head>
+<body>
+<div class="background-glow"><div class="glow one"></div><div class="glow two"></div><div class="glow three"></div></div>
+<div class="particles" id="particles"></div>
+
+<aside class="sidebar" id="sidebar">
+  <div class="brand"><div class="brand-logo">JI</div><div class="brand-text"><h2>JASON INVEST</h2><span>Plateforme financière</span></div></div>
+  <div class="menu-title">Menu principal</div>
+  <ul class="nav-menu">
+    <li><a href="dashboard.html"><span class="nav-icon">⌂</span><span>Tableau de bord</span></a></li>
+    <li><a href="investissement.html"><span class="nav-icon">📈</span><span>Investissement</span></a></li>
+    <li><a href="activites.html" class="active"><span class="nav-icon">▣</span><span>Activités</span></a></li>
+    <li><a href="fidelite.html"><span class="nav-icon">🎁</span><span>Fidélité</span></a></li>
+    <li><a href="vip.html"><span class="nav-icon">👑</span><span>VIP</span></a></li>
+    <li><a href="parrainage.html"><span class="nav-icon">👥</span><span>Parrainage</span></a></li>
+    <li><a href="historique.html"><span class="nav-icon">↻</span><span>Historique</span></a></li>
+    <li><a href="tache.html"><span class="nav-icon">⏱️</span><span>Tâches</span></a></li>
+    <li><a href="notification.html"><span class="nav-icon">🔔</span><span>Notifications</span></a></li>
+    <li><a href="profil.html"><span class="nav-icon">👤</span><span>Mon profil</span></a></li>
+    <li><a href="support.html"><span class="nav-icon">💬</span><span>Support</span></a></li>
+  </ul>
+</aside>
+
+<main class="main">
+  <header class="topbar">
+    <div class="top-left"><button class="mobile-menu" id="mobileMenu">☰</button><button class="back-button" id="backButton">←</button><div class="page-title-small">Activités</div></div>
+    <div class="top-user"><div id="topUserName">Utilisateur</div><div class="user-avatar" id="topAvatar">J</div></div>
+  </header>
+
+  <section class="content">
+    <div class="page-header"><h1>Activités</h1><p>Découvrez les actualités, événements et informations publiés par JASON INVEST. <span id="apiStatus" style="color:var(--gold-light)">[Public API]</span></p></div>
+    <div class="activities-hero"><div class="hero-icon">📢</div><h2>Actualités & activités</h2><p>Retrouvez ici les informations importantes. Les contenus viennent maintenant de <b>api/index.js</b> et <b>backend/firebase.js</b> pour ton travail en ligne.</p></div>
+    <div class="filter-bar"><button class="filter-button active" data-filter="all">Toutes</button><button class="filter-button" data-filter="actualite">Actualités</button><button class="filter-button" data-filter="evenement">Événements</button><button class="filter-button" data-filter="annonce">Annonces</button></div>
+    <div class="activities-grid" id="activitiesGrid"></div>
+    <div class="empty-state" id="emptyState"><div class="empty-icon">📭</div><h3>Aucune activité</h3><p>Aucune activité ne correspond à cette catégorie.</p></div>
+    <div class="info-section"><h2>Informations</h2><p>Cette page lit maintenant depuis API publique, Firebase, puis localStorage en fallback.</p><div class="info-list"><div class="info-item"><div class="info-item-icon">📢</div><div><strong>Public API</strong><span>/api/index.js</span></div></div><div class="info-item"><div class="info-item-icon">🔥</div><div><strong>Backend</strong><span>backend/firebase.js</span></div></div><div class="info-item"><div class="info-item-icon">🔔</div><div><strong>Mode</strong><span>Travail en ligne</span></div></div><div class="info-item"><div class="info-item-icon">🔄</div><div><strong>Fallback</strong><span>localStorage si offline</span></div></div></div></div>
+    <footer class="footer"><div>JASON INVEST - Public</div><div>Activités — api/index.js + backend/firebase.js</div></footer>
+  </section>
+</main>
+
+<script type="module">
+// MODIFIÉ POUR TRAVAIL EN LIGNE - Apparence gardée
+const particles=document.getElementById("particles");
+for(let i=0;i<24;i++){const p=document.createElement("span");p.className="particle";p.style.left=Math.random()*100+"%";p.style.animationDuration=(6+Math.random()*8)+"s";p.style.animationDelay=Math.random()*8+"s";p.style.width=(2+Math.random()*3)+"px";p.style.height=p.style.width;particles.appendChild(p);}
+document.getElementById("backButton").addEventListener("click",()=>location.href="dashboard.html");
+document.getElementById("mobileMenu").addEventListener("click",()=>document.getElementById("sidebar").classList.toggle("open"));
+function escapeHTML(v){return String(v).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;");}
+
+function loadUser(){
+  try{const u=JSON.parse(localStorage.getItem('jason_current')||'null'); if(!u){location.href="index.html";return;} document.getElementById("topUserName").textContent=u.name||"Utilisateur"; document.getElementById("topAvatar").textContent=(u.name||"J").trim().charAt(0).toUpperCase();}catch{}
+}
+
+// NOUVEAU: Charge depuis api/index.js + backend/firebase.js
+async function loadActivities(){
+  const grid=document.getElementById("activitiesGrid");
+  const emptyState=document.getElementById("emptyState");
+  const statusEl=document.getElementById("apiStatus");
+  let activities = [];
+
+  // 1. API publique
+  try{
+    const r = await fetch("/api/index.js?action=activities");
+    if(r.ok){
+      const j = await r.json();
+      if(j.activities && j.activities.length){ activities = j.activities; statusEl.textContent = "✅ Connecté à api/index.js (PUBLIC)"; }
+    }
+  }catch{}
+
+  // 2. Firebase backend
+  if(!activities.length){
+    try{
+      const { db } = await import("./backend/firebase.js");
+      const { collection, getDocs } = await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js");
+      const snap = await getDocs(collection(db, "activities"));
+      if(!snap.empty){ activities = snap.docs.map(d=>d.data()); statusEl.textContent = "✅ Connecté à backend/firebase.js"; }
+    }catch{}
+  }
+
+  // 3. Fallback localStorage + defaults (TON ANCIEN CODE)
+  if(!activities.length){
+    const stored=JSON.parse(localStorage.getItem('jason_activities')||'[]');
+    const defaults=[
+      {title:"Bienvenue sur JASON INVEST",description:"Retrouvez ici les informations et nouveautés concernant l'évolution de la plateforme.",category:"actualite",date:"Aujourd'hui"},
+      {title:"Prochain événement",description:"Les détails de cet événement seront publiés prochainement par l'administration.",category:"evenement",date:"Bientôt"},
+      {title:"Nouvelle annonce",description:"Les prochaines annonces importantes apparaîtront ici.",category:"annonce",date:"Aujourd'hui"}
+    ];
+    activities = stored.length? stored : defaults;
+    statusEl.textContent = "⚠️ Mode local (fallback)";
+  }
+
+  if(!activities.length){grid.innerHTML=""; emptyState.style.display="block"; return;}
+  emptyState.style.display="none";
+  grid.innerHTML=activities.map((a,i)=>`
+    <article class="activity-card" data-category="${a.category||'actualite'}" style="animation-delay:${i*0.12}s">
+      <div class="activity-image"><span class="image-placeholder">${a.category==='evenement'?'🎯':a.category==='annonce'?'🔔':'📢'}</span></div>
+      <div class="activity-body">
+        <span class="activity-category">${escapeHTML(a.category||'actualite')}</span>
+        <h3>${escapeHTML(a.title||'Activité')}</h3>
+        <p>${escapeHTML(a.description||'')}</p>
+        <div class="activity-info">
+          <span>📅 <span>${escapeHTML(a.date||'Aujourd\'hui')}</span></span>
+          <span class="status"><span class="status-dot"></span> Activité publiée</span>
+        </div>
+      </div>
+    </article>
+  `).join("");
+  connectFilters();
+}
+
+function connectFilters(){
+  const buttons=document.querySelectorAll(".filter-button");
+  const emptyState=document.getElementById("emptyState");
+  buttons.forEach(btn=>{
+    btn.onclick=()=>{
+      buttons.forEach(b=>b.classList.remove("active")); btn.classList.add("active");
+      const filter=btn.dataset.filter;
+      const cards=document.querySelectorAll(".activity-card");
+      let count=0;
+      cards.forEach(card=>{
+        if(filter==="all" || card.dataset.category===filter){card.style.display="block"; count++;} else card.style.display="none";
+      });
+      emptyState.style.display=count===0?"block":"none";
+    };
+  });
+}
+
+document.addEventListener("DOMContentLoaded",()=>{loadUser(); loadActivities();});
+</script>
+</body>
+</html>

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JASON INVEST — Parrainage AUTO Public</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+<script>
+(function(){
+  let myCode=localStorage.getItem('jason_my_referral_code');
+  if(!myCode){ myCode='JAS-'+Math.random().toString(36).substring(2,8).toUpperCase(); localStorage.setItem('jason_my_referral_code', myCode); }
+  const params=new URLSearchParams(window.location.search);
+  const ref=params.get('ref')||params.get('parrain');
+  if(ref && ref.toUpperCase()!==myCode){ localStorage.setItem('jason_referred_by', ref.toUpperCase()); localStorage.setItem('jason_referred_by_date', new Date().toISOString()); }
+  window.JASON_MY_CODE=myCode;
+})();
+</script>
+<style>
+:root{--bg:#040914;--surface:#0a1424;--surface2:#0f1d31;--gold:#d8b45a;--gold-light:#f4df9a;--text:#f5f7fb;--muted:#8d9aae;--border:rgba(255,255,255,.08);--success:#32d583;--blue:#4d91ff;}
+*{box-sizing:border-box;margin:0;padding:0;}html{scroll-behavior:smooth;}body{font-family:Arial,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;}
+body::before{content:"";position:fixed;inset:-30%;z-index:-5;background:radial-gradient(circle at 15% 20%,rgba(216,180,90,.14),transparent 25%),radial-gradient(circle at 85% 25%,rgba(58,119,255,.13),transparent 27%),radial-gradient(circle at 50% 90%,rgba(95,58,220,.10),transparent 30%);animation:backgroundMove 16s ease-in-out infinite alternate;}
+@keyframes backgroundMove{0%{transform:translate3d(-2%,0,0) scale(1);}100%{transform:translate3d(-1%,2%,0) scale(1.08);}}
+.referral-particles{position:fixed;inset:0;z-index:-2;pointer-events:none;overflow:hidden;}.referral-particles span{position:absolute;width:3px;height:3px;border-radius:50%;background:rgba(244,223,154,.55);animation:particleMove linear infinite;}.referral-particles span:nth-child(1){left:8%;top:90%;animation-duration:13s;}.referral-particles span:nth-child(2){left:20%;top:70%;animation-duration:16s;}.referral-particles span:nth-child(3){left:35%;top:85%;animation-duration:11s;}.referral-particles span:nth-child(4){left:50%;top:75%;animation-duration:17s;}.referral-particles span:nth-child(5){left:67%;top:90%;animation-duration:14s;}
+@keyframes particleMove{from{transform:translateY(80px);opacity:0;}20%{opacity:1;}to{transform:translateY(-750px);opacity:0;}}
+.sidebar{position:fixed;left:0;top:0;bottom:0;width:255px;z-index:1000;background:rgba(5,12,24,.96);backdrop-filter:blur(18px);border-right:1px solid var(--border);overflow-y:auto;}
+.logo{display:flex;align-items:center;gap:10px;padding:23px 20px;border-bottom:1px solid var(--border);color:var(--gold-light);font-weight:800;font-size:18px;}.logo i{color:var(--gold);}
+.user-mini{display:flex;align-items:center;gap:12px;padding:17px 20px;border-bottom:1px solid var(--border);}.avatar{width:42px;height:42px;min-width:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--gold-light),var(--gold));color:#111;font-weight:800;}
+.user-mini strong{display:block;font-size:13px;}.user-mini span{display:block;margin-top:4px;color:var(--muted);font-size:10px;max-width:145px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;}
+.menu{padding:14px 12px;}.menu a{display:flex;align-items:center;gap:11px;padding:12px 13px;margin-bottom:4px;border-radius:9px;color:#b8c2d2;font-size:13px;transition:.25s;text-decoration:none;}.menu a:hover{color:var(--gold-light);background:rgba(216,180,90,.08);transform:translateX(3px);}.menu a.active{color:var(--gold-light);background:linear-gradient(90deg,rgba(216,180,90,.16),rgba(216,180,90,.03));border-left:3px solid var(--gold);}
+.menu a i{width:20px;text-align:center;}.logout{padding:12px;}.logout button{width:100%;padding:12px;border-radius:9px;border:1px solid rgba(255,102,120,.20);background:rgba(255,102,120,.06);color:#ff8997;cursor:pointer;}
+.main{width:calc(100% - 255px);margin-left:255px;min-height:100vh;}.topbar{height:70px;padding:0 28px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:500;background:rgba(5,11,22,.78);backdrop-filter:blur(17px);border-bottom:1px solid var(--border);}.topbar-left{display:flex;align-items:center;gap:12px;}.back-button{width:42px;height:42px;display:flex;align-items:center;justify-content:center;border-radius:10px;background:rgba(10,20,36,.88);border:1px solid rgba(216,180,90,.20);color:var(--gold-light);font-size:17px;text-decoration:none;}
+.topbar h1{font-size:18px;}.notification{width:42px;height:42px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:var(--surface);border:1px solid var(--border);color:#fff;text-decoration:none;}
+.content{max-width:1100px;margin:auto;padding:30px;}
+.referral-hero{position:relative;overflow:hidden;padding:30px;margin-bottom:20px;border-radius:20px;background:linear-gradient(135deg,rgba(216,180,90,.14),rgba(10,22,40,.95) 48%,rgba(6,14,26,.98));border:1px solid rgba(216,180,90,.16);animation:fadeUp.7s ease both;}
+.hero-icon{width:58px;height:58px;display:flex;align-items:center;justify-content:center;border-radius:16px;background:linear-gradient(135deg,var(--gold-light),var(--gold));color:#111;font-size:25px;margin-bottom:16px;}
+.referral-hero h1{font-size:30px;margin-bottom:8px;background:linear-gradient(90deg,#fff,var(--gold-light));-webkit-background-clip:text;color:transparent;}.referral-hero p{color:var(--muted);max-width:720px;line-height:1.7;font-size:13px;}
+.referral-card{position:relative;display:flex;gap:22px;padding:24px;margin-bottom:18px;border-radius:17px;background:rgba(10,20,36,.86);border:1px solid rgba(216,180,90,.18);}.referral-icon{width:65px;min-width:65px;height:65px;display:flex;align-items:center;justify-content:center;border-radius:16px;background:rgba(216,180,90,.10);color:var(--gold-light);font-size:25px;}
+.referral-content{flex:1;}.referral-content small{color:var(--muted);font-size:11px;}.referral-code-box{display:flex;align-items:center;gap:10px;margin-top:7px;}.referral-code-box strong{font-size:25px;letter-spacing:2px;color:var(--gold-light);}.referral-code-box button{width:40px;height:40px;border-radius:9px;border:1px solid rgba(216,180,90,.25);background:var(--surface2);color:var(--gold-light);cursor:pointer;}
+.referral-link-card{padding:22px;margin-bottom:18px;border-radius:17px;background:rgba(10,20,36,.84);border:1px solid var(--border);}.referral-link-card h3{font-size:16px;margin-bottom:5px;}.referral-link-card p{color:var(--muted);font-size:12px;margin-bottom:14px;}
+.link-box{display:flex;gap:9px;}.link-box input{flex:1;min-width:0;padding:13px;border-radius:9px;border:1px solid rgba(216,180,90,.16);background:#07101d;color:#dfe5ee;outline:none;font-size:12px;}.link-box button{border:0;border-radius:9px;padding:0 17px;background:linear-gradient(135deg,var(--gold-light),var(--gold));color:#111;font-weight:700;cursor:pointer;}
+.referral-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:20px;}.stat-card{display:flex;gap:14px;padding:19px;border-radius:15px;background:rgba(10,20,36,.84);border:1px solid var(--border);}.stat-icon{width:47px;min-width:47px;height:47px;display:flex;align-items:center;justify-content:center;border-radius:12px;background:rgba(216,180,90,.08);color:var(--gold-light);}.stat-card small{display:block;color:var(--muted);font-size:10px;margin-bottom:5px;}.stat-card strong{display:block;color:var(--gold-light);font-size:20px;}
+.how-it-works,.referrals-list{padding:22px;margin-bottom:18px;border-radius:17px;background:rgba(10,20,36,.84);border:1px solid var(--border);}.history-header{display:flex;justify-content:space-between;margin-bottom:17px;}.history-header h2{font-size:17px;}
+.steps{display:grid;grid-template-columns:repeat(2,1fr);gap:13px;}.step{display:flex;gap:13px;padding:16px;border-radius:12px;background:rgba(5,13,25,.75);border:1px solid rgba(255,255,255,.05);}.step-number{width:36px;min-width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(216,180,90,.11);color:var(--gold-light);font-weight:800;}.step h3{font-size:13px;margin-bottom:5px;}.step p{color:var(--muted);font-size:11px;line-height:1.6;}
+.history-empty{padding:20px;text-align:center;border:1px dashed rgba(255,255,255,.10);border-radius:12px;color:var(--muted);font-size:12px;}.filleul-item{display:flex;justify-content:space-between;align-items:center;padding:14px;background:rgba(5,13,25,.75);border:1px solid rgba(255,255,255,.05);border-radius:12px;margin-bottom:8px;}
+.warning{display:flex;gap:12px;padding:16px;margin-bottom:18px;border-radius:13px;background:rgba(245,185,66,.055);border:1px solid rgba(245,185,66,.15);color:#c3ccd9;font-size:11px;line-height:1.7;}
+.message{min-height:5px;text-align:center;font-size:12px;color:var(--gold-light);margin:10px 0 20px;}
+footer{text-align:center;padding:30px 20px;color:#647287;font-size:10px;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+@media(max-width:850px){.sidebar{transform:translateX(-100%);}.main{width:100%;margin-left:0;}.referral-stats{grid-template-columns:1fr;}.steps{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<div class="referral-particles"><span></span><span></span><span></span><span></span><span></span></div>
+<aside class="sidebar"><div class="logo"><i class="fa-solid fa-chart-line"></i><span>JASON INVEST</span></div><div class="user-mini"><div class="avatar" id="avatar">J</div><div><strong id="sideName">Chargement...</strong><span id="sideEmail">...</span></div></div>
+<nav class="menu">
+<a href="dashboard.html"><i class="fa-solid fa-chart-line"></i> Tableau de bord</a>
+<a href="investissement.html"><i class="fa-solid fa-chart-pie"></i> Investissement</a>
+<a href="tache.html"><i class="fa-solid fa-list-check"></i> Tâche du jour</a>
+<a href="fidelite.html"><i class="fa-solid fa-crown"></i> Fidélité</a>
+<a href="parrainage.html" class="active"><i class="fa-solid fa-users"></i> Parrainage AUTO</a>
+<a href="historique.html"><i class="fa-solid fa-receipt"></i> Historique</a>
+<a href="notification.html"><i class="fa-regular fa-bell"></i> Notifications</a>
+<a href="translation.html"><i class="fa-solid fa-money-bill-transfer"></i> Dépôt / Retrait</a>
+</nav><div class="logout"><button onclick="localStorage.removeItem('jason_current');location.href='index.html';">Déconnexion</button></div></aside>
+<main class="main">
+<header class="topbar"><div class="topbar-left"><a href="dashboard.html" class="back-button"><i class="fa-solid fa-arrow-left"></i></a><h1>Parrainage AUTO — Public</h1></div><div><a href="notification.html" class="notification"><i class="fa-regular fa-bell"></i></a></div></header>
+<section class="content">
+<div class="referral-hero"><div class="hero-icon"><i class="fa-solid fa-users"></i></div><h1>Parrainage automatique PUBLIC</h1><p>Chaque téléphone génère JAS-XXXXXX. Lien unique. Quand ton filleul investit min 20 000 FC, tu gagnes <strong style="color:var(--gold-light)">10% automatique</strong> en ligne, visible par l'admin aussi.</p></div>
+<div class="referral-card"><div class="referral-icon"><i class="fa-solid fa-share-nodes"></i></div><div class="referral-content"><small>Votre code de parrainage (auto par téléphone)</small><div class="referral-code-box"><strong id="referralCode">JAS-XXXXXX</strong><button type="button" id="copyReferral"><i class="fa-regular fa-copy"></i></button></div><p>Code unique PUBLIC.</p></div></div>
+<div class="referral-link-card"><h3>🔗 Votre lien de parrainage</h3><p>Partage ce lien, il contient ton code automatiquement.</p><div class="link-box"><input type="text" id="referralLink" readonly value="Chargement..."><button type="button" id="copyLink"><i class="fa-regular fa-copy"></i> Copier</button></div>
+<div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;">
+<button type="button" onclick="shareWhatsApp()" style="padding:10px 14px;border-radius:9px;border:0;background:#25D366;color:#fff;font-weight:700;cursor:pointer;"><i class="fa-brands fa-whatsapp"></i> WhatsApp</button>
+<button type="button" onclick="shareFacebook()" style="padding:10px 14px;border-radius:9px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.06);color:#fff;cursor:pointer;"><i class="fa-brands fa-facebook"></i> Facebook</button>
+</div>
+<div id="parrainInfo" style="display:none;margin-top:14px;padding:12px;border-radius:10px;background:rgba(50,213,131,.08);border:1px solid rgba(50,213,131,.18);font-size:12px;color:#a3eec3;"><i class="fa-solid fa-user-check"></i> Parrainé par <strong id="parrainCodeDisplay" style="color:var(--gold-light);"></strong></div></div>
+<div class="referral-stats"><div class="stat-card"><div class="stat-icon"><i class="fa-solid fa-user-plus"></i></div><div><small>Filleuls inscrits</small><strong id="referralsCount">0</strong></div></div><div class="stat-card"><div class="stat-icon"><i class="fa-solid fa-user-check"></i></div><div><small>Filleuls actifs</small><strong id="activeReferrals">0</strong></div></div><div class="stat-card"><div class="stat-icon"><i class="fa-solid fa-coins"></i></div><div><small>Bonus</small><strong id="referralBonus">0 FC</strong></div></div></div>
+<div class="how-it-works"><div class="history-header"><h2><i class="fa-solid fa-circle-info"></i> Comment ça marche?</h2></div><div class="steps"><div class="step"><div class="step-number">1</div><div><h3>Code auto</h3><p>Ton téléphone génère JAS-XXXXXX tout seul.</p></div></div><div class="step"><div class="step-number">2</div><div><h3>Partage</h3><p>Envoie ton lien?ref=JAS-XXXXXX</p></div></div><div class="step"><div class="step-number">3</div><div><h3>Filleul s'inscrit</h3><p>Son téléphone enregistre ton code.</p></div></div><div class="step"><div class="step-number">4</div><div><h3>10% auto PUBLIC</h3><p>Il investit 20k → 2k pour toi instant.</p></div></div></div></div>
+<div class="referrals-list"><div class="history-header"><h2><i class="fa-solid fa-users"></i> Mes filleuls</h2></div><div id="referralsContainer" class="history-empty">Aucun filleul encore.</div></div>
+<div class="warning"><i class="fa-solid fa-triangle-exclamation"></i><div>Bonus 10% crédité automatique PUBLIC dès premier investissement min 20k. Sync vers API + Firebase.</div></div>
+<div class="message" id="referralMessage"></div>
+</section><footer>JASON INVEST © 2026 — Public</footer>
+</main>
+<script type="module">
+function money(v){return Number(v||0).toLocaleString('fr-FR')+" FC";}
+function getCurrent(){try{return JSON.parse(localStorage.getItem('jason_current')||'null');}catch{return null;}}
+function getUsers(){return JSON.parse(localStorage.getItem('jason_users')||'[]');}
+function showMessage(t){const m=document.getElementById('referralMessage'); m.textContent=t; m.style.opacity='1'; setTimeout(()=>m.style.opacity='0',3000);}
+
+async function syncHidden(all){
+  try{ await fetch("/api/index.js?action=parrainage_sync",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({parrainages:all})}); }catch{}
+  try{
+    const {db}=await import("./backend/firebase.js");
+    const {doc,setDoc}=await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js");
+    const cur=getCurrent(); if(cur) await setDoc(doc(db,"parrainages",String(cur.id)),{userId:cur.id, myCode: window.JASON_MY_CODE, list: all, updatedAt:new Date().toISOString()},{merge:true});
+  }catch{}
+}
+
+async function loadParrainage(){
+  const cur=getCurrent(); if(!cur){ location.href="index.html"; return; }
+  const myCode = window.JASON_MY_CODE || localStorage.getItem('jason_my_referral_code');
+  const baseUrl = window.location.origin + window.location.pathname.replace('parrainage.html','register.html');
+  const myLink = baseUrl + '?ref=' + myCode;
+
+  document.getElementById('sideName').textContent=cur.name||"Client";
+  document.getElementById('sideEmail').textContent=cur.email||"";
+  document.getElementById('avatar').textContent=(cur.name||"J")[0].toUpperCase();
+  document.getElementById('referralCode').textContent=myCode;
+  document.getElementById('referralLink').value=myLink;
+
+  const referredBy=localStorage.getItem('jason_referred_by');
+  if(referredBy){ document.getElementById('parrainInfo').style.display='block'; document.getElementById('parrainCodeDisplay').textContent=referredBy; }
+
+  // essaie PUBLIC d'abord
+  let all=JSON.parse(localStorage.getItem('jason_parrainages')||'[]');
+  try{
+    const {db}=await import("./backend/firebase.js");
+    const {doc,getDoc}=await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js");
+    const snap=await getDoc(doc(db,"parrainages",String(cur.id)));
+    if(snap.exists() && snap.data().list){ all=snap.data().list; localStorage.setItem('jason_parrainages',JSON.stringify(all)); }
+  }catch{}
+
+  const mine=all.filter(p=>p.parrainCode===myCode);
+  document.getElementById('referralsCount').textContent=mine.length;
+  document.getElementById('activeReferrals').textContent=mine.filter(p=>p.amount>=20000).length;
+  document.getElementById('referralBonus').textContent=money(mine.reduce((s,p)=>s+Number(p.bonus||0),0));
+
+  const container=document.getElementById('referralsContainer');
+  if(!mine.length){ container.className='history-empty'; container.innerHTML='Aucun filleul. Partage <b>'+myLink+'</b>'; }
+  else{
+    container.className=''; container.innerHTML=mine.slice().reverse().map(p=>`<div class="filleul-item"><div><strong>${p.filleulName||'Filleul'}</strong><div style="font-size:10px;color:var(--muted);">${new Date(p.date).toLocaleString('fr-FR')} • ${money(p.amount)}</div></div><div style="text-align:right;"><strong style="color:#32d583;">+${money(p.bonus)}</strong></div></div>`).join('');
+  }
+  syncHidden(all);
+}
+
+function copyCodeAction(){
+  const code=document.getElementById('referralCode').textContent.trim();
+  navigator.clipboard.writeText(code).then(()=>showMessage('✓ Code copié: '+code));
+}
+function copyLinkAction(){
+  const link=document.getElementById('referralLink').value;
+  navigator.clipboard.writeText(link).then(()=>showMessage('✓ Lien copié!'));
+}
+window.shareWhatsApp=function(){
+  const link=document.getElementById('referralLink').value;
+  const msg=`🚀 Rejoins JASON INVEST\nMon lien: ${link}`;
+  window.open('https://wa.me/?text='+encodeURIComponent(msg),'_blank');
+}
+window.shareFacebook=function(){
+  const link=document.getElementById('referralLink').value;
+  window.open('https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(link),'_blank');
+}
+
+document.addEventListener('DOMContentLoaded',()=>{
+  loadParrainage();
+  document.getElementById('copyReferral').addEventListener('click', copyCodeAction);
+  document.getElementById('copyLink').addEventListener('click', copyLinkAction);
+});
+</script>
+</body>
+</html>

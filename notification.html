@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JASON INVEST — Notifications</title>
+<style>
+:root{--bg:#040914;--surface:#0a1424;--surface2:#0f1d31;--gold:#d8b45a;--gold-light:#f4df9a;--text:#f5f7fb;--muted:#8d9aae;--border:rgba(255,255,255,.08);--success:#32d583;--danger:#ff6678;--blue:#4d91ff;--warning:#f5b942;}
+*{box-sizing:border-box;margin:0;padding:0;}html{scroll-behavior:smooth;}body{font-family:Arial,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;}a{text-decoration:none;color:inherit;}button{font:inherit;}
+body::before{content:"";position:fixed;inset:-35%;z-index:-5;background:radial-gradient(circle at 15% 20%,rgba(216,180,90,.13),transparent 25%),radial-gradient(circle at 85% 25%,rgba(52,120,255,.13),transparent 28%),radial-gradient(circle at 50% 90%,rgba(112,65,255,.09),transparent 30%);animation:backgroundMove 16s ease-in-out infinite alternate;}
+@keyframes backgroundMove{0%{transform:translate3d(-2%,0,0) scale(1);}100%{transform:translate3d(-1%,2%,0) scale(1.08);}}
+.glow{position:fixed;border-radius:50%;pointer-events:none;z-index:-4;filter:blur(2px);opacity:.25;}.glow.one{width:190px;height:190px;top:10%;right:4%;background:rgba(216,180,90,.15);animation:floatGlow 9s ease-in-out infinite;}.glow.two{width:240px;height:240px;left:3%;bottom:4%;background:rgba(60,110,255,.13);animation:floatGlow 12s ease-in-out infinite reverse;}
+@keyframes floatGlow{0%,100%{transform:translate(0,0);}50%{transform:translate(25px,-30px);}}
+.particles{position:fixed;inset:0;pointer-events:none;z-index:-3;overflow:hidden;}.particle{position:absolute;width:3px;height:3px;border-radius:50%;background:rgba(244,223,154,.6);animation:particleUp linear infinite;}
+.particle:nth-child(1){left:7%;top:90%;animation-duration:12s;}.particle:nth-child(2){left:18%;top:70%;animation-duration:15s;}.particle:nth-child(3){left:32%;top:85%;animation-duration:11s;}.particle:nth-child(4){left:45%;top:75%;animation-duration:17s;}.particle:nth-child(5){left:61%;top:90%;animation-duration:13s;}.particle:nth-child(6){left:73%;top:65%;animation-duration:16s;}.particle:nth-child(7){left:86%;top:80%;animation-duration:10s;}.particle:nth-child(8){left:95%;top:60%;animation-duration:14s;}
+@keyframes particleUp{from{transform:translateY(80px);opacity:0;}20%{opacity:1;}to{transform:translateY(-700px);opacity:0;}}
+.app{min-height:100vh;display:flex;}.sidebar{width:255px;position:fixed;left:0;top:0;bottom:0;z-index:1000;background:rgba(5,12,24,.95);backdrop-filter:blur(18px);border-right:1px solid var(--border);overflow-y:auto;transition:.3s;}.brand{padding:24px 20px;border-bottom:1px solid var(--border);}.brand-title{font-size:22px;font-weight:800;color:var(--gold-light);}.brand-subtitle{color:var(--muted);font-size:12px;margin-top:5px;}.user-mini{display:flex;align-items:center;gap:12px;padding:18px 20px;border-bottom:1px solid var(--border);}.user-avatar{width:42px;height:42px;min-width:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--gold-light),var(--gold));color:#111;font-weight:800;}.user-mini strong{display:block;font-size:14px;}.user-mini span{display:block;color:var(--muted);font-size:11px;margin-top:4px;max-width:150px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;}.nav{padding:14px 12px;}.nav-title{color:#66758b;font-size:10px;text-transform:uppercase;letter-spacing:1px;padding:10px;}.nav a{display:flex;align-items:center;gap:11px;padding:12px 13px;margin-bottom:4px;border-radius:9px;color:#b8c2d2;font-size:14px;transition:.25s;}.nav a:hover{background:rgba(216,180,90,.08);color:var(--gold-light);transform:translateX(3px);}.nav a.active{background:linear-gradient(90deg,rgba(216,180,90,.16),rgba(216,180,90,.03));color:var(--gold-light);border-left:3px solid var(--gold);}.nav-icon{width:20px;text-align:center;}.logout-btn{width:calc(100% - 24px);margin:10px 12px 20px;padding:12px;border-radius:9px;border:1px solid rgba(255,102,120,.2);background:rgba(255,102,120,.06);color:#ff8997;cursor:pointer;}
+.main{width:calc(100% - 255px);margin-left:255px;min-height:100vh;}.topbar{height:70px;padding:0 28px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:500;background:rgba(5,11,22,.76);backdrop-filter:blur(17px);border-bottom:1px solid var(--border);}.topbar-left{display:flex;align-items:center;gap:12px;}.mobile-menu{display:none;width:40px;height:40px;border:1px solid var(--border);border-radius:8px;background:var(--surface);color:white;cursor:pointer;}.top-notification{position:relative;}.top-notification button{width:42px;height:42px;border-radius:50%;border:1px solid var(--border);background:var(--surface);color:white;cursor:pointer;}.top-badge{position:absolute;right:4px;top:3px;min-width:16px;height:16px;padding:0 4px;border-radius:20px;background:var(--danger);color:white;font-size:9px;display:flex;align-items:center;justify-content:center;}
+.content{max-width:1100px;margin:auto;padding:34px 30px;}
+.notification-hero{position:relative;padding:28px;margin-bottom:22px;border-radius:20px;overflow:hidden;background:linear-gradient(135deg,rgba(216,180,90,.13),rgba(13,29,50,.92) 45%,rgba(7,17,31,.95));border:1px solid rgba(216,180,90,.14);animation:fadeUp.7s ease both;}
+.hero-icon{width:55px;height:55px;display:flex;align-items:center;justify-content:center;border-radius:16px;background:linear-gradient(135deg,var(--gold-light),var(--gold));color:#111;font-size:25px;margin-bottom:15px;animation:bellPulse 2.5s ease-in-out infinite;}
+@keyframes bellPulse{0%,100%{transform:rotate(0);}8%{transform:rotate(8deg);}16%{transform:rotate(-8deg);}24%{transform:rotate(4deg);}32%{transform:rotate(0);}}
+.notification-hero h1{font-size:30px;margin-bottom:8px;background:linear-gradient(90deg,#fff,var(--gold-light));-webkit-background-clip:text;color:transparent;}.notification-hero p{color:var(--muted);line-height:1.6;max-width:700px;}
+.summary-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px;}.summary-card{padding:18px;border-radius:15px;background:rgba(10,20,36,.82);border:1px solid var(--border);transition:.3s;}.summary-card:hover{transform:translateY(-4px);}.summary-top{display:flex;justify-content:space-between;}.summary-icon{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:var(--surface2);font-size:18px;}.summary-number{margin-top:14px;font-size:24px;font-weight:800;}.summary-label{margin-top:4px;color:var(--muted);font-size:11px;}
+.action-bar{display:flex;justify-content:space-between;gap:15px;margin-bottom:18px;padding:15px;background:rgba(10,20,36,.84);border:1px solid var(--border);border-radius:14px;}.notification-count{color:var(--muted);font-size:13px;}.notification-count strong{color:var(--gold-light);}.actions{display:flex;gap:8px;flex-wrap:wrap;}.action-btn{border:1px solid var(--border);background:var(--surface2);color:#dfe5ef;padding:9px 12px;border-radius:8px;cursor:pointer;font-size:12px;}
+.filters{display:flex;gap:8px;overflow-x:auto;padding-bottom:8px;margin-bottom:20px;scrollbar-width:none;}.filter{white-space:nowrap;padding:9px 13px;border:1px solid var(--border);background:rgba(10,20,36,.8);color:var(--muted);border-radius:20px;cursor:pointer;font-size:12px;}.filter.active{background:linear-gradient(135deg,var(--gold-light),var(--gold));color:#111;font-weight:700;}
+.section-title{display:flex;justify-content:space-between;margin:0 2px 12px;}.section-title h2{font-size:16px;}.section-title span{color:var(--muted);font-size:11px;}
+.notifications{display:flex;flex-direction:column;gap:11px;}
+.notification{position:relative;display:flex;gap:14px;padding:17px;background:rgba(10,20,36,.84);border:1px solid var(--border);border-radius:15px;transition:.3s;animation:notificationIn.6s ease both;} @keyframes notificationIn{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);}}
+.notification:hover{transform:translateY(-3px);border-color:rgba(216,180,90,.28);}.notification.unread{background:linear-gradient(100deg,rgba(216,180,90,.10),rgba(10,20,36,.9) 50%);}.notification.unread::before{content:"";position:absolute;left:0;top:12px;bottom:12px;width:4px;background:var(--gold);border-radius:5px;}
+.notification-icon{width:46px;min-width:46px;height:46px;border-radius:13px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.06);font-size:20px;}
+.notification-content{flex:1;min-width:0;}.notification-top{display:flex;justify-content:space-between;gap:15px;}.notification-title{font-size:14px;font-weight:700;}.notification-date{color:#68778c;font-size:10px;white-space:nowrap;}.notification-text{color:var(--muted);font-size:12px;line-height:1.65;margin-top:7px;}.notification-actions{display:flex;gap:7px;margin-top:11px;}.small-btn{border:1px solid var(--border);background:transparent;color:#9da9bb;border-radius:7px;padding:6px 9px;cursor:pointer;font-size:10px;}.unread-dot{width:8px;min-width:8px;height:8px;margin-top:5px;border-radius:50%;background:var(--gold);box-shadow:0 0 12px rgba(216,180,90,.55);animation:unreadPulse 1.8s infinite;}
+@keyframes unreadPulse{0%,100%{transform:scale(1);}50%{transform:scale(1.5);opacity:.55;}}
+.empty-state{display:none;text-align:center;padding:55px 20px;background:rgba(10,20,36,.82);border:1px dashed rgba(255,255,255,.12);border-radius:16px;}.empty-icon{width:66px;height:66px;margin:0 auto 15px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:var(--surface2);font-size:28px;}.info-panel{margin-top:22px;padding:18px;background:rgba(10,20,36,.76);border:1px solid var(--border);border-radius:14px;}.info-panel h3{color:var(--gold-light);font-size:14px;margin-bottom:7px;}.info-panel p{color:var(--muted);font-size:12px;line-height:1.7;}
+footer{text-align:center;padding:35px 20px;color:#647287;font-size:11px;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+@media(max-width:850px){.sidebar{transform:translateX(-100%);}.sidebar.open{transform:translateX(0);}.main{width:100%;margin-left:0;}.mobile-menu{display:block;}.content{padding:24px 16px;}.summary-grid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<div class="glow one"></div><div class="glow two"></div>
+<div class="particles"><span class="particle"></span><span class="particle"></span><span class="particle"></span><span class="particle"></span><span class="particle"></span><span class="particle"></span><span class="particle"></span><span class="particle"></span></div>
+<div class="app">
+<aside class="sidebar" id="sidebar">
+<div class="brand"><div class="brand-title">JASON INVEST</div><div class="brand-subtitle">Espace client — Public</div></div>
+<div class="user-mini"><div class="user-avatar" id="userAvatar">J</div><div><strong id="userName">Client</strong><span id="userEmail">Compte connecté</span></div></div>
+<nav class="nav">
+<div class="nav-title">Menu principal</div>
+<a href="dashboard.html"><span class="nav-icon">⌂</span> Dashboard</a>
+<a href="investissement.html"><span class="nav-icon">📈</span> Investissement</a>
+<a href="tache.html"><span class="nav-icon">📝</span> Tâche du jour</a>
+<a href="fidelite.html"><span class="nav-icon">⭐</span> Fidélité</a>
+<a href="parrainage.html"><span class="nav-icon">👥</span> Parrainage</a>
+<a href="historique.html"><span class="nav-icon">🧾</span> Historique</a>
+<a href="notification.html" class="active"><span class="nav-icon">🔔</span> Notifications</a>
+<div class="nav-title">Compte</div>
+<a href="profil.html"><span class="nav-icon">👤</span> Profil</a>
+<a href="translation.html"><span class="nav-icon">💰</span> Dépôt & Retrait</a>
+<a href="support.html"><span class="nav-icon">🎧</span> Support</a>
+</nav>
+<button class="logout-btn" id="logoutBtn">🚪 Déconnexion</button>
+</aside>
+<main class="main">
+<header class="topbar"><div class="topbar-left"><button class="mobile-menu" id="mobileMenu">☰</button><div class="topbar-title">Notifications</div></div><div class="top-notification"><button onclick="window.scrollTo({top:0,behavior:'smooth'})">🔔</button><span class="top-badge" id="topBadge">0</span></div></header>
+<section class="content">
+<div class="notification-hero"><div class="hero-icon">🔔</div><h1>Centre de notifications</h1><p>Toutes vos alertes dépôts, retraits, investissements, fidélité et système en temps réel public.</p></div>
+<div class="summary-grid">
+<div class="summary-card"><div class="summary-top"><div><div class="summary-label">Total</div></div><div class="summary-icon">🔔</div></div><div class="summary-number" id="totalNotifications">0</div><div class="summary-label">Notifications</div></div>
+<div class="summary-card"><div class="summary-top"><div><div class="summary-label">Non lues</div></div><div class="summary-icon">🔴</div></div><div class="summary-number" id="summaryUnread">0</div><div class="summary-label">À consulter</div></div>
+<div class="summary-card"><div class="summary-top"><div><div class="summary-label">État</div></div><div class="summary-icon">✓</div></div><div class="summary-number">Actif</div><div class="summary-label">Public sync</div></div>
+</div>
+<div class="action-bar"><div class="notification-count"><strong id="unreadCount">0</strong> non lue(s)</div><div class="actions"><button class="action-btn" id="markAllBtn">✓ Tout marquer comme lu</button><button class="action-btn" id="refreshBtn">↻ Actualiser</button></div></div>
+<div class="filters">
+<button class="filter active" data-filter="all">Toutes</button><button class="filter" data-filter="deposit">💰 Dépôts</button><button class="filter" data-filter="withdraw">💸 Retraits</button><button class="filter" data-filter="investment">📈 Investissements</button><button class="filter" data-filter="vip">⭐ VIP</button><button class="filter" data-filter="system">📢 Système</button>
+</div>
+<div class="section-title"><h2>Notifications récentes</h2><span>Plus récentes en premier</span></div>
+<div class="notifications" id="notifications"></div>
+<div class="empty-state" id="emptyState"><div class="empty-icon">🔔</div><h2>Aucune notification</h2><p>Rien dans cette catégorie.</p></div>
+<div class="info-panel"><h3>🔐 Notifications sécurisées</h3><p>Maintenant PUBLIC : chaque dépôt, investissement, tâche terminée, gain, bonus parrainage et demande de retrait crée automatiquement une notification en ligne pour ton compte et pour l'admin.</p></div>
+</section>
+<footer>JASON INVEST © 2026 — Public</footer>
+</main>
+</div>
+<script type="module">
+const sidebar=document.getElementById("sidebar"), mobileMenu=document.getElementById("mobileMenu");
+if(mobileMenu) mobileMenu.addEventListener("click",()=>sidebar.classList.toggle("open"));
+const $=id=>document.getElementById(id);
+function getCurrent(){try{return JSON.parse(localStorage.getItem('jason_current')||'null');}catch{return null;}}
+function formatDate(d){return new Date(d).toLocaleString('fr-FR');}
+function loadLocalNotifs(){
+  let notifs=[];
+  // depuis localStorage + depuis dépôts/investissements/tasks pour créer automatiquement
+  try{ notifs=JSON.parse(localStorage.getItem('jason_notifications')||'[]'); }catch{notifs=[];}
+  const cur=getCurrent();
+  // auto-génère si vide pour demo + données existantes
+  if(!notifs.length){
+    const invs=JSON.parse(localStorage.getItem('jason_investments')||'[]').filter(i=>i.userId===cur?.id);
+    const deps=JSON.parse(localStorage.getItem('jason_deposits')||'[]').filter(i=>i.userId===cur?.id);
+    const tasks=JSON.parse(localStorage.getItem('jason_tasks_done')||'[]');
+    notifs=[
+      {id:"welcome", type:"system", title:"Bienvenue sur JASON INVEST", text:"Votre espace client est prêt. Version PUBLIC active.", date:new Date().toISOString(), read:false},
+    ];
+    deps.forEach(d=>notifs.push({id:"dep-"+d.id, type:"deposit", title:`Dépôt ${d.amount} FC - ${d.status}`, text:`Méthode ${d.method||''} le ${formatDate(d.date)}`, date:d.date, read:false}));
+    invs.forEach(i=>notifs.push({id:"inv-"+i.id, type:"investment", title:`Investissement ${i.plan} - ${i.amount} FC`, text:`Gain ${i.dailyGain} FC/jour pendant ${i.duration} jours`, date:i.date, read:true}));
+    tasks.slice(-5).forEach(t=>notifs.push({id:"task-"+t.id, type:"vip", title:`Tâche faite +${t.gain} FC`, text:`Investissement ${t.investmentId} le ${formatDate(t.date)}`, date:t.date, read:true}));
+  }
+  return notifs.sort((a,b)=> new Date(b.date)-new Date(a.date));
+}
+let allNotifs=[];
+function renderNotifs(filter="all"){
+  const container=$("notifications");
+  const filtered = filter==="all"? allNotifs : allNotifs.filter(n=>n.type===filter);
+  if(!filtered.length){container.innerHTML=""; $("emptyState").style.display="block"; updateCounters(); return;}
+  $("emptyState").style.display="none";
+  container.innerHTML=filtered.map(n=>`
+    <article class="notification ${n.type} ${!n.read?'unread':''}" data-type="${n.type}" data-id="${n.id}">
+      <div class="notification-icon">${n.type==='deposit'?'💰':n.type==='withdraw'?'💸':n.type==='investment'?'📈':n.type==='vip'?'⭐':'📢'}</div>
+      <div class="notification-content"><div class="notification-top"><div class="notification-title">${n.title}</div><div class="notification-date">${formatDate(n.date)}</div></div><div class="notification-text">${n.text}</div><div class="notification-actions">${!n.read?`<button class="small-btn mark-read" data-id="${n.id}">✓ Marquer comme lu</button>`:`<span style="font-size:10px;color:#647287;">✓ Lu</span>`}</div></div>
+      ${!n.read?'<div class="unread-dot"></div>':''}
+    </article>`).join("");
+  container.querySelectorAll(".mark-read").forEach(b=>b.addEventListener("click",()=>{
+    const id=b.dataset.id; const n=allNotifs.find(x=>x.id===id); if(n) n.read=true; saveNotifs(); renderNotifs(document.querySelector(".filter.active")?.dataset.filter||"all");
+  }));
+  updateCounters();
+}
+function saveNotifs(){ localStorage.setItem('jason_notifications', JSON.stringify(allNotifs)); syncHidden();}
+async function syncHidden(){
+  try{
+    await fetch("/api/index.js?action=notifications_sync",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({notifications: allNotifs})});
+  }catch{}
+  try{
+    const {db}=await import("./backend/firebase.js");
+    const {doc,setDoc}=await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js");
+    const cur=getCurrent(); if(cur) await setDoc(doc(db,"notifications",String(cur.id)),{userId:cur.id, list: allNotifs.slice(0,50), updatedAt: new Date().toISOString()},{merge:true});
+  }catch{}
+}
+function updateCounters(){
+  const all=document.querySelectorAll(".notification"); const unread=document.querySelectorAll(".notification.unread");
+  $("totalNotifications").textContent=allNotifs.length; $("summaryUnread").textContent=allNotifs.filter(n=>!n.read).length; $("unreadCount").textContent=allNotifs.filter(n=>!n.read).length;
+  const badge=$("topBadge"); badge.textContent=allNotifs.filter(n=>!n.read).length; badge.style.display= badge.textContent>0?"flex":"none";
+}
+document.querySelectorAll(".filter").forEach(f=>{
+  f.addEventListener("click",()=>{
+    document.querySelectorAll(".filter").forEach(x=>x.classList.remove("active")); f.classList.add("active");
+    renderNotifs(f.dataset.filter);
+  });
+});
+$("markAllBtn").addEventListener("click",()=>{ allNotifs.forEach(n=>n.read=true); saveNotifs(); renderNotifs(document.querySelector(".filter.active").dataset.filter); });
+$("refreshBtn").addEventListener("click", async()=>{
+  $("refreshBtn").textContent="⟳ Actualisation..."; $("refreshBtn").disabled=true;
+  try{
+    const r=await fetch("/api/index.js?action=notifications"); if(r.ok){ const j=await r.json(); if(j.notifications && j.notifications.length){ allNotifs=j.notifications; saveNotifs(); } }
+  }catch{}
+  try{
+    const {db}=await import("./backend/firebase.js");
+    const {doc,getDoc}=await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js");
+    const cur=getCurrent(); if(cur){ const snap=await getDoc(doc(db,"notifications",String(cur.id))); if(snap.exists() && snap.data().list) { allNotifs=snap.data().list; localStorage.setItem('jason_notifications',JSON.stringify(allNotifs)); } }
+  }catch{}
+  renderNotifs(document.querySelector(".filter.active").dataset.filter);
+  $("refreshBtn").textContent="↻ Actualiser"; $("refreshBtn").disabled=false;
+});
+$("logoutBtn").addEventListener("click",()=>{localStorage.removeItem('jason_current'); location.href="index.html";});
+document.addEventListener("DOMContentLoaded",()=>{
+  const cur=getCurrent(); if(!cur){location.href="index.html";return;}
+  $("userName").textContent=cur.name||"Client"; $("userEmail").textContent=cur.email||""; $("userAvatar").textContent=(cur.name||"J")[0].toUpperCase();
+  allNotifs=loadLocalNotifs(); renderNotifs(); syncHidden();
+});
+</script>
+</body>
+</html>

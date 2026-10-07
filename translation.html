@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JASON INVEST — Dépôt & Retrait</title>
+<style>
+html,body{margin:0!important;padding:0!important;border:0!important;}
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{--bg:#050b16;--surface:#0b1424;--surface-2:#101d31;--gold:#d8b45a;--gold-light:#f1d98b;--text:#f5f7fb;--muted:#8e9aae;--border:rgba(255,255,255,.08);--success:#32d583;--danger:#ff6678;--warning:#f5b942;--blue:#438cff;}
+body{font-family:Arial,Helvetica,sans-serif;background:radial-gradient(circle at top right,rgba(216,180,90,.08),transparent 30%),var(--bg);color:var(--text);min-height:100vh;}
+button,input,select,textarea{font:inherit;}
+a{color:inherit;text-decoration:none;}
+.app{min-height:100vh;}
+.sidebar{width:255px;background:#07101d;border-right:1px solid var(--border);min-height:100vh;position:fixed;left:0;top:0;bottom:0;z-index:1000;overflow-y:auto;transition:.25s;}
+.brand{padding:24px 20px;border-bottom:1px solid var(--border);}
+.brand-title{color:var(--gold-light);font-size:22px;font-weight:800;letter-spacing:.5px;}
+.brand-subtitle{color:var(--muted);font-size:12px;margin-top:5px;}
+.user-mini{padding:18px 20px;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--border);}
+.user-avatar{width:42px;height:42px;flex-shrink:0;border-radius:50%;background:linear-gradient(135deg,var(--gold),#8f6d23);display:flex;align-items:center;justify-content:center;color:#111;font-weight:800;}
+.user-mini strong{display:block;font-size:14px;}
+.user-mini span{display:block;margin-top:3px;color:var(--muted);font-size:11px;}
+.nav{padding:14px 12px;}
+.nav-title{color:#66758b;font-size:10px;text-transform:uppercase;letter-spacing:1px;padding:10px 10px 8px;}
+.nav a{display:flex;align-items:center;gap:11px;padding:12px 13px;border-radius:9px;color:#b8c2d2;font-size:14px;margin-bottom:4px;transition:.2s;}
+.nav a:hover{background:rgba(216,180,90,.08);color:var(--gold-light);}
+.nav a.active{background:rgba(216,180,90,.13);color:var(--gold-light);border-left:3px solid var(--gold);}
+.nav-icon{width:20px;text-align:center;}
+.logout-btn{width:calc(100% - 24px);margin:10px 12px 20px;padding:12px;border:1px solid rgba(255,102,120,.2);border-radius:9px;background:rgba(255,102,120,.06);color:#ff8997;cursor:pointer;}
+.main{width:calc(100% - 255px);margin-left:255px;margin-top:0!important;min-height:100vh;}
+.topbar{height:60px;margin:0!important;padding:0 25px!important;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);background:rgba(5,11,22,.97);position:relative;top:0;z-index:500;}
+.topbar-left{display:flex;align-items:center;gap:10px;}
+.mobile-menu,.back-button{width:40px;height:40px;border:1px solid var(--border);border-radius:9px;background:var(--surface);color:white;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.2s;}
+.mobile-menu{display:none;}
+.back-button{font-size:21px;}
+.mobile-menu:hover,.back-button:hover{border-color:var(--gold);color:var(--gold-light);}
+.topbar-title{font-weight:700;font-size:16px;}
+.notification-btn{width:42px;height:42px;border:1px solid var(--border);border-radius:50%;background:var(--surface);color:white;cursor:pointer;position:relative;}
+.notification-dot{position:absolute;width:8px;height:8px;background:var(--danger);border-radius:50%;top:7px;right:7px;}
+.content{padding:30px!important;max-width:1100px;margin:0 auto!important;}
+.page-header{margin:0 0 25px 0!important;}
+.page-header h1{font-size:28px;margin-bottom:8px;}
+.page-header p{color:var(--muted);line-height:1.6;}
+.balance-card{background:radial-gradient(circle at top right,rgba(216,180,90,.15),transparent 35%),var(--surface);border:1px solid var(--border);border-radius:16px;padding:22px;margin:0 0 25px 0!important;}
+.balance-label{color:var(--muted);font-size:13px;}
+.balance-value{margin-top:7px;font-size:28px;font-weight:800;color:var(--gold-light);}
+.balance-note{color:var(--muted);font-size:12px;margin-top:6px;}
+.tabs{display:grid;grid-template-columns:1fr 1fr;background:var(--surface);border:1px solid var(--border);padding:5px;border-radius:12px;margin:0 0 24px 0!important;}
+.tab{border:none;padding:13px;border-radius:9px;background:transparent;color:var(--muted);cursor:pointer;font-weight:700;}
+.tab.active{background:var(--gold);color:#101010;}
+.message{display:none;padding:12px 14px;border-radius:10px;margin:0 0 18px 0!important;font-size:13px;}
+.message.show{display:block;}
+.message.success{background:rgba(50,213,131,.08);color:var(--success);border:1px solid rgba(50,213,131,.15);}
+.message.error{background:rgba(255,102,120,.08);color:#ff8997;border:1px solid rgba(255,102,120,.15);}
+.message.info{background:rgba(67,140,255,.08);color:#83b2ff;border:1px solid rgba(67,140,255,.15);}
+.panel{display:none;background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:24px;}
+.panel.active{display:block;}
+.panel-header{margin:0 0 22px 0!important;}
+.panel-header h2{font-size:20px;margin-bottom:6px;}
+.panel-header p{color:var(--muted);font-size:13px;line-height:1.6;}
+.method-title{font-size:13px;margin-bottom:12px;color:#dfe5ef;}
+.methods{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:0 0 22px 0!important;}
+.method{position:relative;border:1px solid var(--border);background:var(--surface-2);border-radius:12px;padding:15px;cursor:pointer;transition:.2s;}
+.method:hover{border-color:rgba(216,180,90,.5);}
+.method.selected{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold);}
+.method.disabled{opacity:.55;cursor:not-allowed;}
+.method-icon{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.06);margin:0 0 10px 0!important;font-size:20px;}
+.method-name{font-weight:700;font-size:14px;}
+.method-number{color:var(--muted);font-size:11px;margin-top:5px;word-break:break-word;}
+.method-status{display:inline-block;margin-top:8px;padding:4px 7px;border-radius:20px;font-size:10px;font-weight:700;}
+.available{color:var(--success);background:rgba(50,213,131,.08);}
+.unavailable{color:var(--danger);background:rgba(255,102,120,.08);}
+.method-check{display:none;position:absolute;right:10px;top:10px;color:var(--gold);}
+.method.selected .method-check{display:block;}
+.other-methods{margin:0 0 22px 0!important;padding:17px;border-radius:12px;border:1px dashed rgba(216,180,90,.25);background:rgba(216,180,90,.035);}
+.other-methods h3{font-size:14px;margin-bottom:7px;}
+.other-methods p{color:var(--muted);font-size:12px;line-height:1.6;}
+#dynamicMethods{margin-top:13px;display:grid;grid-template-columns:repeat(2,1fr);gap:10px;}
+.dynamic-method{padding:12px;border-radius:10px;background:var(--surface-2);border:1px solid var(--border);}
+.dynamic-method strong{display:block;font-size:13px;}
+.dynamic-method span{color:var(--muted);font-size:11px;display:block;margin-top:4px;}
+.form-group{margin:0 0 18px 0!important;}
+.form-group label{display:block;font-size:13px;font-weight:600;margin-bottom:8px;color:#dfe5ef;}
+.input,select,textarea{width:100%;background:#081221;border:1px solid var(--border);border-radius:10px;color:white;padding:13px 14px;outline:none;}
+.input:focus,select:focus,textarea:focus{border-color:rgba(216,180,90,.65);box-shadow:0 0 0 3px rgba(216,180,90,.06);}
+textarea{min-height:100px;resize:vertical;}
+.input-help{color:var(--muted);font-size:11px;margin-top:6px;}
+.submit-btn{width:100%;border:none;border-radius:10px;padding:14px;background:linear-gradient(135deg,var(--gold-light),var(--gold));color:#101010;font-weight:800;cursor:pointer;transition:.2s;}
+.submit-btn:hover{transform:translateY(-1px);}
+.submit-btn:disabled{opacity:.55;cursor:not-allowed;transform:none;}
+.info-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin:22px 0 0 0!important;}
+.info-box{background:var(--surface-2);border:1px solid var(--border);border-radius:12px;padding:16px;}
+.info-box strong{display:block;margin-bottom:7px;font-size:13px;}
+.info-box p{color:var(--muted);font-size:12px;line-height:1.6;}
+footer{text-align:center;padding:35px 20px!important;color:#647287;font-size:11px;}
+@media(max-width:850px){.sidebar{transform:translateX(-100%);}.sidebar.open{transform:translateX(0);}.main{width:100%;margin-left:0!important;}.mobile-menu{display:flex;align-items:center;justify-content:center;}.methods{grid-template-columns:1fr;}.info-grid{grid-template-columns:1fr;}#dynamicMethods{grid-template-columns:1fr;}}
+@media(max-width:550px){.content{padding:20px 15px!important;}.topbar{padding:0 15px!important;}.page-header h1{font-size:23px;}.panel{padding:18px;}.balance-value{font-size:24px;}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="sidebar" id="sidebar">
+    <div class="brand"><div class="brand-title">JASON INVEST</div><div class="brand-subtitle">Espace client</div></div>
+    <div class="user-mini"><div class="user-avatar" id="userAvatar">J</div><div><strong id="userName">Client</strong><span id="userEmail">Compte connecté</span></div></div>
+    <nav class="nav">
+        <div class="nav-title">Menu principal</div>
+        <a href="dashboard.html"><span class="nav-icon">⌂</span> Dashboard</a>
+        <a href="investissement.html"><span class="nav-icon">📈</span> Investissement</a>
+        <a href="tache.html"><span class="nav-icon">📝</span> Tâches</a>
+        <a href="activites.html"><span class="nav-icon">📢</span> Activités</a>
+        <a href="fidelite.html"><span class="nav-icon">⭐</span> Fidélité</a>
+        <a href="parrainage.html"><span class="nav-icon">👥</span> Parrainage</a>
+        <a href="historique.html"><span class="nav-icon">🧾</span> Historique</a>
+        <a href="notification.html"><span class="nav-icon">🔔</span> Notifications</a>
+        <div class="nav-title">Compte</div>
+        <a href="profil.html"><span class="nav-icon">👤</span> Profil</a>
+        <a href="translation.html" class="active"><span class="nav-icon">💰</span> Dépôt & Retrait</a>
+        <a href="support.html"><span class="nav-icon">🎧</span> Support</a>
+    </nav>
+    <button class="logout-btn" id="logoutBtn">🚪 Déconnexion</button>
+</aside>
+<main class="main">
+    <header class="topbar">
+        <div class="topbar-left">
+            <button class="mobile-menu" id="mobileMenu" type="button" aria-label="Menu">☰</button>
+            <button class="back-button" id="backButton" type="button" aria-label="Retour">←</button>
+            <div class="topbar-title">Dépôt & Retrait</div>
+        </div>
+        <button class="notification-btn" type="button" onclick="window.location.href='notification.html'">🔔<span class="notification-dot"></span></button>
+    </header>
+    <section class="content">
+        <div class="page-header"><h1>Dépôt & Retrait</h1><p>Effectuez un dépôt ou demandez un retrait depuis votre espace client.</p></div>
+        <div class="balance-card"><div class="balance-label">Solde disponible</div><div class="balance-value" id="balance">0 FC</div><div class="balance-note">Solde actualisé après validation de vos opérations.</div></div>
+        <div class="tabs"><button class="tab active" id="depositTab" onclick="switchTab('deposit')" type="button">💰 Dépôt</button><button class="tab" id="withdrawTab" onclick="switchTab('withdraw')" type="button">💸 Retrait</button></div>
+        <div class="message" id="message"></div>
+        <section class="panel active" id="depositPanel">
+            <div class="panel-header"><h2>Effectuer un dépôt</h2><p>Choisissez un moyen de paiement disponible puis indiquez le montant.</p></div>
+            <div class="method-title">Moyen de paiement</div>
+            <div class="methods" id="depositMethods">
+                <div class="method selected" data-method="Orange Money" data-number="+243847500590" onclick="selectMethod(this)"><span class="method-check">✓</span><div class="method-icon">🟠</div><div class="method-name">Orange Money</div><div class="method-number">+243 847 500 590</div><span class="method-status available">Disponible</span></div>
+                <div class="method" data-method="Airtel Money" data-number="+243..." onclick="selectMethod(this)"><span class="method-check">✓</span><div class="method-icon">🔴</div><div class="method-name">Airtel Money</div><div class="method-number" id="airtelNumber">Non configuré</div><span class="method-status available">Disponible</span></div>
+                <div class="method" data-method="M-Pesa" data-number="+243..." onclick="selectMethod(this)"><span class="method-check">✓</span><div class="method-icon">🟢</div><div class="method-name">M-Pesa</div><div class="method-number" id="mpesaNumber">Non configuré</div><span class="method-status available">Disponible</span></div>
+            </div>
+            <div class="other-methods"><h3>➕ Autres moyens ajoutés par l'admin</h3><p>Ces moyens viennent de admin.html > Moyens de paiement</p><div id="dynamicMethods"></div></div>
+            <form id="depositForm">
+                <div class="form-group"><label for="depositAmount">Montant du dépôt</label><input class="input" type="number" id="depositAmount" min="20000" step="100" placeholder="Exemple : 20000 minimum" required><div class="input-help">Montant minimum : 20000 FC</div></div>
+                <div class="form-group"><label for="depositPhone">Numéro utilisé pour le paiement</label><input class="input" type="tel" id="depositPhone" placeholder="+243..." required></div>
+                <div class="form-group"><label for="depositReference">Référence de transaction</label><input class="input" type="text" id="depositReference" placeholder="Exemple : TXN123456" required><div class="input-help">Indiquez la référence reçue après votre paiement.</div></div>
+                <div class="form-group"><label for="depositNote">Note supplémentaire</label><textarea id="depositNote" placeholder="Information facultative..."></textarea></div>
+                <button class="submit-btn" type="submit">Envoyer la demande de dépôt</button>
+            </form>
+        </section>
+        <section class="panel" id="withdrawPanel">
+            <div class="panel-header"><h2>Demander un retrait</h2><p>Choisissez un moyen disponible et indiquez le montant.</p></div>
+            <div class="form-group"><label for="withdrawMethod">Moyen de retrait</label><select id="withdrawMethod"><option value="">Sélectionner</option><option value="Orange Money">Orange Money</option><option value="Airtel Money">Airtel Money</option><option value="M-Pesa">M-Pesa</option></select></div>
+            <div class="form-group"><label for="withdrawAmount">Montant du retrait</label><input class="input" type="number" id="withdrawAmount" min="10000" step="100" placeholder="Exemple : 10000"><div class="input-help">Montant minimum : 10 000 FC</div></div>
+            <div class="form-group"><label for="withdrawPhone">Numéro de réception</label><input class="input" type="tel" id="withdrawPhone" placeholder="+243..."></div>
+            <div class="form-group"><label for="withdrawNote">Note</label><textarea id="withdrawNote" placeholder="Information facultative..."></textarea></div>
+            <button class="submit-btn" id="withdrawBtn" type="button">Envoyer la demande de retrait</button>
+            <div class="info-grid"><div class="info-box"><strong>⏳ Validation</strong><p>Les demandes peuvent nécessiter une validation administrative avant traitement.</p></div><div class="info-box"><strong>🔐 Sécurité</strong><p>Vérifiez toujours le numéro de réception avant de confirmer.</p></div></div>
+        </section>
+        <div class="info-grid"><div class="info-box"><strong>💡 Dépôt</strong><p>Après votre paiement, indiquez la référence exacte pour vérification.</p></div><div class="info-box"><strong>💡 Retrait</strong><p>Le retrait dépend du solde disponible et des règles admin.</p></div></div>
+    </section>
+    <footer>JASON INVEST © 2026 — Espace client</footer>
+</main>
+</div>
+<script>
+const isFile = location.protocol === 'file:';
+document.getElementById("backButton").addEventListener("click",()=>{location.href="dashboard.html";});
+const mobileMenu=document.getElementById("mobileMenu"); const sidebar=document.getElementById("sidebar");
+if(mobileMenu){mobileMenu.addEventListener("click",()=>{sidebar.classList.toggle("open");});}
+function switchTab(tab){
+  const depositTab=document.getElementById("depositTab"); const withdrawTab=document.getElementById("withdrawTab");
+  const depositPanel=document.getElementById("depositPanel"); const withdrawPanel=document.getElementById("withdrawPanel");
+  if(tab==='deposit'){depositTab.classList.add("active");withdrawTab.classList.remove("active");depositPanel.classList.add("active");withdrawPanel.classList.remove("active");}
+  else{withdrawTab.classList.add("active");depositTab.classList.remove("active");withdrawPanel.classList.add("active");depositPanel.classList.remove("active");}
+}
+let selectedDepositMethod="Orange Money";
+function selectMethod(el){
+  if(el.classList.contains("disabled")){showMessage("Moyen indisponible","error");return;}
+  document.querySelectorAll(".method").forEach(i=>i.classList.remove("selected"));
+  el.classList.add("selected");
+  selectedDepositMethod=el.dataset.method||"Orange Money";
+}
+function showMessage(text,type){
+  const m=document.getElementById("message"); m.textContent=text; m.className="message show "+type;
+  setTimeout(()=>{m.className="message";},6000);
+}
+function getCurrent(){ try{return JSON.parse(localStorage.getItem('jason_current')||'null');}catch{return null;} }
+function getUsers(){return JSON.parse(localStorage.getItem('jason_users')||'[]');}
+function saveUsers(u){localStorage.setItem('jason_users',JSON.stringify(u));}
+
+document.getElementById("depositForm").addEventListener("submit",function(e){
+  e.preventDefault();
+  const amount=Number(document.getElementById("depositAmount").value);
+  const phone=document.getElementById("depositPhone").value.trim();
+  const reference=document.getElementById("depositReference").value.trim();
+  const note=document.getElementById("depositNote").value.trim();
+  if(amount<20000){showMessage("Minimum 20 000 FC","error");return;}
+  if(!phone||!reference){showMessage("Remplis toutes les infos","error");return;}
+  const current=getCurrent();
+  if(!current){location.href="index.html";return;}
+  const deposits=JSON.parse(localStorage.getItem('jason_deposits')||'[]');
+  deposits.push({id:Date.now(),userId:current.id,name:current.name,amount,method:selectedDepositMethod,phone,reference,note,date:new Date().toISOString(),status:"pending"});
+  localStorage.setItem('jason_deposits',JSON.stringify(deposits));
+  showMessage("Demande de dépôt envoyée - en attente validation admin","success");
+  this.reset();
+});
+
+document.getElementById("withdrawBtn").addEventListener("click",function(){
+  const method=document.getElementById("withdrawMethod").value;
+  const amount=Number(document.getElementById("withdrawAmount").value);
+  const phone=document.getElementById("withdrawPhone").value.trim();
+  const note=document.getElementById("withdrawNote").value.trim();
+  if(!method){showMessage("Sélectionne un moyen","error");return;}
+  if(amount<10000){showMessage("Minimum 10 000 FC","error");return;}
+  if(!phone){showMessage("Numéro de réception requis","error");return;}
+  const current=getCurrent();
+  if(!current){location.href="index.html";return;}
+  if((current.solde||0)<amount){showMessage("Solde insuffisant","error");return;}
+  const withdrawals=JSON.parse(localStorage.getItem('jason_withdrawals')||'[]');
+  withdrawals.push({id:Date.now(),userId:current.id,name:current.name,amount,method,phone,note,date:new Date().toISOString(),status:"pending"});
+  localStorage.setItem('jason_withdrawals',JSON.stringify(withdrawals));
+  showMessage("Demande de retrait envoyée - en attente","success");
+  document.getElementById("withdrawAmount").value=""; document.getElementById("withdrawPhone").value=""; document.getElementById("withdrawNote").value="";
+});
+
+function loadUser(){
+  const user=getCurrent();
+  if(!user){location.href="index.html";return;}
+  const name=user.name||"Client"; const email=user.email||"Compte connecté";
+  document.getElementById("userName").textContent=name;
+  document.getElementById("userEmail").textContent=email;
+  document.getElementById("userAvatar").textContent=name.trim().charAt(0).toUpperCase();
+  document.getElementById("balance").textContent=Number(user.solde||0).toLocaleString("fr-FR")+" FC";
+}
+function loadPaymentMethods(){
+  const methods=JSON.parse(localStorage.getItem('jason_payments')||'[]');
+  const container=document.getElementById("dynamicMethods");
+  if(!methods.length){container.innerHTML='<div style="color:#8e9aae;font-size:12px;">Aucun moyen ajouté par admin.</div>'; return;}
+  container.innerHTML=methods.map(m=>`<div class="dynamic-method"><strong>${m.name}</strong><span>${m.number} • ${m.type}</span></div>`).join("");
+  methods.forEach(m=>{
+    if(m.name.toLowerCase().includes('airtel')) document.getElementById('airtelNumber').textContent=m.number;
+    if(m.name.toLowerCase().includes('m-pesa')||m.name.toLowerCase().includes('mpesa')) document.getElementById('mpesaNumber').textContent=m.number;
+  });
+}
+document.getElementById("logoutBtn").addEventListener("click",()=>{localStorage.removeItem('jason_current'); location.href="index.html";});
+loadUser();
+loadPaymentMethods();
+</script>
+</body>
+</html>

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JASON INVEST — Tableau de bord</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}html{scroll-behavior:smooth;}
+body{font-family:Arial,Helvetica,sans-serif;background:#050b14;color:#fff;min-height:100vh;overflow-x:hidden;}
+body::before{content:"";position:fixed;width:500px;height:500px;top:-180px;left:-180px;border-radius:50%;background:radial-gradient(circle,rgba(216,170,69,.16),transparent 70%);filter:blur(20px);pointer-events:none;z-index:-2;}
+body::after{content:"";position:fixed;width:550px;height:550px;right:-220px;bottom:-220px;border-radius:50%;background:radial-gradient(circle,rgba(52,126,255,.14),transparent 70%);filter:blur(20px);pointer-events:none;z-index:-2;}
+.sidebar{position:fixed;top:0;left:0;bottom:0;width:270px;background:rgba(11,24,41,.94);backdrop-filter:blur(18px);border-right:1px solid rgba(255,255,255,.08);z-index:2000;overflow-y:auto;transform:translateX(-100%);transition:transform.35s ease;}
+.sidebar.open{transform:translateX(0);}
+.logo{padding:25px 22px;font-size:25px;font-weight:900;border-bottom:1px solid rgba(255,255,255,.08);}.logo span{color:#d8aa45;}
+.user-mini{padding:20px;border-bottom:1px solid rgba(255,255,255,.08);}.user-mini-top{display:flex;align-items:center;gap:12px;}
+.avatar{width:44px;height:44px;border-radius:50%;background:#d8aa45;color:#07111f;display:flex;align-items:center;justify-content:center;font-weight:900;}
+.user-mini-name{font-size:15px;font-weight:700;margin-bottom:4px;}.user-mini-email{font-size:12px;color:#8fa1b7;}
+.nav-title{padding:20px 20px 10px;color:#70839b;font-size:11px;text-transform:uppercase;letter-spacing:1px;font-weight:700;}
+.nav{padding:0 12px;}.nav button{width:100%;border:0;background:transparent;color:#c8d2df;padding:14px 15px;border-radius:10px;margin-bottom:5px;text-align:left;font-size:14px;cursor:pointer;transition:.25s;}
+.nav button:hover{background:#12253d;color:#fff;transform:translateX(3px);}.nav button.active{background:linear-gradient(90deg,rgba(216,170,69,.17),rgba(216,170,69,.05));color:#d8aa45;font-weight:700;box-shadow:inset 3px 0 #d8aa45;}
+.nav button.logout{color:#ff7777;}
+.menu-overlay{position:fixed;inset:0;background:rgba(0,0,0,.68);z-index:1500;display:none;}.menu-overlay.show{display:block;}
+.main{min-height:100vh;margin-left:0;}.topbar{height:70px;background:rgba(11,24,41,.82);backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,.08);display:flex;align-items:center;justify-content:space-between;padding:0 20px;position:sticky;top:0;z-index:1000;}
+.topbar-left{display:flex;align-items:center;gap:14px;}.mobile-menu{width:44px;height:44px;border:1px solid rgba(255,255,255,.12);background:#12253d;color:#fff;border-radius:10px;font-size:25px;cursor:pointer;}
+.topbar-title{font-size:18px;font-weight:700;}.topbar-right{display:flex;align-items:center;gap:12px;}.topbar-btn{width:42px;height:42px;border:1px solid rgba(255,255,255,.10);background:#12253d;color:#fff;border-radius:10px;cursor:pointer;font-size:18px;}
+.content{padding:25px;max-width:1400px;margin:auto;}.welcome{margin-bottom:25px;}.welcome h1{font-size:27px;margin-bottom:8px;}.welcome h1 span{color:#d8aa45;}.welcome p{color:#8fa1b7;font-size:14px;}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:20px;}.stat-card{background:rgba(11,24,41,.88);border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:20px;transition:.3s;}
+.stat-card:hover{transform:translateY(-5px);border-color:rgba(216,170,69,.25);}.stat-title{color:#8294aa;font-size:11px;font-weight:700;margin-bottom:12px;}.stat-value{font-size:23px;font-weight:900;margin-bottom:8px;}.stat-value.gold{color:#d8aa45;}.stat-value.blue{color:#54a8ff;}.stat-sub{color:#70839b;font-size:12px;}
+.investment-action{background:linear-gradient(135deg,rgba(16,36,60,.95),rgba(12,25,43,.95));border:1px solid rgba(216,170,69,.25);border-radius:14px;padding:22px;display:flex;justify-content:space-between;align-items:center;gap:20px;margin-bottom:20px;}
+.investment-button{background:#d8aa45;color:#07111f;text-decoration:none;padding:12px 18px;border-radius:9px;font-size:13px;font-weight:800;}
+.dashboard-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;}.panel{background:rgba(11,24,41,.88);border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:20px;}
+.panel-title{font-size:16px;font-weight:800;margin-bottom:18px;}.activity-empty{color:#70839b;font-size:13px;padding:25px 0;text-align:center;}
+.task-dashboard-card{background:linear-gradient(135deg,#122842,#0d1b2d);border:1px solid rgba(216,170,69,.22);border-radius:13px;padding:18px;display:flex;gap:15px;}
+.task-dashboard-icon{width:48px;height:48px;border-radius:12px;background:rgba(216,170,69,.12);display:flex;align-items:center;justify-content:center;font-size:23px;}
+.task-dashboard-content{flex:1;}.task-dashboard-status{display:inline-block;padding:5px 9px;border-radius:20px;background:rgba(216,170,69,.10);color:#d8aa45;font-size:10px;font-weight:800;margin-bottom:9px;}
+.task-dashboard-content h3{font-size:16px;margin-bottom:6px;}.task-dashboard-content p{color:#8294aa;font-size:12px;margin-bottom:15px;}.task-dashboard-info{display:flex;gap:25px;margin-bottom:15px;}.task-dashboard-info span{color:#70839b;font-size:10px;}.task-dashboard-info strong{color:#fff;font-size:14px;} #taskGain{color:#d8aa45;}
+.task-dashboard-button{display:block;width:100%;padding:11px;background:#d8aa45;color:#07111f;text-align:center;text-decoration:none;border-radius:8px;font-size:12px;font-weight:900;}
+.quick-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;}.quick-action{border:1px solid rgba(255,255,255,.07);background:#101f34;color:#fff;border-radius:11px;padding:13px;display:flex;align-items:center;gap:10px;cursor:pointer;}
+.vip-card{background:linear-gradient(135deg,#172d47,#0d1c30);border-radius:12px;padding:20px;text-align:center;}.vip-label{color:#8294aa;font-size:11px;margin-bottom:8px;}.vip-level{color:#d8aa45;font-size:27px;font-weight:900;margin-bottom:18px;}.vip-button{width:100%;border:0;background:#d8aa45;color:#07111f;padding:12px;border-radius:9px;font-weight:800;cursor:pointer;}
+.account-list{display:flex;flex-direction:column;}.account-row{display:flex;justify-content:space-between;padding:13px 0;border-bottom:1px solid rgba(255,255,255,.06);}.account-label{color:#70839b;font-size:13px;}.account-value{color:#fff;font-size:13px;}
+.message{display:none;padding:13px;margin-bottom:18px;border-radius:10px;background:rgba(255,70,70,.10);border:1px solid rgba(255,70,70,.20);color:#ff9292;}.message.show{display:block;}
+.footer{text-align:center;color:#506278;font-size:11px;padding:30px 10px;}
+@media (min-width:1100px){.sidebar{transform:translateX(0);}.main{margin-left:270px;}.menu-overlay{display:none!important;}.mobile-menu{display:none;}}
+@media (max-width:900px){.stats{grid-template-columns:repeat(2,1fr);}.dashboard-grid{grid-template-columns:1fr;}}
+@media (max-width:600px){.stats{grid-template-columns:1fr;}.investment-action{flex-direction:column;align-items:flex-start;}}
+</style>
+</head>
+<body>
+<div class="menu-overlay" id="menuOverlay"></div>
+<aside class="sidebar" id="sidebar">
+  <div class="logo">JASON<span> INVEST</span></div>
+  <div class="user-mini"><div class="user-mini-top"><div class="avatar" id="userAvatar">U</div><div><div class="user-mini-name" id="sidebarUserName">Utilisateur</div><div class="user-mini-email" id="sidebarUserEmail">—</div></div></div></div>
+  <div class="nav-title">Menu principal</div>
+  <nav class="nav">
+    <button class="active" data-page="dashboard">🏠 &nbsp; Tableau de bord</button>
+    <button data-page="investissement">📈 &nbsp; Investissements</button>
+    <button data-page="tache">📝 &nbsp; Tâches quotidiennes</button>
+    <button data-page="activites">📊 &nbsp; Mes activités</button>
+    <button data-page="fidelite">⭐ &nbsp; Fidélité</button>
+    <button data-page="vip">👑 &nbsp; VIP</button>
+    <button data-page="parrainage">👥 &nbsp; Parrainage</button>
+    <button data-page="historique">🧾 &nbsp; Historique</button>
+    <button data-page="support">💬 &nbsp; Support</button>
+    <button data-page="notification">🔔 &nbsp; Notifications</button>
+  </nav>
+  <div class="nav-title">Compte</div>
+  <nav class="nav"><button data-page="profil">👤 &nbsp; Mon profil</button><button class="logout" id="logoutButton">🚪 &nbsp; Déconnexion</button></nav>
+</aside>
+<main class="main">
+  <header class="topbar"><div class="topbar-left"><button class="mobile-menu" id="menuToggle">☰</button><div class="topbar-title">Tableau de bord</div></div><div class="topbar-right"><button class="topbar-btn" id="notificationButton">🔔</button><div class="avatar" id="topAvatar">U</div></div></header>
+  <section class="content">
+    <div class="message" id="message"></div>
+    <div class="welcome"><h1>Bonjour, <span id="welcomeName">Utilisateur</span> 👋</h1><p>Bienvenue sur votre espace personnel JASON INVEST.</p></div>
+    <div class="stats">
+      <div class="stat-card"><div class="stat-title">SOLDE DISPONIBLE</div><div class="stat-value gold" id="balance">0 FC</div><div class="stat-sub">Solde actuel du compte</div></div>
+      <div class="stat-card"><div class="stat-title">INVESTISSEMENTS</div><div class="stat-value blue" id="investment">0 FC</div><div class="stat-sub">Montant investi</div></div>
+      <div class="stat-card"><div class="stat-title">POINTS FIDÉLITÉ</div><div class="stat-value" id="points">0</div><div class="stat-sub">Points disponibles</div></div>
+      <div class="stat-card"><div class="stat-title">STATUT VIP</div><div class="stat-value gold" id="vipLevel">Aucun</div><div class="stat-sub">Niveau actuel</div></div>
+    </div>
+    <div class="investment-action"><div><h3>📈 Investissement</h3><p>Consultez les plans disponibles et choisissez votre investissement.</p></div><a href="investissement.html" class="investment-button">Voir les investissements</a></div>
+    <div class="dashboard-grid">
+      <div class="panel"><div class="panel-title">📝 Tâche du jour</div><div class="task-dashboard-card"><div class="task-dashboard-icon">⏱️</div><div class="task-dashboard-content"><div class="task-dashboard-status" id="taskStatus">À faire</div><h3 id="taskTitle">Chargement...</h3><p id="taskDescription">Complétez votre tâche quotidienne</p><div class="task-dashboard-info"><div><span>Gain prévu</span><strong id="taskGain">0 FC</strong></div><div><span>Durée</span><strong>5 min</strong></div></div><a href="tache.html" class="task-dashboard-button">📝 Ouvrir ma tâche</a></div></div></div>
+      <div class="panel"><div class="panel-title">Actions rapides</div><div class="quick-actions"><button class="quick-action" data-action="deposit"><div>💰</div><div><strong>Dépôt</strong></div></button><button class="quick-action" data-action="withdraw"><div>💸</div><div><strong>Retrait</strong></div></button><button class="quick-action" data-action="investment"><div>📈</div><div><strong>Investissement</strong></div></button><button class="quick-action" data-action="tache"><div>📝</div><div><strong>Tâche du jour</strong></div></button></div></div>
+      <div class="panel"><div class="panel-title">Activités récentes</div><div class="activity-empty" id="recentActivity">Aucune activité récente à afficher.</div></div>
+      <div class="panel"><div class="panel-title">Mon statut VIP</div><div class="vip-card"><div class="vip-label">NIVEAU ACTUEL</div><div class="vip-level" id="vipCardLevel">Aucun</div><button class="vip-button" id="vipButton">Voir les niveaux VIP</button></div></div>
+      <div class="panel"><div class="panel-title">Informations du compte</div><div class="account-list"><div class="account-row"><span class="account-label">Nom</span><span class="account-value" id="accountName">—</span></div><div class="account-row"><span class="account-label">E-mail</span><span class="account-value" id="accountEmail">—</span></div><div class="account-row"><span class="account-label">Téléphone</span><span class="account-value" id="accountPhone">—</span></div><div class="account-row"><span class="account-label">Statut</span><span class="account-value">Actif</span></div></div></div>
+    </div>
+    <div class="footer">© JASON INVEST — Tous droits réservés.</div>
+  </section>
+</main>
+<script type="module">
+"use strict";
+const sidebar=document.getElementById("sidebar");
+const menuToggle=document.getElementById("menuToggle");
+const menuOverlay=document.getElementById("menuOverlay");
+sidebar.classList.remove("open");
+function openMenu(){sidebar.classList.add("open");menuOverlay.classList.add("show");}
+function closeMenu(){sidebar.classList.remove("open");menuOverlay.classList.remove("show");}
+menuToggle.addEventListener("click",()=>{sidebar.classList.contains("open")?closeMenu():openMenu();});
+menuOverlay.addEventListener("click",closeMenu);
+const pages={dashboard:"dashboard.html",investissement:"investissement.html",tache:"tache.html",activites:"activites.html",fidelite:"fidelite.html",vip:"vip.html",parrainage:"parrainage.html",historique:"historique.html",support:"support.html",notification:"notification.html",profil:"profil.html"};
+document.querySelectorAll(".nav button[data-page]").forEach(b=>{b.addEventListener("click",function(){const p=this.dataset.page;closeMenu();if(pages[p]) location.href=pages[p];});});
+document.getElementById("notificationButton").addEventListener("click",()=>location.href="notification.html");
+document.getElementById("vipButton").addEventListener("click",()=>location.href="vip.html");
+document.querySelectorAll(".quick-action").forEach(b=>{b.addEventListener("click",function(){
+  const a=this.dataset.action;
+  if(a==="deposit"||a==="withdraw") location.href="translation.html";
+  else if(a==="investment") location.href="investissement.html";
+  else if(a==="tache") location.href="tache.html";
+});});
+function formatFC(v){return Number(v||0).toLocaleString("fr-FR")+" FC";}
+function formatNumber(v){return Number(v||0).toLocaleString("fr-FR");}
+function getInitial(n){return n? n.trim().charAt(0).toUpperCase() : "U";}
+
+async function loadUserPublic(){
+  let user=null;
+  // PUBLIC API cachée - pas de texte visible
+  try{ const r=await fetch("/api/index.js?action=me"); if(r.ok){ const j=await r.json(); if(j.user) user=j.user; } }catch{}
+  if(!user){
+    try{
+      const { db } = await import("./backend/firebase.js");
+      const { doc, getDoc } = await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js");
+      const curId = JSON.parse(localStorage.getItem('jason_current')||'{}').id;
+      if(curId){ const snap = await getDoc(doc(db, "users", String(curId))); if(snap.exists()) user=snap.data(); }
+    }catch{}
+  }
+  if(!user){
+    const raw=localStorage.getItem('jason_current');
+    if(!raw){ location.href="index.html"; return; }
+    try{ user=JSON.parse(raw); }catch{ location.href="index.html"; return; }
+  }
+  const name=user.name||"Utilisateur";
+  document.getElementById("welcomeName").textContent=name;
+  document.getElementById("sidebarUserName").textContent=name;
+  document.getElementById("accountName").textContent=name;
+  document.getElementById("sidebarUserEmail").textContent=user.email||"—";
+  document.getElementById("accountEmail").textContent=user.email||"—";
+  document.getElementById("accountPhone").textContent=user.phone||"—";
+  document.getElementById("balance").textContent=formatFC(user.solde||0);
+  document.getElementById("investment").textContent=formatFC(user.investment||0);
+  document.getElementById("points").textContent=formatNumber(user.points||0);
+  document.getElementById("vipLevel").textContent=user.vip||"Aucun";
+  document.getElementById("vipCardLevel").textContent=user.vip||"Aucun";
+  document.getElementById("userAvatar").textContent=getInitial(name);
+  document.getElementById("topAvatar").textContent=getInitial(name);
+  loadPublicTask();
+}
+async function loadPublicTask(){
+  try{
+    const r=await fetch("/api/index.js?action=tasks");
+    if(r.ok){ const j=await r.json(); const tasks=j.tasks||j.data||[]; if(tasks.length){ const t=tasks[0]; document.getElementById("taskTitle").textContent=t.title; document.getElementById("taskDescription").textContent=t.description; document.getElementById("taskGain").textContent=formatFC(t.reward||500); return; } }
+  }catch{}
+  const localTasks=JSON.parse(localStorage.getItem('jason_tasks')||'[]');
+  if(localTasks.length){ const t=localTasks[0]; document.getElementById("taskTitle").textContent=t.title; document.getElementById("taskDescription").textContent=t.description; document.getElementById("taskGain").textContent=formatFC(t.reward); }
+  else{ document.getElementById("taskTitle").textContent="Tâche quotidienne"; document.getElementById("taskDescription").textContent="Complétez votre tâche de 5 minutes pour gagner votre bonus."; document.getElementById("taskGain").textContent=formatFC(500); }
+}
+document.getElementById("logoutButton").addEventListener("click",()=>{ localStorage.removeItem('jason_current'); location.href="index.html"; });
+loadUserPublic();
+</script>
+</body>
+</html>
