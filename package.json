@@ -1,11 +1,8 @@
 {
-  "name": "jason-invest-fc",
+  "name": "jason-business-backend",
   "version": "1.0.0",
+  "private": true,
   "type": "module",
-  "engines": {
-    "node": "24.x"
-  },
-  "dependencies": {
-    "firebase-admin": "^12.1.0"
-  }
+  "scripts": { "start": "node api/index.js" },
+  "dependencies": { "firebase-admin": "^13.5.0" }
 }
