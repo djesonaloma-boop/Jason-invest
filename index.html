@@ -1,332 +1,46 @@
-import crypto from "node:crypto";
-import { initializeApp, cert, getApps } from "firebase-admin/app";
-import { getDatabase } from "firebase-admin/database";
-import { FIREBASE_CONFIG, FIREBASE_SERVICE_ACCOUNT, ADMIN_PASSWORD, isFirebaseConfigured } from "../backend/firebase.js";
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JASON INVEST — Accueil</title>
+<style>
+:root{--bg:#030711;--card:rgba(10,20,36,.88);--gold:#d8b45a;--gold-light:#f1d98b;--text:#fff;--muted:#8997aa;--border:rgba(216,180,90,.18);}
+*{box-sizing:border-box} body{margin:0;min-height:100vh;overflow-x:hidden;font-family:Arial;color:var(--text);background:radial-gradient(circle at 15% 20%,rgba(216,180,90,.09),transparent 25%),radial-gradient(circle at 85% 75%,rgba(69,130,255,.08),transparent 28%),linear-gradient(135deg,#030711,#07111f 50%,#040914);}
+.background{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:0;}
+.glow{position:absolute;width:320px;height:320px;border-radius:50%;filter:blur(70px);opacity:.18;animation:glowMove 10s ease-in-out infinite alternate;}
+.glow.one{top:-120px;left:-100px;background:#d8b45a;} .glow.two{right:-120px;bottom:-120px;background:#386cff;}
+.glow.three{top:45%;left:50%;width:180px;height:180px;background:#9c6cff;}
+@keyframes glowMove{from{transform:translate(0,0) scale(1);}to{transform:translate(80px,40px) scale(1.25);}}
+.particles{position:absolute;inset:0;} .particle{position:absolute;width:4px;height:4px;border-radius:50%;background:var(--gold-light);opacity:0;animation:particleFloat linear infinite;}
+@keyframes particleFloat{0%{transform:translateY(110vh) scale(.4);opacity:0;}10%{opacity:.7;}100%{transform:translateY(-10vh) scale(1);opacity:0;}}
+.auth-page{position:relative;z-index:2;min-height:100vh;display:flex;justify-content:center;align-items:center;padding:25px 15px;}
+.auth-wrapper{width:100%;max-width:440px;animation:pageAppear .8s ease;}
+@keyframes pageAppear{from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);}}
+.auth-card{width:100%;padding:30px 24px;border-radius:24px;background:var(--card);border:1px solid var(--border);box-shadow:0 30px 90px rgba(0,0,0,.45);backdrop-filter:blur(18px);text-align:center}
+.logo-area{margin-bottom:18px;} .logo{width:76px;height:76px;margin:auto;display:flex;justify-content:center;align-items:center;border-radius:24px;background:linear-gradient(145deg,var(--gold-light),var(--gold));color:#07101d;font-size:24px;font-weight:900;box-shadow:0 12px 35px rgba(216,180,90,.2);}
+.title{margin:0;font-size:29px;} .title span{color:var(--gold-light);} .subtitle{color:var(--muted);margin:8px 0 24px;font-size:14px;line-height:1.6}
+.gold-line{width:65px;height:3px;margin:0 auto 25px;border-radius:20px;background:linear-gradient(90deg,transparent,var(--gold),transparent);}
+.main-button{width:100%;height:50px;border:0;border-radius:13px;background:linear-gradient(135deg,var(--gold),var(--gold-light));color:#07101d;font-weight:900;font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;text-decoration:none;margin-bottom:12px}
+.ghost-button{width:100%;height:50px;border-radius:13px;border:1px solid #26384f;background:#06101d;color:#fff;font-weight:700;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;text-decoration:none}
+.footer{text-align:center;margin-top:17px;color:#526176;font-size:11px;}
+</style>
+</head>
+<body>
+<div class="background"><div class="glow one"></div><div class="glow two"></div><div class="glow three"></div><div class="particles" id="particles"></div></div>
+<main class="auth-page"><div class="auth-wrapper"><div class="auth-card">
+<div class="logo-area"><div class="logo">JI</div></div>
+<h1 class="title">JASON <span>INVEST</span></h1>
+<p class="subtitle">Votre espace personnel — Public<br>Investissement en Franc Congolais FC</p>
+<div class="gold-line"></div>
 
-function firebase() {
-  if (!isFirebaseConfigured()) {
-    const e = new Error("Firebase backend non configuré. Remplissez backend/firebase.js avec vos clés FC.");
-    e.status = 503;
-    throw e;
-  }
-  if (!getApps().length) {
-    initializeApp({
-      credential: cert({
-        projectId: FIREBASE_SERVICE_ACCOUNT.projectId,
-        clientEmail: FIREBASE_SERVICE_ACCOUNT.clientEmail,
-        privateKey: FIREBASE_SERVICE_ACCOUNT.privateKey.replace(/\\n/g, "\n")
-      }),
-      databaseURL: FIREBASE_CONFIG.databaseURL
-    });
-  }
-  return getDatabase();
-}
+<a href="login.html" class="main-button">Se connecter</a>
+<a href="register.html" class="ghost-button">Créer un compte</a>
 
-const ROOT = "jasonInvestFC";
-const USERS = `${ROOT}/users`;
-const ADMIN_EMAIL = "admin@jasoninvest.com";
-const TOKEN_SECRET = "JASON-INVEST-FC-2026-KINSHASA";
-
-// LIMITES FC JASON INVEST
-const LIMITS = {
-  DEPOT_MIN: 20000,
-  RETRAIT_MIN: 10000,
-  MONNAIE: "FC"
-};
-
-function json(res, status, data) {
-  res.status(status).setHeader("Content-Type", "application/json; charset=utf-8");
-  res.end(JSON.stringify(data));
-}
-function body(req) {
-  return new Promise((resolve,reject)=>{
-    let raw="";
-    req.on("data",c=>raw+=c);
-    req.on("end",()=>{ try { resolve(raw? JSON.parse(raw) : {}); } catch(e){ reject(e); }});
-    req.on("error",reject);
-  });
-}
-function hash(password, salt=crypto.randomBytes(16).toString("hex")) {
-  const digest=crypto.scryptSync(String(password), salt, 64).toString("hex");
-  return `scrypt$${salt}$${digest}`;
-}
-function verify(password, stored) {
-  if (!stored) return false;
-  if (!String(stored).startsWith("scrypt$")) return String(password) === String(stored);
-  const [,salt,digest]=String(stored).split("$");
-  const actual=crypto.scryptSync(String(password),salt,64).toString("hex");
-  return crypto.timingSafeEqual(Buffer.from(actual,"hex"),Buffer.from(digest,"hex"));
-}
-function token(phone) {
-  return crypto.createHmac("sha256", TOKEN_SECRET)
-   .update(String(phone)).digest("hex");
-}
-function auth(req) {
-  const h=req.headers.authorization || "";
-  if (!h.startsWith("Bearer ")) return null;
-  const t=h.slice(7);
-  const phone=req.headers["x-user-phone"];
-  if (!phone || t!== token(phone)) return null;
-  return String(phone);
-}
-function cleanPhone(v){ return String(v||"").replace(/\D/g,""); }
-function cleanCode(v){ return String(v||"").trim().toUpperCase(); }
-function makeCode(){
-  return "JAS-" + crypto.randomBytes(3).toString("hex").toUpperCase();
-}
-async function uniqueCode(db){
-  for(let i=0;i<20;i++){
-    const c=makeCode();
-    const s=await db.ref(USERS).orderByChild("inviteCode").equalTo(c).once("value");
-    if(!s.exists()) return c;
-  }
-  throw new Error("Impossible de générer un code unique FC.");
-}
-function safeUser(u){
-  if(!u) return null;
-  const {password,...publicUser}=u;
-  return publicUser;
-}
-function userPath(phone){ return `${USERS}/${cleanPhone(phone)}`; }
-
-async function register(db,d){
-  const phone=cleanPhone(d.phone);
-  const password=String(d.password||"");
-  const referral=cleanCode(d.referral);
-  if(phone.length<10) throw Object.assign(new Error("Numéro de téléphone invalide FC. Format +243..."),{status:400});
-  if(password.length<6) throw Object.assign(new Error("Le mot de passe doit contenir au moins 6 caractères."),{status:400});
-  const ref=db.ref(userPath(phone));
-  const existing=await ref.once("value");
-  if(existing.exists()) throw Object.assign(new Error("Ce numéro est déjà enregistré en FC."),{status:409});
-  let sponsor=null;
-  if(referral){
-    const snap=await db.ref(USERS).orderByChild("inviteCode").equalTo(referral).limitToFirst(1).once("value");
-    if(!snap.exists()) throw Object.assign(new Error("Code d'invitation FC introuvable."),{status:400});
-    snap.forEach(x=>{ sponsor=x.key; });
-    if(sponsor===phone) throw Object.assign(new Error("Auto-parrainage interdit FC."),{status:400});
-  }
-  const inviteCode=await uniqueCode(db);
-  const now=Date.now();
-  const user={
-    telephone:phone, phone, password:hash(password),
-    inviteCode, referralCode:inviteCode,
-    referredBy:sponsor||"DIRECT", sponsor:sponsor||null,
-    solde_principal:0, solde_gains:0, solde_commissions:0, solde:0, balance:0,
-    solde_fc:0, monnaie:"FC",
-    points_fidelite:0, points:0, loyaltyPoints:0,
-    count_lvl1:0, count_lvl2:0, count_lvl3:0,
-    totalDepotFC:0, totalRetraitFC:0,
-    statut:"actif", status:"actif", disabled:false, bloque:false,
-    date_inscription:new Date(now).toISOString(), createdAt:now
-  };
-  await ref.set(user);
-  if(sponsor){
-    await db.ref(`${USERS}/${sponsor}/count_lvl1`).transaction(v=>(Number(v)||0)+1);
-    // Bonus parrainage 500 FC crédité direct
-    await db.ref(userPath(sponsor)).transaction(u=>{
-      if(!u) return u;
-      u.solde_commissions=Number(u.solde_commissions||0)+500;
-      u.balance=Number(u.balance||0)+500;
-      u.solde=Number(u.solde||0)+500;
-      u.solde_fc=Number(u.solde_fc||0)+500;
-      return u;
-    });
-  }
-  return {user:safeUser(user), phone, token:token(phone), monnaie:"FC"};
-}
-
-async function login(db,d){
-  const phone=cleanPhone(d.phone), password=String(d.password||"");
-  const ref=db.ref(userPath(phone)), snap=await ref.once("value");
-  if(!snap.exists()) throw Object.assign(new Error("Numéro ou mot de passe incorrect FC."),{status:401});
-  const u=snap.val();
-  if(u.disabled || u.bloque || u.status==="bloqué") throw Object.assign(new Error("Compte bloqué FC."),{status:403});
-  if(!verify(password,u.password)) throw Object.assign(new Error("Numéro ou mot de passe incorrect FC."),{status:401});
-  if(!String(u.password).startsWith("scrypt$")) await ref.update({password:hash(password)});
-  return {user:safeUser(u),phone,token:token(phone), monnaie:"FC"};
-}
-
-async function main(req,res){
-  try {
-    const path=req.url.split("?")[0].replace(/\/+$/,"");
-    if(req.method==="OPTIONS"){ res.status(204).end(); return; }
-    const d=["POST","PUT","PATCH"].includes(req.method)?await body(req):{};
-    const db=firebase();
-
-    if(req.method==="POST" && path==="/api/auth/register") return json(res,201,await register(db,d));
-    if(req.method==="POST" && path==="/api/auth/login") return json(res,200,await login(db,d));
-    if(req.method==="POST" && path==="/api/auth/logout") return json(res,200,{ok:true, monnaie:"FC"});
-    if(req.method==="POST" && path==="/api/auth/reset") {
-      const phone=cleanPhone(d.phone);
-      const snap=await db.ref(userPath(phone)).once("value");
-      if(!snap.exists()) throw Object.assign(new Error("Compte introuvable FC."),{status:404});
-      return json(res,200,{ok:true,message:"Demande reçue FC. Contactez admin JASON INVEST."});
-    }
-
-    const phone=auth(req);
-    if(!phone) return json(res,401,{error:"Session invalide FC ou absente."});
-
-    if(req.method==="GET" && path==="/api/me"){
-      const s=await db.ref(userPath(phone)).once("value");
-      if(!s.exists()) return json(res,404,{error:"Utilisateur introuvable FC."});
-      return json(res,200,{user:safeUser(s.val()), monnaie:"FC", limits:LIMITS});
-    }
-
-    if(req.method==="GET" && path==="/api/products"){
-      const s=await db.ref(`${ROOT}/products`).once("value");
-      return json(res,200,{products:s.val()||{}, monnaie:"FC"});
-    }
-
-    if(req.method==="POST" && path==="/api/orders"){
-      const p=await db.ref(`${ROOT}/products/${d.productId}`).once("value");
-      if(!p.exists()) throw Object.assign(new Error("Plan FC introuvable."),{status:404});
-      const u=(await db.ref(userPath(phone)).once("value")).val();
-      const product=p.val(), price=Number(product.price)||0;
-      if(Number(u.balance||0)<price) throw Object.assign(new Error(`Solde insuffisant FC. Il faut ${price.toLocaleString('fr-FR')} FC`),{status:400});
-      const order={userId:phone,userPhone:phone,userName:u.name||u.nom||phone,productId:d.productId,product:product.name||"",price,status:"pending",date:Date.now(),details:d.details||{}, monnaie:"FC"};
-      const key=db.ref(`${ROOT}/orders`).push().key;
-      await db.ref(`${ROOT}/orders/${key}`).set(order);
-      return json(res,201,{orderId:key,order});
-    }
-
-    if(req.method==="GET" && path==="/api/orders"){
-      const s=await db.ref(`${ROOT}/orders`).once("value"); const all=s.val()||{};
-      const mine=Object.fromEntries(Object.entries(all).filter(([,o])=>o.userId===phone));
-      return json(res,200,{orders:mine, monnaie:"FC"});
-    }
-
-    if(req.method==="POST" && path==="/api/recharges"){
-      const u=(await db.ref(userPath(phone)).once("value")).val();
-      const amount=Number(d.amount);
-      if(!amount || amount<LIMITS.DEPOT_MIN) throw Object.assign(new Error(`Dépôt minimum ${LIMITS.DEPOT_MIN.toLocaleString('fr-FR')} FC en Franc Congolais.`),{status:400});
-      const key=db.ref(`${ROOT}/recharges`).push().key;
-      const item={userId:phone,userName:u.name||u.nom||phone,email:u.email||"",amount,transactionId:String(d.transactionId||d.reference||""),method:String(d.method||"Orange Money"),phone:String(d.phone||phone),status:"pending",date:Date.now(), monnaie:"FC"};
-      await db.ref(`${ROOT}/recharges/${key}`).set(item);
-      return json(res,201,{id:key,item});
-    }
-
-    if(req.method==="POST" && path==="/api/withdrawals"){
-      const u=(await db.ref(userPath(phone)).once("value")).val();
-      const amount=Number(d.amount);
-      if(!amount || amount<LIMITS.RETRAIT_MIN) throw Object.assign(new Error(`Retrait minimum ${LIMITS.RETRAIT_MIN.toLocaleString('fr-FR')} FC en Franc Congolais.`),{status:400});
-      if(Number(u.balance||0)<amount) throw Object.assign(new Error(`Solde insuffisant FC. Tu as ${Number(u.balance||0).toLocaleString('fr-FR')} FC`),{status:400});
-      const key=db.ref(`${ROOT}/withdrawals`).push().key;
-      const item={userId:phone,userName:u.name||u.nom||phone,amount,method:String(d.method||""),wallet:String(d.wallet||d.phone||""),phone:String(d.phone||phone),status:"pending",date:Date.now(), monnaie:"FC"};
-      await db.ref(`${ROOT}/withdrawals/${key}`).set(item);
-      return json(res,201,{id:key,item});
-    }
-
-    if(req.method==="GET" && path==="/api/team"){
-      const all=(await db.ref(USERS).once("value")).val()||{};
-      const members=Object.values(all).filter(u=>u.sponsor===phone || u.referredBy===phone);
-      return json(res,200,{members, monnaie:"FC"});
-    }
-
-    if(req.method==="POST" && path==="/api/points/convert"){
-      const amount=Math.floor(Number(d.points)||0);
-      const ref=db.ref(userPath(phone));
-      let converted=0;
-      await ref.transaction(u=>{
-        if(!u) return u;
-        const points=Number(u.points||u.points_fidelite||u.loyaltyPoints||0);
-        if(amount<=0 || amount>points) return;
-        const value=amount;
-        u.points=Math.max(0,points-amount);
-        u.points_fidelite=u.points; u.loyaltyPoints=u.points;
-        u.balance=Number(u.balance||0)+value;
-        u.solde=Number(u.solde||0)+value;
-        u.solde_fc=Number(u.solde_fc||0)+value;
-        converted=value; return u;
-      });
-      if(!converted) throw Object.assign(new Error("Conversion impossible FC."),{status:400});
-      return json(res,200,{converted, monnaie:"FC"});
-    }
-
-    // ADMIN
-    const adminHeader=req.headers["x-admin-email"];
-    const adminPassword=req.headers["x-admin-password"];
-    if(path.startsWith("/api/admin/")){
-      if(adminHeader!==ADMIN_EMAIL ||!ADMIN_PASSWORD || adminPassword!==ADMIN_PASSWORD)
-        return json(res,403,{error:"Accès administrateur FC refusé."});
-    }
-
-    if(req.method==="GET" && path==="/api/admin/users"){
-      const users=(await db.ref(USERS).once("value")).val()||{};
-      return json(res,200,{users:Object.fromEntries(Object.entries(users).map(([k,v])=>[k,safeUser(v)])), monnaie:"FC"});
-    }
-    if(req.method==="GET" && path==="/api/admin/orders"){
-      return json(res,200,{orders:(await db.ref(`${ROOT}/orders`).once("value")).val()||{}, monnaie:"FC"});
-    }
-    if(req.method==="GET" && path==="/api/admin/recharges"){
-      return json(res,200,{recharges:(await db.ref(`${ROOT}/recharges`).once("value")).val()||{}, monnaie:"FC", limits:LIMITS});
-    }
-    if(req.method==="GET" && path==="/api/admin/withdrawals"){
-      return json(res,200,{withdrawals:(await db.ref(`${ROOT}/withdrawals`).once("value")).val()||{}, monnaie:"FC", limits:LIMITS});
-    }
-    if(req.method==="PATCH" && path.startsWith("/api/admin/orders/")){
-      const id=path.split("/").pop(), s=await db.ref(`${ROOT}/orders/${id}`).once("value");
-      if(!s.exists()) return json(res,404,{error:"Commande FC introuvable."});
-      const o=s.val();
-      if(d.status==="accepted" && o.status==="pending"){
-        await db.ref(`${ROOT}/orders/${id}`).update({status:"accepted"});
-        await db.ref(userPath(o.userId)).transaction(u=>{
-          if(!u) return u; u.balance=Number(u.balance||0)-Number(o.price||0); u.solde=Number(u.solde||0)-Number(o.price||0); u.solde_fc=Number(u.solde_fc||0)-Number(o.price||0); u.totalOrders=Number(u.totalOrders||0)+1; return u;
-        });
-      } else await db.ref(`${ROOT}/orders/${id}`).update({status:d.status});
-      return json(res,200,{ok:true, monnaie:"FC"});
-    }
-    if(req.method==="PATCH" && path.startsWith("/api/admin/recharges/")){
-      const id=path.split("/").pop(), s=await db.ref(`${ROOT}/recharges/${id}`).once("value");
-      if(!s.exists()) return json(res,404,{error:"Recharge FC introuvable."});
-      const r=s.val();
-      await db.ref(`${ROOT}/recharges/${id}`).update({status:d.status});
-      if(d.status==="accepted" && r.status==="pending"){
-        await db.ref(userPath(r.userId)).transaction(u=>{
-          if(!u)return u;
-          u.balance=Number(u.balance||0)+Number(r.amount||0);
-          u.solde=Number(u.solde||0)+Number(r.amount||0);
-          u.solde_fc=Number(u.solde_fc||0)+Number(r.amount||0);
-          u.solde_principal=Number(u.solde_principal||0)+Number(r.amount||0);
-          u.totalRecharge=Number(u.totalRecharge||0)+Number(r.amount||0);
-          u.totalDepotFC=Number(u.totalDepotFC||0)+Number(r.amount||0);
-          // +10 points par 1000 FC déposé
-          const pts=Math.floor(Number(r.amount||0)/1000)*10;
-          u.points=Number(u.points||0)+pts;
-          u.points_fidelite=u.points;
-          u.loyaltyPoints=u.points;
-          return u;
-        });
-      }
-      return json(res,200,{ok:true, monnaie:"FC"});
-    }
-    if(req.method==="PATCH" && path.startsWith("/api/admin/withdrawals/")){
-      const id=path.split("/").pop(), s=await db.ref(`${ROOT}/withdrawals/${id}`).once("value");
-      if(!s.exists()) return json(res,404,{error:"Retrait FC introuvable."});
-      const w=s.val(); await db.ref(`${ROOT}/withdrawals/${id}`).update({status:d.status});
-      if(d.status==="accepted" && w.status==="pending"){
-        await db.ref(userPath(w.userId)).transaction(u=>{
-          if(!u)return u;
-          u.balance=Math.max(0,Number(u.balance||0)-Number(w.amount||0));
-          u.solde=Math.max(0,Number(u.solde||0)-Number(w.amount||0));
-          u.solde_fc=Math.max(0,Number(u.solde_fc||0)-Number(w.amount||0));
-          u.totalRetraitFC=Number(u.totalRetraitFC||0)+Number(w.amount||0);
-          return u;
-        });
-      }
-      return json(res,200,{ok:true, monnaie:"FC"});
-    }
-    if(req.method==="PATCH" && path.startsWith("/api/admin/users/")){
-      const id=decodeURIComponent(path.split("/").pop());
-      if(d.action==="delete") { await db.ref(userPath(id)).remove(); return json(res,200,{ok:true, monnaie:"FC"}); }
-      await db.ref(userPath(id)).update(d.patch||{});
-      return json(res,200,{ok:true, monnaie:"FC"});
-    }
-
-    return json(res,404,{error:"Route FC introuvable."});
-  } catch(e) {
-    console.error(e);
-    return json(res,e.status||500,{error:e.message||"Erreur serveur FC."});
-  }
-}
-
-export default main;
+</div><div class="footer">© <span id="year"></span> JASON INVEST - Public</div></div></main>
+<script>
+document.getElementById("year").textContent=new Date().getFullYear();
+const p=document.getElementById("particles");
+for(let i=0;i<32;i++){const el=document.createElement("span");el.className="particle";el.style.left=Math.random()*100+"%";el.style.animationDuration=(7+Math.random()*9)+"s";el.style.animationDelay=(-Math.random()*12)+"s";p.appendChild(el);}
+</script>
+</body>
+</html>
