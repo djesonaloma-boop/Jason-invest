@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>JASON INVEST — Administration FC</title>
+<title>JASON INVEST — Administration FC GLOBAL</title>
 <style>
 :root{--bg:#050b16;--bg2:#081221;--surface:#0d1829;--surface2:#111f33;--border:#203149;--gold:#d8b45a;--gold2:#f1d98b;--text:#f5f7fb;--muted:#91a0b5;--green:#37d39b;--red:#ff6675;--blue:#4da3ff;--orange:#ffb454;--shadow:0 20px 50px rgba(0,0,0,.30);--radius:18px;}
 *{box-sizing:border-box;margin:0;padding:0;}html{scroll-behavior:smooth;}
@@ -49,9 +49,7 @@ button,input,select,textarea{font:inherit;}button{cursor:pointer;}.hidden{displa
 .table-wrap{overflow-x:auto;}table{width:100%;border-collapse:collapse;min-width:700px;}th,td{padding:13px 12px;border-bottom:1px solid #1a2a40;text-align:left;font-size:13px;}th{color:#7e8ea5;font-size:11px;text-transform:uppercase;}td{color:#dce4ef;}
 .badge{display:inline-flex;padding:5px 8px;border-radius:999px;font-size:10px;font-weight:800;}
 .badge-green{color:#69e4b1;background:rgba(55,211,155,.10);}.badge-red{color:#ff8995;background:rgba(255,102,117,.10);}.badge-orange{color:#ffc674;background:rgba(255,180,84,.10);}.badge-blue{color:#82bdff;background:rgba(77,163,255,.10);}
-.plan-card{background:#091525;border:1px solid var(--border);border-radius:15px;padding:18px;}.plan-fields{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
 .search-row{display:flex;gap:10px;margin-bottom:17px;}.search-row input{flex:1;border:1px solid var(--border);background:#091424;color:white;border-radius:10px;padding:11px 13px;}
-.task-card{background:#091525;border:1px solid var(--border);border-radius:15px;padding:18px;margin-bottom:12px;}
 .empty{padding:35px 15px;text-align:center;color:var(--muted);}
 .toast{position:fixed;right:20px;bottom:20px;z-index:5000;max-width:360px;background:#101d30;border:1px solid var(--border);border-left:4px solid var(--gold);border-radius:12px;padding:13px 15px;transform:translateY(120px);opacity:0;transition:.25s;}
 .toast.show{transform:translateY(0);opacity:1;}
@@ -62,140 +60,162 @@ button,input,select,textarea{font:inherit;}button{cursor:pointer;}.hidden{displa
 <div id="adminLogin" class="login-screen">
   <div class="login-box">
     <div class="login-logo">JI</div>
-    <h1 class="login-title">JASON INVEST FC</h1>
-    <p class="login-subtitle">Admin - Dépôt 20k min / Retrait 10k min</p>
+    <h1 class="login-title">JASON INVEST FC GLOBAL</h1>
+    <p class="login-subtitle">Admin GLOBAL - Firebase Firestore</p>
     <form id="loginForm">
       <div class="field"><label>Identifiant</label><input id="adminIdentifier" type="text" placeholder="admin" required></div>
       <div class="field"><label>Mot de passe</label><input id="adminPassword" type="password" placeholder="••••••••" required></div>
-      <button class="login-button" type="submit">🔐 Se connecter</button>
+      <button class="login-button" type="submit">🔐 Se connecter GLOBAL</button>
       <div id="loginError" class="login-error"></div>
     </form>
   </div>
 </div>
 <div id="adminApp" class="app hidden">
   <aside id="sidebar" class="sidebar">
-    <div class="brand"><div class="brand-logo">JI</div><div><div class="brand-title">JASON INVEST FC</div><div class="brand-subtitle">Administration FC</div></div></div>
-    <div class="nav-title">Principal</div>
-    <button class="nav-btn active" data-section="dashboard"><span class="nav-icon">📊</span> Dashboard FC</button>
-    <button class="nav-btn" data-section="clients"><span class="nav-icon">👥</span> Clients FC</button>
-    <button class="nav-btn" data-section="deposits"><span class="nav-icon">💰</span> Dépôts 20k min <span id="badgeDep" style="margin-left:auto;background:#ffb454;color:#111;padding:2px 6px;border-radius:20px;font-size:10px;display:none;">0</span></button>
-    <button class="nav-btn" data-section="withdrawals"><span class="nav-icon">💸</span> Retraits 10k min <span id="badgeWit" style="margin-left:auto;background:#ff6675;color:#fff;padding:2px 6px;border-radius:20px;font-size:10px;display:none;">0</span></button>
-    <button class="nav-btn" data-section="payments"><span class="nav-icon">📱</span> Paiements FC</button>
-    <div class="nav-title">Plateforme FC</div>
-    <button class="nav-btn" data-section="investments"><span class="nav-icon">📈</span> Investissements FC</button>
-    <button class="nav-btn" data-section="tasks"><span class="nav-icon">📝</span> Tâches IA FC <span id="badgeTask" style="margin-left:auto;background:#4da3ff;color:#fff;padding:2px 6px;border-radius:20px;font-size:10px;">0</span></button>
-    <button class="nav-btn" data-section="activities"><span class="nav-icon">📢</span> Activités</button>
-    <button class="nav-btn" data-section="fidelity"><span class="nav-icon">⭐</span> Fidélité & VIP FC</button>
-    <button class="nav-btn" data-section="referral"><span class="nav-icon">👥</span> Parrainage FC</button>
-    <button class="nav-btn" data-section="notifications"><span class="nav-icon">🔔</span> Notifications FC</button>
-    <div class="nav-title">Assistance</div>
-    <button class="nav-btn" data-section="support"><span class="nav-icon">🎧</span> Support FC</button>
-    <button class="nav-btn" data-section="settings"><span class="nav-icon">⚙️</span> Paramètres</button>
+    <div class="brand"><div class="brand-logo">JI</div><div><div class="brand-title">JASON INVEST FC</div><div class="brand-subtitle">GLOBAL FIREBASE</div></div></div>
+    <div class="nav-title">Principal GLOBAL</div>
+    <button class="nav-btn active" data-section="dashboard"><span class="nav-icon">📊</span> Dashboard GLOBAL</button>
+    <button class="nav-btn" data-section="clients"><span class="nav-icon">👥</span> Clients GLOBAL <span id="badgeClients" style="margin-left:auto;background:#d8b45a;color:#111;padding:2px 6px;border-radius:20px;font-size:10px;">0</span></button>
+    <button class="nav-btn" data-section="deposits"><span class="nav-icon">💰</span> Dépôts GLOBAL <span id="badgeDep" style="margin-left:auto;background:#ffb454;color:#111;padding:2px 6px;border-radius:20px;font-size:10px;display:none;">0</span></button>
+    <button class="nav-btn" data-section="withdrawals"><span class="nav-icon">💸</span> Retraits GLOBAL <span id="badgeWit" style="margin-left:auto;background:#ff6675;color:#fff;padding:2px 6px;border-radius:20px;font-size:10px;display:none;">0</span></button>
     <div class="sidebar-bottom"><button id="logoutButton" class="nav-btn"><span class="nav-icon">🚪</span> Déconnexion</button></div>
   </aside>
   <main class="main">
     <header class="topbar">
-      <div style="display:flex;align-items:center;gap:12px;"><button id="mobileMenu" class="menu-mobile">☰</button><div id="topbarTitle" class="topbar-title">Dashboard FC</div></div>
-      <div style="display:flex;align-items:center;gap:10px;">
-        <div class="quick-menu-wrap"><button id="quickMenuBtn" class="quick-btn">⋮</button><div id="quickMenu" class="quick-dropdown"><button class="nav-btn" onclick="openSection('tasks');toggleQuick()"><span class="nav-icon">📝</span> Tâches IA FC</button><button class="nav-btn" onclick="openSection('deposits');toggleQuick()"><span class="nav-icon">💰</span> Dépôts 20k FC</button><button class="nav-btn" onclick="openSection('withdrawals');toggleQuick()"><span class="nav-icon">💸</span> Retraits 10k FC</button><button class="nav-btn" onclick="openSection('clients');toggleQuick()"><span class="nav-icon">👥</span> Clients</button></div></div>
-        <div class="admin-status"><span class="status-dot"></span><span>Admin FC</span></div>
-      </div>
+      <div style="display:flex;align-items:center;gap:12px;"><button id="mobileMenu" class="menu-mobile">☰</button><div id="topbarTitle" class="topbar-title">Dashboard GLOBAL</div></div>
+      <div class="admin-status"><span class="status-dot"></span><span id="statusText">Firebase GLOBAL FC</span></div>
     </header>
     <div class="content">
-      <section id="section-dashboard" class="admin-section active"><div class="page-head"><h1>Dashboard FC</h1><p>Dépôt min 20 000 FC - Retrait min 10 000 FC - Tout en Franc Congolais</p></div><div class="stats"><div class="stat"><div class="stat-icon">👥</div><div class="stat-label">Clients FC</div><div id="statClients" class="stat-value">0</div></div><div class="stat"><div class="stat-icon">💰</div><div class="stat-label">Dépôts validés FC</div><div id="statDeposits" class="stat-value">0 FC</div></div><div class="stat"><div class="stat-icon">💸</div><div class="stat-label">Retraits payés FC</div><div id="statWithdrawals" class="stat-value">0 FC</div></div><div class="stat"><div class="stat-icon">📈</div><div class="stat-label">En attente FC</div><div id="statPending" class="stat-value">0</div></div></div><div class="grid-2"><div class="panel"><div class="panel-head"><div class="panel-title">Derniers clients FC</div><button class="btn" onclick="loadDashboard()">Actualiser FC</button></div><div id="recentTransactions"></div></div><div class="panel"><div class="panel-title">État FC</div><div id="platformStatus" style="margin-top:12px;"></div><br><button class="btn btn-gold" onclick="generateIA()">🤖 Générer livre IA du jour FC maintenant</button><br><br><button class="btn btn-gold" onclick="generateTasks()">📝 Générer tâches FC du jour</button></div></div></section>
-      <section id="section-clients" class="admin-section"><div class="page-head"><h1>Clients FC</h1></div><div class="panel"><div class="search-row"><input id="clientSearch" placeholder="Rechercher en FC..."><button class="btn" onclick="loadClients()">🔄</button></div><div class="table-wrap"><table><thead><tr><th>Client FC</th><th>Tél / MDP FC</th><th>Solde FC</th><th>VIP FC</th><th>Action FC</th></tr></thead><tbody id="clientsTable"></tbody></table></div></div></section>
-      <section id="section-deposits" class="admin-section"><div class="page-head"><h1>Dépôts FC - 20 000 FC minimum</h1><p>Valide pour créditer automatiquement en FC</p></div><div class="panel"><div class="table-wrap"><table><thead><tr><th>Date</th><th>Client</th><th>Méthode FC</th><th>Ref FC</th><th>Montant FC</th><th>Statut</th><th>Action FC</th></tr></thead><tbody id="depositsTable"></tbody></table></div></div></section>
-      <section id="section-withdrawals" class="admin-section"><div class="page-head"><h1>Retraits FC - 10 000 FC minimum</h1><p>Valide pour débiter en FC</p></div><div class="panel"><div class="table-wrap"><table><thead><tr><th>Date</th><th>Client</th><th>Méthode FC</th><th>Tél FC</th><th>Montant FC</th><th>Statut</th><th>Action FC</th></tr></thead><tbody id="withdrawalsTable"></tbody></table></div></div></section>
-      <section id="section-payments" class="admin-section"><div class="page-head"><h1>Paiements FC</h1></div><div class="grid-2"><div class="panel"><div class="field"><label>Nom FC</label><input id="paymentName" placeholder="Orange Money FC"></div><div class="field"><label>Numéro FC</label><input id="paymentNumber" placeholder="+243..."></div><div class="field"><label>Type FC</label><select id="paymentType"><option value="deposit">Dépôt FC 20k min</option><option value="withdrawal">Retrait FC 10k min</option><option value="both">Les deux FC</option></select></div><button class="btn btn-gold" onclick="addPaymentMethod()">➕ Ajouter FC</button></div><div class="panel"><div id="paymentMethodsList"></div></div></div></section>
-      <section id="section-investments" class="admin-section"><div class="page-head"><h1>Investissements FC</h1><p>Plans en FC affichés dans investissement.html</p></div><div class="panel"><div id="plansContainer"></div><br><div class="grid-2"><button class="btn btn-gold" onclick="addPlan()">➕ Ajouter plan FC</button><button class="btn btn-gold" onclick="saveInvestmentPlans()">💾 Enregistrer FC</button></div></div></section>
-      <section id="section-tasks" class="admin-section"><div class="page-head"><h1>📝 Tâches IA FC auto</h1><p>Crée ici ou l'IA crée chaque jour à 23h00 en FC</p></div><div class="grid-2"><div class="panel"><div class="field"><label>Nom tâche FC</label><input id="taskTitle" placeholder="Ex: Tâche VIP du jour FC"></div><div class="field"><label>Description FC</label><textarea id="taskDescription" placeholder="Explique la tâche en FC..."></textarea></div><div class="grid-2"><div class="field"><label>Durée min</label><input id="taskDuration" type="number" value="5"></div><div class="field"><label>Gain FC</label><input id="taskReward" type="number" value="1500"></div></div><div class="field"><label>Invest minimum FC</label><input id="taskMinInvestment" type="number" value="20000"></div><div class="field"><label>Statut FC</label><select id="taskStatus"><option value="active">Active FC</option><option value="inactive">Désactivée FC</option></select></div><button class="btn btn-gold" onclick="createTask()">➕ Créer tâche FC</button><br><br><button class="btn btn-blue" onclick="generateIA()">🤖 Générer livre IA maintenant FC</button></div><div class="panel"><div class="panel-head"><div class="panel-title">Tâches existantes FC</div><button class="btn" onclick="loadTasks()">🔄 FC</button></div><div id="tasksList"></div></div></div></section>
-      <section id="section-activities" class="admin-section"><div class="page-head"><h1>Activités FC</h1></div><div class="grid-2"><div class="panel"><div class="field"><label>Titre FC</label><input id="activityTitle"></div><div class="field"><label>Catégorie FC</label><select id="activityCategory"><option value="actualite">Actualité FC</option><option value="evenement">Événement FC</option><option value="annonce">Annonce FC</option></select></div><div class="field"><label>Description FC</label><textarea id="activityDescription"></textarea></div><button class="btn btn-gold" onclick="publishActivity()">📢 Publier FC</button></div><div class="panel"><div id="activitiesList"></div></div></div></section>
-      <section id="section-fidelity" class="admin-section"><div class="page-head"><h1>Fidélité FC</h1></div><div class="panel"><p>10 pts pour 1000 FC déposé validé - VIP auto en FC</p><div id="fidelityList"></div></div></section>
-      <section id="section-referral" class="admin-section"><div class="page-head"><h1>Parrainage FC</h1></div><div class="panel"><div class="grid-2"><div class="field"><label>Bonus FC</label><input id="referralBonus" type="number" value="500"></div><div class="field"><label>Préfixe FC</label><input id="referralPrefix" value="JAS-"></div></div><button class="btn btn-gold" onclick="saveReferralSettings()">💾 FC</button></div></section>
-      <section id="section-notifications" class="admin-section"><div class="page-head"><h1>Notifications FC</h1></div><div class="panel"><div class="field"><label>Titre FC</label><input id="notificationTitle"></div><div class="field"><label>Message FC</label><textarea id="notificationMessage"></textarea></div><button class="btn btn-gold" onclick="sendNotification()">🔔 Envoyer FC</button></div><div class="panel"><div id="notificationsList"></div></div></section>
-      <section id="section-support" class="admin-section"><div class="page-head"><h1>Support FC</h1></div><div class="panel"><div id="supportList" class="empty">Aucune demande FC</div></div></section>
-      <section id="section-settings" class="admin-section"><div class="page-head"><h1>Paramètres FC</h1></div><div class="panel"><div class="field"><label>Nom plateforme FC</label><input id="settingName" value="JASON INVEST FC"></div><div class="field"><label>Dépôt min FC</label><input value="20000" disabled></div><div class="field"><label>Retrait min FC</label><input value="10000" disabled></div><button class="btn btn-gold" onclick="saveSettings()">💾 FC</button></div></section>
+      <section id="section-dashboard" class="admin-section active"><div class="page-head"><h1>Dashboard GLOBAL FC</h1><p>Tous les téléphones synchronisés en direct via Firebase Firestore - FC</p></div><div class="stats"><div class="stat"><div class="stat-icon">👥</div><div class="stat-label">Clients GLOBAL</div><div id="statClients" class="stat-value">0</div></div><div class="stat"><div class="stat-icon">💰</div><div class="stat-label">Dépôts validés FC</div><div id="statDeposits" class="stat-value">0 FC</div></div><div class="stat"><div class="stat-icon">💸</div><div class="stat-label">Retraits payés FC</div><div id="statWithdrawals" class="stat-value">0 FC</div></div><div class="stat"><div class="stat-icon">📈</div><div class="stat-label">En attente GLOBAL</div><div id="statPending" class="stat-value">0</div></div></div><div class="grid-2"><div class="panel"><div class="panel-head"><div class="panel-title">Derniers clients GLOBAL</div><button class="btn" onclick="loadDashboardGlobal()">🔄 Actualiser</button></div><div id="recentTransactions"></div></div><div class="panel"><div class="panel-title">État GLOBAL</div><div id="platformStatus" style="margin-top:12px;"></div></div></div></section>
+      <section id="section-clients" class="admin-section"><div class="page-head"><h1>Clients GLOBAL FC - Tous les téléphones</h1><p>Ici tu vois TOUS les clients qui se sont inscrits, même depuis le téléphone de ton pote</p></div><div class="panel"><div class="search-row"><input id="clientSearch" placeholder="Rechercher nom, email, téléphone..."><button class="btn" onclick="loadClientsGlobal()">🔄 GLOBAL</button></div><div class="table-wrap"><table><thead><tr><th>Client GLOBAL</th><th>Tél / MDP / Code Parrain</th><th>Solde FC</th><th>Action GLOBAL</th></tr></thead><tbody id="clientsTable"></tbody></table></div></div></section>
+      <section id="section-deposits" class="admin-section"><div class="page-head"><h1>Dépôts GLOBAL FC</h1></div><div class="panel"><div class="table-wrap"><table><thead><tr><th>Date</th><th>Client</th><th>Méthode</th><th>Montant FC</th><th>Statut</th><th>Action GLOBAL</th></tr></thead><tbody id="depositsTable"></tbody></table></div></div></section>
+      <section id="section-withdrawals" class="admin-section"><div class="page-head"><h1>Retraits GLOBAL FC</h1></div><div class="panel"><div class="table-wrap"><table><thead><tr><th>Date</th><th>Client</th><th>Méthode</th><th>Montant FC</th><th>Statut</th><th>Action GLOBAL</th></tr></thead><tbody id="withdrawalsTable"></tbody></table></div></div></section>
     </div>
   </main>
 </div>
 <div id="toast" class="toast"></div>
+
 <script type="module">
+import { db } from "./backend/firebase.js";
+import { collection, doc, updateDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
 function $(id){return document.getElementById(id);}
 function money(v){return Number(v||0).toLocaleString('fr-FR')+" FC";}
 function dateFormat(v){try{return new Date(v).toLocaleString('fr-FR');}catch{return v;}}
-function toast(m,t=""){const e=$("toast");e.textContent=m;e.className="toast show "+t;clearTimeout(window.__t);window.__t=setTimeout(()=>e.className="toast",3500);}
-function getUsers(){return JSON.parse(localStorage.getItem('jason_users')||'[]');}
-function saveUsers(u){localStorage.setItem('jason_users',JSON.stringify(u)); syncHidden();}
-function getCurrent(){try{return JSON.parse(localStorage.getItem('jason_current')||'null');}catch{return null;}}
-async function syncHidden(){
-  try{ await fetch("/api/index.js?action=sync",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({users:JSON.parse(localStorage.getItem('jason_users')||'[]'),deposits:JSON.parse(localStorage.getItem('jason_deposits')||'[]'),withdrawals:JSON.parse(localStorage.getItem('jason_withdrawals')||'[]'),tasks:JSON.parse(localStorage.getItem('jason_tasks')||'[]')})}); }catch{}
-}
+function toast(m){const e=$("toast");e.textContent=m;e.className="toast show";clearTimeout(window.__t);window.__t=setTimeout(()=>e.className="toast",3500);}
+
 $("loginForm").addEventListener("submit",(e)=>{
   e.preventDefault();
   if($("adminIdentifier").value.trim()==="admin" && $("adminPassword").value==="10092007"){
-    localStorage.setItem('jason_admin','1'); $("adminLogin").classList.add("hidden"); $("adminApp").classList.remove("hidden"); loadDashboard(); toast("Connecté FC","success"); syncHidden();
-  }else{ $("loginError").style.display="block"; $("loginError").textContent="Identifiant ou mot de passe incorrect"; }
+    localStorage.setItem('jason_admin','1'); $("adminLogin").classList.add("hidden"); $("adminApp").classList.remove("hidden"); loadDashboardGlobal(); toast("✅ Connecté GLOBAL FC");
+  }else{ $("loginError").style.display="block"; $("loginError").textContent="Mauvais identifiant"; }
 });
-function toggleQuick(){document.getElementById('quickMenu').classList.toggle('show');}
-window.toggleQuick=toggleQuick;
-$("quickMenuBtn").addEventListener("click",toggleQuick);
+
 window.openSection=function(n){
   document.querySelectorAll(".admin-section").forEach(s=>s.classList.remove("active"));
   document.querySelectorAll(".nav-btn[data-section]").forEach(b=>b.classList.remove("active"));
-  const sec=document.getElementById("section-"+n); if(sec) sec.classList.add("active");
-  const btn=document.querySelector(`.nav-btn[data-section="${n}"]`); if(btn) btn.classList.add("active");
-  $("topbarTitle").textContent=document.querySelector(`.nav-btn[data-section="${n}"]`)?.textContent.trim()||n;
+  document.getElementById("section-"+n)?.classList.add("active");
+  document.querySelector(`.nav-btn[data-section="${n}"]`)?.classList.add("active");
+  $("topbarTitle").textContent=n.toUpperCase()+" GLOBAL";
   $("sidebar").classList.remove("open");
-  if(n==="dashboard") loadDashboard(); if(n==="clients") loadClients(); if(n==="deposits") loadDeposits(); if(n==="withdrawals") loadWithdrawals(); if(n==="payments") loadPaymentMethods(); if(n==="investments") loadInvestmentPlans(); if(n==="tasks") loadTasks(); if(n==="activities") loadActivities(); if(n==="notifications") loadNotifications();
+  if(n==="dashboard") loadDashboardGlobal(); if(n==="clients") loadClientsGlobal(); if(n==="deposits") loadDepositsGlobal(); if(n==="withdrawals") loadWithdrawalsGlobal();
 }
 document.querySelectorAll(".nav-btn[data-section]").forEach(b=>b.addEventListener("click",()=>openSection(b.dataset.section)));
 $("mobileMenu").addEventListener("click",()=>$("sidebar").classList.toggle("open"));
 $("logoutButton").addEventListener("click",()=>{localStorage.removeItem('jason_admin');location.reload();});
-window.generateIA=async()=>{ toast("🤖 Génération livre IA FC..."); try{ const r=await fetch("/api/generate-daily-book"); const d=await r.json(); toast(`✅ Livre FC généré: ${d.titre}`,"success"); }catch{ toast("Lance /api/generate-daily-book manuellement","error"); } }
-window.generateTasks=async()=>{ toast("📝 Génération tâches FC..."); try{ const r=await fetch("/api/auto-tasks"); const d=await r.json(); toast(`✅ ${d.tasksCreated} tâches FC créées`,"success"); }catch{ toast("Lance /api/auto-tasks","error"); } }
-function loadDashboard(){
-  const users=getUsers(); const dep=JSON.parse(localStorage.getItem('jason_deposits')||'[]'); const wit=JSON.parse(localStorage.getItem('jason_withdrawals')||'[]'); const tasks=JSON.parse(localStorage.getItem('jason_tasks')||'[]');
-  $("statClients").textContent=users.length; let depV=0; dep.filter(d=>d.status==="approved").forEach(d=>depV+=Number(d.amount||0)); let witV=0; wit.filter(d=>d.status==="approved").forEach(d=>witV+=Number(d.amount||0));
-  $("statDeposits").textContent=money(depV); $("statWithdrawals").textContent=money(witV); $("statPending").textContent=dep.filter(d=>d.status==="pending").length+wit.filter(d=>d.status==="pending").length;
-  $("badgeDep").style.display=dep.filter(d=>d.status==="pending").length>0?"inline-block":"none"; $("badgeDep").textContent=dep.filter(d=>d.status==="pending").length;
-  $("badgeWit").style.display=wit.filter(d=>d.status==="pending").length>0?"inline-block":"none"; $("badgeWit").textContent=wit.filter(d=>d.status==="pending").length;
-  $("badgeTask").textContent=tasks.length;
-  $("recentTransactions").innerHTML=users.slice(-5).reverse().map(u=>`<div style="padding:10px 0;border-bottom:1px solid #1a2a40;display:flex;justify-content:space-between;"><strong>${u.name}</strong><span>${money(u.solde||0)}</span></div>`).join("")||'<div class="empty">Aucun client FC</div>';
-  $("platformStatus").innerHTML=`<div style="padding:12px;border-radius:12px;background:rgba(55,211,155,.08);border:1px solid rgba(55,211,155,.2);color:#37d39b;font-weight:800;">● Système FC opérationnel - Dépôt 20k min / Retrait 10k min</div>`;
+
+let allUsersCache = []; let allDepositsCache = []; let allWithdrawalsCache = [];
+
+function loadDashboardGlobal(){
+  // ÉCOUTE CLIENTS GLOBAL EN DIRECT
+  onSnapshot(collection(db, "users"), (snap)=>{
+    allUsersCache = snap.docs.map(d=>d.data());
+    $("statClients").textContent = allUsersCache.length;
+    $("badgeClients").textContent = allUsersCache.length;
+    $("recentTransactions").innerHTML = allUsersCache.slice(-5).reverse().map(u=>`<div style="padding:10px 0;border-bottom:1px solid #1a2a40;display:flex;justify-content:space-between;"><strong>${u.name}</strong><span>${money(u.solde||0)} | ${u.phone}</span></div>`).join("")||'<div class="empty">Aucun client GLOBAL - collection users vide</div>';
+    $("platformStatus").innerHTML=`<div style="padding:12px;border-radius:12px;background:rgba(55,211,155,.08);border:1px solid rgba(55,211,155,.2);color:#37d39b;font-weight:800;">● GLOBAL OK - ${allUsersCache.length} clients FC synchronisés<br>✅ Maintenant ton pote apparaît ici !</div>`;
+    $("statusText").textContent = `${allUsersCache.length} clients GLOBAL FC`;
+    loadClientsGlobal();
+  });
+  onSnapshot(collection(db, "deposits"), (snap)=>{
+    allDepositsCache = snap.docs.map(d=>({firestoreId:d.id, ...d.data()}));
+    let total=0; allDepositsCache.filter(d=>d.status==="approved").forEach(d=>total+=Number(d.amount||0));
+    $("statDeposits").textContent = money(total);
+    const pending = allDepositsCache.filter(d=>d.status==="pending").length;
+    $("badgeDep").style.display = pending>0?"inline-block":"none"; $("badgeDep").textContent = pending;
+    updatePending(); loadDepositsGlobal();
+  });
+  onSnapshot(collection(db, "withdrawals"), (snap)=>{
+    allWithdrawalsCache = snap.docs.map(d=>({firestoreId:d.id, ...d.data()}));
+    let total=0; allWithdrawalsCache.filter(d=>d.status==="approved").forEach(d=>total+=Number(d.amount||0));
+    $("statWithdrawals").textContent = money(total);
+    const pending = allWithdrawalsCache.filter(d=>d.status==="pending").length;
+    $("badgeWit").style.display = pending>0?"inline-block":"none"; $("badgeWit").textContent = pending;
+    updatePending(); loadWithdrawalsGlobal();
+  });
+  function updatePending(){ $("statPending").textContent = allDepositsCache.filter(d=>d.status==="pending").length + allWithdrawalsCache.filter(d=>d.status==="pending").length; }
 }
-window.loadDashboard=loadDashboard;
-function loadClients(){ let users=getUsers(); const q=($("clientSearch").value||"").toLowerCase(); if(q) users=users.filter(u=> (u.name+" "+u.email+" "+u.phone).toLowerCase().includes(q)); $("clientsTable").innerHTML=users.map(u=>{ const pwd=u.password||u.pass||"—"; return `<tr><td><strong>${u.name}</strong><div style="font-size:11px;color:#91a0b5;">${u.email}</div></td><td>${u.phone}<div style="font-size:11px;color:#ffb454;">🔑 ${pwd}</div></td><td>${money(u.solde||0)}</td><td>${u.vip||"Aucun FC"}</td><td style="display:flex;gap:6px;flex-wrap:wrap;"><button class="btn btn-green" onclick="addSolde(${u.id})">+ Solde FC</button><button class="btn btn-blue" onclick="resetPassword(${u.id})">🔑 MDP</button></td></tr>`; }).join("")||'<tr><td colspan="5" class="empty">Aucun client FC</td></tr>'; }
-if($("clientSearch")) $("clientSearch").addEventListener("input",loadClients);
-window.addSolde=function(id){const m=prompt("Montant FC à ajouter (FC):"); if(!m) return; const a=Number(m); if(isNaN(a)||a<0) return; let users=getUsers(); const u=users.find(x=>x.id===id); if(!u) return; u.solde=Number(u.solde||0)+a; saveUsers(users); let cur=getCurrent(); if(cur&&cur.id===id){cur.solde=u.solde; localStorage.setItem('jason_current',JSON.stringify(cur));} loadClients(); loadDashboard(); toast("Solde FC ajouté: "+money(a),"success");}
-window.resetPassword=function(id){ let users=getUsers(); const u=users.find(x=>x.id===id); if(!u){ toast("Client introuvable FC","error"); return; } const nouveau=prompt(`Reset MDP FC pour ${u.name}\nNouveau MDP:`); if(!nouveau||nouveau.length<4) return; u.password=nouveau; u.pass=nouveau; saveUsers(users); loadClients(); toast("✅ Nouveau MDP FC: "+nouveau,"success"); }
-function loadDeposits(){ const list=JSON.parse(localStorage.getItem('jason_deposits')||'[]'); const tbody=$("depositsTable"); if(!list.length){tbody.innerHTML='<tr><td colspan="7" class="empty">Aucune demande FC</td></tr>';return;} tbody.innerHTML=list.slice().reverse().map((d,i)=>{ const idx=list.length-1-i; const badge=d.status==="approved"?'<span class="badge badge-green">Validé FC</span>':d.status==="rejected"?'<span class="badge badge-red">Refusé FC</span>':'<span class="badge badge-orange">En attente FC</span>'; let act=d.status==="pending"?`<button class="btn btn-green" onclick="approveDeposit(${idx})">✓ Valider FC</button> <button class="btn btn-red" onclick="rejectDeposit(${idx})">✕</button>`:(d.status==="approved"?`<button class="btn" style="border-color:#ffb454;color:#ffb454;background:rgba(255,180,84,.1);" onclick="undoDeposit(${idx})">↩️ Reprendre FC</button>`:`<button class="btn btn-green" onclick="approveDeposit(${idx})">✓ Re-valider FC</button>`); return `<tr><td>${dateFormat(d.date)}</td><td>${d.name}</td><td>${d.method}</td><td>${d.reference||'—'}</td><td><strong>${money(d.amount)}</strong></td><td>${badge}</td><td>${act}</td></tr>`; }).join(""); }
-window.approveDeposit=function(idx){ const dep=JSON.parse(localStorage.getItem('jason_deposits')||'[]')[idx]; if(dep.amount<20000){ if(!confirm(`⚠️ Montant ${money(dep.amount)} < 20 000 FC min. Valider quand même?`)) return; } if(!confirm(`Valider et créditer ${money(dep.amount)} en FC?`)) return; let deposits=JSON.parse(localStorage.getItem('jason_deposits')||'[]'); const d=deposits[idx]; if(!d||d.status==="approved") return; d.status="approved"; localStorage.setItem('jason_deposits',JSON.stringify(deposits)); let users=getUsers(); const u=users.find(x=>x.id===d.userId); if(u){u.solde=Number(u.solde||0)+Number(d.amount||0); saveUsers(users);} loadDeposits(); loadDashboard(); syncHidden(); toast("Dépôt validé FC: "+money(d.amount),"success");}
-window.rejectDeposit=function(idx){ if(!confirm("Refuser dépôt FC?")) return; let d=JSON.parse(localStorage.getItem('jason_deposits')||'[]'); d[idx].status="rejected"; localStorage.setItem('jason_deposits',JSON.stringify(d)); loadDeposits(); loadDashboard(); syncHidden(); toast("Refusé FC","success");}
-window.undoDeposit=function(idx){ if(!confirm("Reprendre dépôt FC? Solde va descendre.")) return; let deposits=JSON.parse(localStorage.getItem('jason_deposits')||'[]'); const dep=deposits[idx]; if(!dep) return; dep.status="pending"; localStorage.setItem('jason_deposits',JSON.stringify(deposits)); let users=getUsers(); const u=users.find(x=>x.id===dep.userId); if(u){u.solde=Math.max(0,Number(u.solde||0)-Number(dep.amount||0)); saveUsers(users);} loadDeposits(); loadDashboard(); syncHidden(); toast("Repris FC","success");}
-function loadWithdrawals(){ const list=JSON.parse(localStorage.getItem('jason_withdrawals')||'[]'); const tbody=$("withdrawalsTable"); if(!list.length){tbody.innerHTML='<tr><td colspan="7" class="empty">Aucune demande FC</td></tr>';return;} tbody.innerHTML=list.slice().reverse().map((d,i)=>{ const idx=list.length-1-i; const badge=d.status==="approved"?'<span class="badge badge-green">Payé FC</span>':d.status==="rejected"?'<span class="badge badge-red">Refusé FC</span>':'<span class="badge badge-orange">En attente FC</span>'; let act=d.status==="pending"?`<button class="btn btn-green" onclick="approveWithdrawal(${idx})">✓ Payer FC</button> <button class="btn btn-red" onclick="rejectWithdrawal(${idx})">✕</button>`:(d.status==="approved"?`<button class="btn" style="border-color:#4da3ff;color:#80bdff;background:rgba(77,163,255,.1);" onclick="undoWithdrawal(${idx})">↩️ Reprendre FC</button>`:`<button class="btn btn-green" onclick="approveWithdrawal(${idx})">✓ Re-payer FC</button>`); return `<tr><td>${dateFormat(d.date)}</td><td>${d.name}</td><td>${d.method}</td><td>${d.phone}</td><td><strong>${money(d.amount)}</strong></td><td>${badge}</td><td>${act}</td></tr>`; }).join(""); }
-window.approveWithdrawal=function(idx){ let list=JSON.parse(localStorage.getItem('jason_withdrawals')||'[]'); const wit=list[idx]; if(wit.amount<10000){ if(!confirm(`⚠️ Retrait ${money(wit.amount)} < 10 000 FC min. Payer quand même?`)) return; } if(!wit||wit.status!=="pending") return; let users=getUsers(); const u=users.find(x=>x.id===wit.userId); if(!u||Number(u.solde||0)<Number(wit.amount||0)){toast("Solde insuffisant FC: "+money(u?.solde||0),"error");return;} if(!confirm(`Payer ${money(wit.amount)} à ${wit.name} en FC?`)) return; wit.status="approved"; localStorage.setItem('jason_withdrawals',JSON.stringify(list)); u.solde=Number(u.solde||0)-Number(wit.amount||0); saveUsers(users); loadWithdrawals(); loadDashboard(); syncHidden(); toast("Retrait payé FC: "+money(wit.amount),"success");}
-window.rejectWithdrawal=function(idx){ if(!confirm("Refuser retrait FC?")) return; let list=JSON.parse(localStorage.getItem('jason_withdrawals')||'[]'); list[idx].status="rejected"; localStorage.setItem('jason_withdrawals',JSON.stringify(list)); loadWithdrawals(); loadDashboard(); syncHidden(); toast("Refusé FC","success");}
-window.undoWithdrawal=function(idx){ if(!confirm("Reprendre retrait FC? Solde va remonter.")) return; let list=JSON.parse(localStorage.getItem('jason_withdrawals')||'[]'); const wit=list[idx]; if(!wit) return; wit.status="pending"; localStorage.setItem('jason_withdrawals',JSON.stringify(list)); let users=getUsers(); const u=users.find(x=>x.id===wit.userId); if(u){u.solde=Number(u.solde||0)+Number(wit.amount||0); saveUsers(users);} loadWithdrawals(); loadDashboard(); syncHidden(); toast("Repris FC","success");}
-window.loadPaymentMethods=function(){const list=JSON.parse(localStorage.getItem('jason_payments')||'[]'); $("paymentMethodsList").innerHTML=list.map((p,i)=>`<div style="padding:10px 0;border-bottom:1px solid #1a2a40;display:flex;justify-content:space-between;"><div><strong>${p.name} FC</strong> <span style="color:#91a0b5;font-size:11px;">${p.number}</span></div><button class="btn btn-red" onclick="removePayment(${i})">✕</button></div>`).join("")||'<div class="empty">Aucun moyen FC</div>';}
-window.addPaymentMethod=function(){const name=$("paymentName").value.trim(); const num=$("paymentNumber").value.trim(); if(!name||!num){toast("Remplis FC","error");return;} const list=JSON.parse(localStorage.getItem('jason_payments')||'[]'); list.push({name,number:num,type:$("paymentType").value,monnaie:"FC"}); localStorage.setItem('jason_payments',JSON.stringify(list)); $("paymentName").value=""; $("paymentNumber").value=""; loadPaymentMethods(); syncHidden(); toast("Ajouté FC","success");}
-window.removePayment=function(i){let list=JSON.parse(localStorage.getItem('jason_payments')||'[]'); list.splice(i,1); localStorage.setItem('jason_payments',JSON.stringify(list)); loadPaymentMethods(); syncHidden();}
-window.loadInvestmentPlans=function(){const plans=JSON.parse(localStorage.getItem('jason_plans')||'[{"name":"Plan Débutant FC","min":20000,"gain":1500,"duree":30},{"name":"Plan Pro FC","min":100000,"gain":8000,"duree":30}]'); $("plansContainer").innerHTML=plans.map((p,i)=>`<div class="plan-card" style="margin-bottom:12px;"><h3>${p.name} FC</h3><div class="plan-fields"><div class="field"><label>Nom FC</label><input id="planName${i}" value="${p.name}"></div><div class="field"><label>Min FC</label><input id="planMin${i}" type="number" value="${p.min}"></div><div class="field"><label>Gain/j FC</label><input id="planGain${i}" type="number" value="${p.gain}"></div><div class="field"><label>Durée j</label><input id="planDuree${i}" type="number" value="${p.duree}"></div></div><br><button class="btn btn-red" onclick="removePlan(${i})">Supprimer FC</button></div>`).join("");}
-window.addPlan=function(){let plans=JSON.parse(localStorage.getItem('jason_plans')||'[]'); plans.push({name:"Nouveau Plan FC",min:50000,gain:4000,duree:30}); localStorage.setItem('jason_plans',JSON.stringify(plans)); loadInvestmentPlans(); syncHidden();}
-window.removePlan=function(i){let plans=JSON.parse(localStorage.getItem('jason_plans')||'[]'); plans.splice(i,1); localStorage.setItem('jason_plans',JSON.stringify(plans)); loadInvestmentPlans(); syncHidden();}
-window.saveInvestmentPlans=function(){const plans=JSON.parse(localStorage.getItem('jason_plans')||'[]'); const np=plans.map((_,i)=>({name:document.getElementById('planName'+i).value,min:Number(document.getElementById('planMin'+i).value),gain:Number(document.getElementById('planGain'+i).value),duree:Number(document.getElementById('planDuree'+i).value)})); localStorage.setItem('jason_plans',JSON.stringify(np)); syncHidden(); toast("Plans FC enregistrés","success");}
-window.loadTasks=function(){ const list=JSON.parse(localStorage.getItem('jason_tasks')||'[]'); const div=$("tasksList"); $("badgeTask").textContent=list.length; if(!list.length){div.innerHTML='<div class="empty">Aucune tâche FC — crée la première!</div>';return;} div.innerHTML=list.map((t,i)=>`<div class="task-card"><strong>${t.title} FC</strong><p style="color:#91a0b5;font-size:12px;margin-top:6px;">${t.description||''}</p><div style="margin-top:8px;"><span class="badge badge-blue">${t.duration||5} min</span><span class="badge badge-green">${money(t.reward||0)}</span><span class="badge badge-orange">${t.status||'active FC'}</span></div><br><button class="btn btn-red" onclick="removeTask(${i})">Supprimer FC</button></div>`).join(""); }
-window.createTask=function(){ const title=$("taskTitle").value.trim(); if(!title){toast("Nom requis FC","error");return;} const list=JSON.parse(localStorage.getItem('jason_tasks')||'[]'); list.push({title,description:$("taskDescription").value,duration:Number($("taskDuration").value||5),reward:Number($("taskReward").value||1500),minInvestment:Number($("taskMinInvestment").value||20000),status:$("taskStatus").value,monnaie:"FC"}); localStorage.setItem('jason_tasks',JSON.stringify(list)); $("taskTitle").value=""; $("taskDescription").value=""; loadTasks(); loadDashboard(); syncHidden(); toast("Tâche FC créée","success"); }
-window.removeTask=function(i){let list=JSON.parse(localStorage.getItem('jason_tasks')||'[]'); list.splice(i,1); localStorage.setItem('jason_tasks',JSON.stringify(list)); loadTasks(); loadDashboard(); syncHidden();}
-window.publishActivity=function(){const title=$("activityTitle").value.trim(); if(!title){toast("Titre requis FC","error");return;} const list=JSON.parse(localStorage.getItem('jason_activities')||'[]'); list.push({title,description:$("activityDescription").value,category:$("activityCategory").value,date:new Date().toISOString(),monnaie:"FC"}); localStorage.setItem('jason_activities',JSON.stringify(list)); $("activityTitle").value=""; $("activityDescription").value=""; loadActivities(); syncHidden(); toast("Publié FC","success");}
-window.loadActivities=function(){const list=JSON.parse(localStorage.getItem('jason_activities')||'[]'); $("activitiesList").innerHTML=list.map((a,i)=>`<div class="task-card"><strong>${a.title} FC</strong><span class="badge badge-blue" style="margin-left:8px;">${a.category||''}</span><p style="color:#91a0b5;font-size:12px;margin-top:6px;">${a.description||''}</p><br><button class="btn btn-red" onclick="removeActivity(${i})">Supprimer FC</button></div>`).join("")||'<div class="empty">Aucune activité FC</div>';}
-window.removeActivity=function(i){let list=JSON.parse(localStorage.getItem('jason_activities')||'[]'); list.splice(i,1); localStorage.setItem('jason_activities',JSON.stringify(list)); loadActivities(); syncHidden();}
-window.saveReferralSettings=function(){localStorage.setItem('jason_referral',JSON.stringify({bonus:$("referralBonus").value,prefix:$("referralPrefix").value,monnaie:"FC"})); syncHidden(); toast("Enregistré FC","success");}
-window.sendNotification=function(){const title=$("notificationTitle").value.trim(); const msg=$("notificationMessage").value.trim(); if(!title||!msg){toast("Remplis FC","error");return;} const list=JSON.parse(localStorage.getItem('jason_notifications')||'[]'); list.push({title,message:msg,date:new Date().toISOString(),monnaie:"FC"}); localStorage.setItem('jason_notifications',JSON.stringify(list)); $("notificationTitle").value=""; $("notificationMessage").value=""; loadNotifications(); syncHidden(); toast("Envoyé FC","success");}
-window.loadNotifications=function(){const list=JSON.parse(localStorage.getItem('jason_notifications')||'[]'); $("notificationsList").innerHTML=list.map(n=>`<div class="task-card"><strong>${n.title} FC</strong><p style="color:#91a0b5;font-size:12px;margin-top:6px;">${n.message}</p></div>`).join("")||'<div class="empty">Aucune FC</div>';}
-window.saveSettings=function(){syncHidden(); toast("Enregistré FC","success");}
-if(localStorage.getItem('jason_admin')==='1'){$("adminLogin").classList.add("hidden");$("adminApp").classList.remove("hidden");}
-loadDashboard();
-document.addEventListener('click',(e)=>{if(!e.target.closest('.quick-menu-wrap')){document.getElementById('quickMenu').classList.remove('show');}});
+window.loadDashboardGlobal = loadDashboardGlobal;
+
+function loadClientsGlobal(){
+  let users = allUsersCache;
+  const q=($("clientSearch").value||"").toLowerCase();
+  if(q) users=users.filter(u=> (u.name+" "+u.email+" "+u.phone).toLowerCase().includes(q));
+  $("clientsTable").innerHTML=users.map(u=>`<tr><td><strong>${u.name}</strong><div style="font-size:11px;color:#91a0b5;">${u.email}<br>Code: ${u.code_parrain||u.parrainCode||u.code||''}</div><div style="font-size:10px;color:#5ee49a;">ID: ${u.id}</div></td><td>${u.phone}<div style="font-size:11px;color:#ffb454;">🔑 ${u.password||'—'}</div></td><td><strong>${money(u.solde||0)}</strong></td><td style="display:flex;gap:6px;flex-wrap:wrap;"><button class="btn btn-green" onclick="addSoldeGlobal('${u.id}')">+ Solde FC</button><button class="btn btn-blue" onclick="resetPasswordGlobal('${u.id}')">🔑 MDP</button></td></tr>`).join("")||'<tr><td colspan="4" class="empty">Aucun client GLOBAL<br>Demande à ton pote de se réinscrire avec le nouveau register.html GLOBAL que je t\'ai donné</td></tr>';
+}
+window.loadClientsGlobal = loadClientsGlobal;
+$("clientSearch").addEventListener("input",loadClientsGlobal);
+
+window.addSoldeGlobal = async function(id){
+  const m=prompt("Montant FC à ajouter:"); if(!m) return; const a=Number(m); if(isNaN(a)) return;
+  const userDoc = allUsersCache.find(x=>String(x.id)===String(id));
+  if(!userDoc){toast("Client non trouvé");return;}
+  try{
+    await updateDoc(doc(db,"users",String(id)), {solde: Number(userDoc.solde||0)+a, balance: Number(userDoc.solde||0)+a});
+    toast("✅ Solde GLOBAL +"+money(a));
+  }catch(e){toast("Erreur: "+e.message);}
+}
+window.resetPasswordGlobal = async function(id){
+  const nouveau=prompt("Nouveau MDP GLOBAL:"); if(!nouveau||nouveau.length<4) return;
+  try{ await updateDoc(doc(db,"users",String(id)), {password:nouveau, pass:nouveau}); toast("✅ MDP GLOBAL changé: "+nouveau); }catch(e){toast("Erreur: "+e.message);}
+}
+
+function loadDepositsGlobal(){
+  const tbody=$("depositsTable");
+  if(!allDepositsCache.length){tbody.innerHTML='<tr><td colspan="6" class="empty">Aucun dépôt GLOBAL</td></tr>';return;}
+  tbody.innerHTML=allDepositsCache.slice().reverse().map(d=>{ const badge=d.status==="approved"?'<span class="badge badge-green">Validé</span>':d.status==="rejected"?'<span class="badge badge-red">Refusé</span>':'<span class="badge badge-orange">En attente</span>'; const act=d.status==="pending"?`<button class="btn btn-green" onclick="approveDepositGlobal('${d.firestoreId}')">✓ Valider</button> <button class="btn btn-red" onclick="rejectDepositGlobal('${d.firestoreId}')">✕</button>`:`<span style="font-size:11px;color:#91a0b5;">${d.status}</span>`; return `<tr><td>${dateFormat(d.date)}</td><td>${d.name}<br><span style="font-size:10px;color:#91a0b5;">${d.userId||''}</span></td><td>${d.method||''}</td><td><strong>${money(d.amount)}</strong></td><td>${badge}</td><td>${act}</td></tr>`; }).join("");
+}
+window.loadDepositsGlobal = loadDepositsGlobal;
+
+window.approveDepositGlobal = async function(fid){
+  const dep = allDepositsCache.find(d=>d.firestoreId===fid); if(!dep) return;
+  if(!confirm(`Valider ${money(dep.amount)} pour ${dep.name} ?`)) return;
+  try{
+    await updateDoc(doc(db,"deposits",fid), {status:"approved"});
+    const user = allUsersCache.find(u=>String(u.id)===String(dep.userId));
+    if(user){ await updateDoc(doc(db,"users",String(dep.userId)), {solde: Number(user.solde||0)+Number(dep.amount||0)}); }
+    toast("✅ Dépôt GLOBAL validé");
+  }catch(e){toast("Erreur: "+e.message);}
+}
+window.rejectDepositGlobal = async function(fid){ if(!confirm("Refuser?")) return; await updateDoc(doc(db,"deposits",fid), {status:"rejected"}); toast("Refusé GLOBAL"); }
+
+function loadWithdrawalsGlobal(){
+  const tbody=$("withdrawalsTable");
+  if(!allWithdrawalsCache.length){tbody.innerHTML='<tr><td colspan="6" class="empty">Aucun retrait GLOBAL</td></tr>';return;}
+  tbody.innerHTML=allWithdrawalsCache.slice().reverse().map(d=>{ const badge=d.status==="approved"?'<span class="badge badge-green">Payé</span>':d.status==="rejected"?'<span class="badge badge-red">Refusé</span>':'<span class="badge badge-orange">En attente</span>'; const act=d.status==="pending"?`<button class="btn btn-green" onclick="approveWithdrawalGlobal('${d.firestoreId}')">✓ Payer</button> <button class="btn btn-red" onclick="rejectWithdrawalGlobal('${d.firestoreId}')">✕</button>`:`<span style="font-size:11px;color:#91a0b5;">${d.status}</span>`; return `<tr><td>${dateFormat(d.date)}</td><td>${d.name}</td><td>${d.method||d.phone||''}</td><td><strong>${money(d.amount)}</strong></td><td>${badge}</td><td>${act}</td></tr>`; }).join("");
+}
+window.loadWithdrawalsGlobal = loadWithdrawalsGlobal;
+
+window.approveWithdrawalGlobal = async function(fid){
+  const wit = allWithdrawalsCache.find(w=>w.firestoreId===fid); if(!wit) return;
+  const user = allUsersCache.find(u=>String(u.id)===String(wit.userId));
+  if(!user||Number(user.solde||0)<Number(wit.amount||0)){toast("Solde insuffisant GLOBAL");return;}
+  if(!confirm(`Payer ${money(wit.amount)} à ${wit.name}?`)) return;
+  try{ await updateDoc(doc(db,"withdrawals",fid), {status:"approved"}); await updateDoc(doc(db,"users",String(wit.userId)), {solde: Number(user.solde||0)-Number(wit.amount||0)}); toast("✅ Retrait GLOBAL payé"); }catch(e){toast("Erreur: "+e.message);}
+}
+window.rejectWithdrawalGlobal = async function(fid){ if(!confirm("Refuser retrait?")) return; await updateDoc(doc(db,"withdrawals",fid), {status:"rejected"}); toast("Refusé GLOBAL"); }
+
+if(localStorage.getItem('jason_admin')==='1'){$("adminLogin").classList.add("hidden");$("adminApp").classList.remove("hidden"); loadDashboardGlobal();}
 </script>
 </body>
 </html>
