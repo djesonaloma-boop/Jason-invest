@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>JASON INVEST — Inscription — Public</title>
+<title>JASON INVEST — Inscription — GLOBAL</title>
 <style>
 :root{--bg:#030711;--card:rgba(10,20,36,.88);--gold:#d8b45a;--gold-light:#f1d98b;--text:#fff;--muted:#8997aa;--border:rgba(216,180,90,.18);--green:#5ee49a;--red:#ff7c8d;}
 *{box-sizing:border-box;}body{margin:0;min-height:100vh;overflow-x:hidden;font-family:Arial;color:var(--text);background:radial-gradient(circle at 15% 20%,rgba(216,180,90,.09),transparent 25%),radial-gradient(circle at 85% 75%,rgba(69,130,255,.08),transparent 28%),linear-gradient(135deg,#030711,#07111f 50%,#040914);}
@@ -30,7 +30,7 @@
 <div class="background"><div class="glow one"></div><div class="glow two"></div><div class="glow three"></div><div class="particles" id="particles"></div></div>
 <main class="auth-page"><div class="auth-wrapper"><div class="auth-card">
 <div class="logo-area"><div class="logo">JI</div></div>
-<h1 class="title">JASON <span>INVEST</span></h1><p class="subtitle">Créez votre compte — Public</p><div class="gold-line"></div>
+<h1 class="title">JASON <span>INVEST</span></h1><p class="subtitle">Créez votre compte — GLOBAL Firebase</p><div class="gold-line"></div>
 <div id="message" class="message"></div>
 <h2 class="form-title">Inscription</h2>
 <form id="inscriptionForm">
@@ -41,73 +41,78 @@
 <div class="form-group"><label>Confirmer mot de passe</label><input type="password" id="passwordConfirm" placeholder="Confirmer" required></div>
 <div class="form-group"><label>Code parrain (facultatif)</label><input type="text" id="referral" placeholder="JAS-XXXXXX"></div>
 <div class="form-group"><label class="terms"><input type="checkbox" id="terms" required> J'accepte les conditions JASON INVEST</label></div>
-<button type="submit" id="btnReg" class="main-button">Créer mon compte PUBLIC</button>
+<button type="submit" id="btnReg" class="main-button">Créer mon compte GLOBAL</button>
 </form>
 <div class="switch-area"><div class="switch-text">Déjà un compte ?</div><a href="index.html" class="switch-button">Se connecter</a></div>
-</div><div class="footer">© <span id="year"></span> JASON INVEST — Public</div></div></main>
+</div><div class="footer">© <span id="year"></span> JASON INVEST — GLOBAL FC</div></div></main>
 <script type="module">
+import { db } from "./backend/firebase.js";
+import { collection, query, where, getDocs, doc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
 const $=id=>document.getElementById(id); $("year").textContent=new Date().getFullYear();
 const particles=$("particles"); for(let i=0;i<32;i++){const p=document.createElement("span");p.className="particle";p.style.left=Math.random()*100+"%";p.style.animationDuration=(7+Math.random()*9)+"s";p.style.animationDelay=(-Math.random()*12)+"s";particles.appendChild(p);}
-// récupère ref depuis URL auto
+
 const urlParams=new URLSearchParams(window.location.search);
 const refFromUrl=urlParams.get('ref')||urlParams.get('parrain')||"";
 if(refFromUrl) $("referral").value=refFromUrl.toUpperCase();
 
 function showMessage(t,c){const b=$("message");b.textContent=t;b.className="message show "+c;}
-function getUsers(){return JSON.parse(localStorage.getItem('jason_users')||'[]');}
-function saveUsers(u){localStorage.setItem('jason_users',JSON.stringify(u));}
 
 $("inscriptionForm").addEventListener("submit", async e=>{
   e.preventDefault();
-  const name=$("name").value.trim(); const phone=$("phone").value.trim(); const email=$("email").value.trim().toLowerCase();
-  const pass=$("password").value; const pass2=$("passwordConfirm").value;
+  const name=$("name").value.trim(); 
+  const phone=$("phone").value.trim(); 
+  const email=$("email").value.trim().toLowerCase();
+  const pass=$("password").value; 
+  const pass2=$("passwordConfirm").value;
   let ref=$("referral").value.trim().toUpperCase() || localStorage.getItem('jason_referred_by') || refFromUrl.toUpperCase() || "";
 
   if(pass!==pass2){showMessage("Mots de passe différents","error");return;}
-  const btn=$("btnReg"); btn.disabled=true; btn.textContent="Création PUBLIC...";
+  const btn=$("btnReg"); btn.disabled=true; btn.textContent="Création GLOBALE...";
 
-  // CODE AUTO de l'utilisateur
-  let myCode=localStorage.getItem('jason_my_referral_code');
-  if(!myCode){ myCode='JAS-'+Math.random().toString(36).substring(2,6).toUpperCase(); localStorage.setItem('jason_my_referral_code', myCode); }
-
-  const newUser={id:Date.now(), name, nom:name, phone, telephone:phone, numero:phone, email, password:pass, pass:pass, referral_code:ref, parrainCode:myCode, code_parrain:myCode, solde:0, balance:0, investment:0, date:new Date().toISOString(), createdAt:new Date().toISOString()};
-
-  // 1. ESSAIE API PUBLIC
   try{
-    const r=await fetch("/api/auth/register",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({name,phone,email,password:pass, referral:ref, myCode})});
-    const j=await r.json();
-    if(r.ok && j.success){
-      if(j.user) localStorage.setItem('jason_current', JSON.stringify(j.user));
-      else localStorage.setItem('jason_current', JSON.stringify(newUser));
-      if(ref) localStorage.setItem('jason_referred_by', ref);
-      showMessage("Compte créé PUBLIC !","success");
-      setTimeout(()=>location.href="dashboard.html",800);
-      return;
-    }else if(j.message && j.message.includes("existe")) throw new Error("Email existe déjà");
-  }catch(err){ console.warn("API fail fallback:",err); }
+    // 1. Vérifie si email existe déjà DANS FIREBASE GLOBAL (pas localStorage)
+    const q = query(collection(db, "users"), where("email", "==", email));
+    const snap = await getDocs(q);
+    if(!snap.empty){ showMessage("Email existe déjà dans Firebase","error"); btn.disabled=false; btn.textContent="Créer mon compte GLOBAL"; return; }
 
-  // 2. FALLBACK + SYNC CACHE Firebase + API
-  try{
-    const users=getUsers(); if(users.find(u=>u.email===email)){showMessage("Email existe déjà","error");btn.disabled=false;btn.textContent="Créer mon compte PUBLIC";return;}
-    users.push(newUser); saveUsers(users);
+    // 2. Crée code parrain unique
+    let myCode = 'JAS-' + Math.random().toString(36).substring(2,6).toUpperCase() + Math.random().toString(36).substring(2,4).toUpperCase();
+    const id = Date.now().toString();
+
+    const newUser={
+      id, name, nom:name, phone, telephone:phone, numero:phone, email, password:pass,
+      referral_code:ref, parrainCode:myCode, code_parrain:myCode, code:myCode,
+      solde:0, balance:0, investment:0, totalInvest:0,
+      createdAt: new Date().toISOString(),
+      date: new Date().toISOString(),
+      timestamp: serverTimestamp()
+    };
+
+    // 3. SAUVEGARDE GLOBALE DANS FIREBASE - TOUS LES TELEPHONES VOIENT
+    await setDoc(doc(db,"users", id), newUser);
+    
+    // 4. Si parrainage, enregistre aussi
+    if(ref){
+      await setDoc(doc(db,"parrainages", id),{
+        filleulId:id, filleulName:name, filleulEmail:email,
+        parrainCode:ref, date:new Date().toISOString(),
+        timestamp: serverTimestamp()
+      });
+      localStorage.setItem('jason_referred_by', ref);
+    }
+
+    // 5. Sauvegarde locale seulement pour la session actuelle
     localStorage.setItem('jason_current', JSON.stringify(newUser));
-    if(ref) localStorage.setItem('jason_referred_by', ref);
+    localStorage.setItem('jason_my_referral_code', myCode);
 
-    // sync caché
-    try{ await fetch("/api/index.js?action=sync",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({users})}); }catch{}
-    try{
-      const {db}=await import("./backend/firebase.js");
-      const {doc,setDoc}=await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js");
-      await setDoc(doc(db,"users",String(newUser.id)), newUser, {merge:true});
-      if(ref){
-        await setDoc(doc(db,"parrainages_pending",String(newUser.id)),{filleulId:newUser.id, filleulName:name, parrainCode:ref, date:new Date().toISOString()},{merge:true});
-      }
-    }catch{}
-    showMessage("Compte créé !","success");
-    setTimeout(()=>location.href="dashboard.html",900);
-  }catch{
-    showMessage("Erreur création","error");
-    btn.disabled=false; btn.textContent="Créer mon compte PUBLIC";
+    showMessage(`✅ Compte créé GLOBAL ! Ton code: ${myCode}`,"success");
+    setTimeout(()=>location.href="dashboard.html",1200);
+
+  }catch(err){
+    console.error(err);
+    showMessage("Erreur Firebase: "+err.message,"error");
+    btn.disabled=false; btn.textContent="Créer mon compte GLOBAL";
   }
 });
 </script></body></html>
