@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<title>GENESIX ✨</title>
+<link rel="stylesheet" href="style.css">
+<style>
+.splash{
+  min-height:100dvh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:20px;
+  background:radial-gradient(circle at 50% 0%, rgba(37,211,102,.18), transparent 50%), #0B141A;
+}
+.logo-cercle{
+  width:110px;height:110px;border-radius:50%;
+  background:linear-gradient(135deg,#25D366,#128C7E);
+  display:flex;align-items:center;justify-content:center;
+  font-size:58px;box-shadow:0 10px 30px rgba(37,211,102,.4);
+  animation: pulse 1.5s infinite;
+}
+@keyframes pulse{0%{transform:scale(1)}50%{transform:scale(1.07)}100%{transform:scale(1)}}
+.splash h1{font-size:42px;margin:18px 0 6px;letter-spacing:-1px}
+.splash h1 i{color:#25D366;font-style:normal}
+.splash p{color:#8696A0;font-size:15px;line-height:1.5}
+.splash .loading{margin-top:24px;color:#8696A0;font-size:13px}
+.splash .version{position:fixed;bottom:20px;color:#8696A0;font-size:11px}
+</style>
+</head>
+<body>
+<div class="splash">
+  <div class="logo-cercle">💬</div>
+  <h1>GENESIX <i>✨</i></h1>
+  <p>Discute, appelle, partage.<br>100% gratuit, made in Kinshasa 🇨🇩</p>
+  <div class="loading" id="loading">Chargement...</div>
+  <div class="version">GENESIX • Version 1.0.0</div>
+</div>
+
+<script>
+// GENESIX - Écran de lancement
+setTimeout(()=>{
+  const uid = localStorage.getItem('genesix_uid');
+  const profilFait = localStorage.getItem('genesix_profil');
+
+  if(uid && profilFait){
+    // Déjà connecté + profil fait -> va aux discussions
+    location.href = 'discussions.html';
+  } else if(uid){
+    // Compte créé mais profil pas fini
+    location.href = 'creer-profil.html';
+  } else {
+    // Nouveau -> bienvenue
+    location.href = 'bienvenue.html';
+  }
+}, 1400);
+</script>
+</body>
+</html>
